@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PendingrequestsComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    console.log("TODO : load pending requests");
+  }
 
   ngOnInit(): void {
   }

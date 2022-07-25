@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-discussion',
   templateUrl: './discussion.component.html',
   styleUrls: ['./discussion.component.scss']
 })
-export class DiscussionComponent implements OnInit {
+export class DiscussionComponent {
 
-  constructor() { }
+  @Input() discussionId!:number;
 
-  ngOnInit(): void {
+  ionViewWillEnter(){
+    console.log("TODO : load the discussion ",this.discussionId);
   }
 
 }

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss']
 })
-export class EventComponent implements OnInit {
+export class EventComponent {
 
-  constructor() { }
+  @Input() eventId!:number;
 
-  ngOnInit(): void {
+  ionViewWillEnter(){
+    console.log("TODO : load the event ",this.eventId);
   }
 
 }
