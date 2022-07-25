@@ -13,4 +13,8 @@ export class DiscussionComponent {
     console.log("TODO : load the discussion ",this.discussionId);
   }
 
+  loadData(event:any){
+    console.log("TODO : load more data from discussion");
+  }
+
 }

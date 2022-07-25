@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ActivitiesComponent implements OnInit {
 
-  @Input() activitiesList!:any;
+  @Input() activitiesList:{name:string}[] = [{name:"first activity"},{name:"second"}];
 
   constructor() {
     console.log("TODO : load activities list");

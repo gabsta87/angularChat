@@ -1,1 +1,9 @@
-<p>activities works!</p>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of activitiesList;
+                            let index = index">
+            <ion-thumbnail>{{index}}</ion-thumbnail>
+            <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

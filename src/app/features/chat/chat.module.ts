@@ -30,9 +30,21 @@ import { FooterComponent } from './components/footer/footer.component';
         path:'',
         component:MainComponent,
         children:[
-            {
+          {
             path:'activities',
             component:ActivitiesComponent
+          },{
+            path:'pendingrequests',
+            component:PendingrequestsComponent
+          },{
+            path:'events',
+            component:PendingeventsComponent
+          },{
+            path:'event',
+            component:EventComponent
+          },{
+            path:'discussion',
+            component:DiscussionComponent
           },
         ]
       },]
