@@ -25,18 +25,19 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule.forChild([{
-      path:'',
-      children:[
-        {
-        path:'activities',
-        component:ActivitiesComponent
-      },{
+    RouterModule.forChild(
+      [{
         path:'',
-        component:ActivitiesComponent,
-        pathMatch:'full'
-      }]
-    },])
-  ]
+        component:MainComponent,
+        children:[
+            {
+            path:'activities',
+            component:ActivitiesComponent
+          },
+        ]
+      },]
+    ),
+  ],
+  providers:[]
 })
 export class ChatModule { }
