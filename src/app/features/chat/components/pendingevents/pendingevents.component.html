@@ -1,1 +1,17 @@
-<p>pendingevents works!</p>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let event of pendingEvents; let index = index" lines="none">
+            <ion-card>
+                <ion-card-header>
+                    <ion-thumbnail>{{index}}</ion-thumbnail>
+                    <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
+                    <ion-card-subtitle>{{event.date}}</ion-card-subtitle>
+                    <ion-card-title>{{event.title}}</ion-card-title>
+                </ion-card-header>
+    <!-- Show location and activity type -->
+                <ion-card-content>{{event.description}}</ion-card-content>
+            </ion-card>
+            <ion-label></ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

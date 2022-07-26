@@ -37,6 +37,11 @@ export class DbaccessService {
     return this.itemsData.Users;
   }
 
+  async getEvents(){
+    await this.loadData();
+    return this.itemsData.Events;
+  }
+
   async getPendingRequests(){
     await this.loadData();
     return this.itemsData.Requests;

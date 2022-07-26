@@ -31,6 +31,19 @@
       "name": "Dancing"
     }
   },
+  "Events": [
+    {
+      "activity": "-N3Yd6cgs1l5aKBF32Lj",
+      "creator": "VetRjFBGArYUWk282g9K0ZhGq6Z2",
+      "date": "27.12.2022 12:00",
+      "description": "explain if there are some rules/details",
+      "title": "whatever",
+      "users": [
+        "24Y5w0yp8iOV8GfZSkQWvAr9hm72",
+        2
+      ]
+    }
+  ],
   "Messages": [
     {
       "-N410Suf0bz-7BYVKPFD": {
