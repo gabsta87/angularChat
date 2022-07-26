@@ -30,14 +30,10 @@ export class DbaccessService {
   private async getElement(tableName:string,itemIndex:string,count?:number){
     await this.loadData();
 
-    // let result = Object.entries(this.itemsData[tableName]).findIndex(obj =>{
-    //   return obj[0] === itemIndex;
-    // });
-
     if(!this.itemsData[tableName][itemIndex])
       return [];
 
-    return Object.entries(this.itemsData[tableName][itemIndex]).slice(0,count);
+    return this.itemsData[tableName][itemIndex];
   }
 
   async getActivities(){
