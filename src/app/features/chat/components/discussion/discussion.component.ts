@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
   selector: 'app-discussion',
@@ -7,14 +9,27 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DiscussionComponent {
 
-  @Input() discussionId!:number;
+  @Input() discussionId!:string;
+  @Input() discussionName!:string;
+  messagesList!:any;
+  usersList!:any;
 
   ionViewWillEnter(){
-    console.log("TODO : load the discussion ",this.discussionId);
+    this.discussionId = this._route.snapshot.queryParams["discussion"];
+    this.discussionName = this._route.snapshot.queryParams["discussionName"];
+    this.loadData();
   }
 
-  loadData(event:any){
-    console.log("TODO : load more data from discussion");
+  constructor(private readonly _route : ActivatedRoute, private readonly _dataLoader: DbaccessService){
+  }
+
+  async loadData(event?:any){
+    this.messagesList = await this._dataLoader.getMessages(this.discussionId);
+    console.log("messages loaded = ",this.messagesList);
+    
+    this.usersList = await this._dataLoader.getUsers(this.discussionId);
+    console.log("users loaded = ",this.usersList);
+
   }
 
 }

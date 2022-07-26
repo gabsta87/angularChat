@@ -1,7 +1,9 @@
 <ion-content>
     <ion-list>
         <ion-item *ngFor="let item of activitiesList;
-                            let index = index">
+                            let index = index"
+                (click)="navigateToDiscussion(item)"
+        >
             <ion-thumbnail>{{index}}</ion-thumbnail>
             <ion-label>{{item.name}}</ion-label>
         </ion-item>

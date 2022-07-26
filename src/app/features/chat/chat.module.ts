@@ -50,6 +50,7 @@ import { FooterComponent } from './components/footer/footer.component';
       },]
     ),
   ],
-  providers:[]
+  providers:[
+  ],
 })
 export class ChatModule { }

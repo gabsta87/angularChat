@@ -1,8 +1,27 @@
-<p>discussion works!</p>
+<app-header currentPage="discussion" discussionName="{{discussionName}}"></app-header>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of messagesList;
+                            let index = index"
+                            lines="none"
+        >
+        <ion-card>
+            <ion-card-header>
+                <ion-thumbnail>{{index}}</ion-thumbnail>
+                <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
+                <ion-card-subtitle>{{item[1].date}}</ion-card-subtitle>
+                <ion-card-title>{{item[1].userId}}</ion-card-title>
+            </ion-card-header>
 
-<ion-infinite-scroll (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-</ion-infinite-scroll>
+            <ion-card-content>{{item[1].message}}</ion-card-content>
+        </ion-card>
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

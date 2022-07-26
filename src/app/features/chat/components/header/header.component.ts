@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  @Input() currentPage!:any;
+  @Input() previousPage?:any;
+  @Input() discussionName!:any;
+
+  constructor(private readonly _route : Router, private readonly _activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
   }
 
+  ionViewWillEnter(){
+    this.discussionName = this._activatedRoute.snapshot.queryParams["discussionName"];
+    console.log("disc name = ",this.discussionName);
+  }
+
+  navigateBack(){
+    this._route.navigate(["activities"]);
+  }
 }

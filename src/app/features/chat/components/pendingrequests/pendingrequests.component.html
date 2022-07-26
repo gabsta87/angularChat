@@ -1,1 +1,13 @@
-<p>pendingrequests works!</p>
+<ion-content>
+    <ion-list>
+        <div style="display: flex;" class="ion-justify-content-center ">
+            <ion-item *ngFor="let request of pendingRequestsList|keyvalue" lines="none">
+                <ion-button>{{request.key}}</ion-button>
+            </ion-item>
+        </div>
+    </ion-list>
+    <!-- <div style="display: flex;" class="ion-justify-content-center"> -->
+        <ion-input placeholder="Enter your activity"></ion-input>
+        <ion-button>Confirm</ion-button>
+    <!-- </div> -->
+</ion-content>

@@ -8,6 +8,7 @@ import { MessageslistComponent } from './features/ui/messageslist/messageslist.c
 import { EntryboxComponent } from './features/ui/entrybox/entrybox.component';
 import { ChatslistComponent } from './features/ui/chatslist/chatslist.component';
 import { EventdetailsComponent } from './features/ui/eventdetails/eventdetails.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { EventdetailsComponent } from './features/ui/eventdetails/eventdetails.c
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     IonicModule.forRoot()
   ],
   providers: [],
