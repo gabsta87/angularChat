@@ -14,17 +14,13 @@ export class DbaccessService {
   constructor(private readonly _http: HttpClient) { }
 
   async getMessages(discussionId:string,count?:number){
-    await this.loadData();
-    let result = 0;
+    let result = await this.getElement("Messages",discussionId,100);
+    return result;
+  }
 
-    result = Object.entries(this.itemsData.Activities).findIndex(obj =>{
-      return obj[0] === discussionId;
-    });
-
-    if(!this.itemsData.Messages[result])
-      return [];
-
-    return Object.entries(this.itemsData.Messages[result]).slice(0,count);
+  async getEvent(index:string){
+    let result = await this.getElement("Events",index,100);
+    return result;
   }
 
   private async getElement(tableName:string,itemIndex:string,count?:number){
@@ -50,11 +46,6 @@ export class DbaccessService {
   async getEvents(){
     await this.loadData();
     return this.itemsData.Events;
-  }
-
-  async getEvent(index:string){
-    let result = await this.getElement("Events",index,100);
-    return result;
   }
 
   async getPendingRequests(){

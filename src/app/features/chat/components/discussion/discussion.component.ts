@@ -25,11 +25,15 @@ export class DiscussionComponent {
 
   async loadData(event?:any){
     this.messagesList = await this._dataLoader.getMessages(this.discussionId);
-    console.log("messages loaded = ",this.messagesList);
+    console.log("messages list = ",this.messagesList);
     
     this.usersList = await this._dataLoader.getUsers(this.discussionId);
-    console.log("users loaded = ",this.usersList);
+    console.log("users list = ",this.usersList);
+  }
 
+  getUserName(userId:string){
+    console.log("users list = ",this.usersList);
+    
   }
 
 }
