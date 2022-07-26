@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class PendingeventsComponent implements OnInit {
 
   pendingEvents!:any[];
 
-  constructor(private readonly _dbLoader:DbaccessService){
+  constructor(private readonly _dbLoader:DbaccessService, private readonly _route: Router){
   }
 
   ngOnInit(): void {
@@ -22,7 +23,10 @@ export class PendingeventsComponent implements OnInit {
 
   ionViewWillEnter(){
     this.loadData();
-    console.log("events = ",this.pendingEvents);
+  }
+
+  navigateToEventDetail(param:string){
+    this._route.navigate(["event"],{queryParams:{eventId:param}});
   }
 
 }

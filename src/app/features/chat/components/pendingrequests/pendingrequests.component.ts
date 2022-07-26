@@ -19,8 +19,5 @@ export class PendingrequestsComponent implements OnInit {
 
   async loadData(){
     this.pendingRequestsList = await this._dbLoader.getPendingRequests();
-    console.log("loaded ",this.pendingRequestsList);
   }
-
-
 }

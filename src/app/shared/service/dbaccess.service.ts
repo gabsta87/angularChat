@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, KeyValueDiffers } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -27,12 +27,26 @@ export class DbaccessService {
     return Object.entries(this.itemsData.Messages[result]).slice(0,count);
   }
 
+  private async getElement(tableName:string,itemIndex:string,count?:number){
+    await this.loadData();
+
+    // let result = Object.entries(this.itemsData[tableName]).findIndex(obj =>{
+    //   return obj[0] === itemIndex;
+    // });
+
+    if(!this.itemsData[tableName][itemIndex])
+      return [];
+
+    return Object.entries(this.itemsData[tableName][itemIndex]).slice(0,count);
+  }
+
   async getActivities(){
     await this.loadData();
     return this.itemsData.Activities;
   }
 
   async getUsers(discussionId:string){
+    // TODO load only discussion users
     await this.loadData();
     return this.itemsData.Users;
   }
@@ -40,6 +54,11 @@ export class DbaccessService {
   async getEvents(){
     await this.loadData();
     return this.itemsData.Events;
+  }
+
+  async getEvent(index:string){
+    let result = await this.getElement("Events",index,100);
+    return result;
   }
 
   async getPendingRequests(){
@@ -53,7 +72,7 @@ export class DbaccessService {
       const request = this._http.get(url);
       this.temp = await firstValueFrom(request);
       this.itemsData = this.temp;
+      console.log("data loaded : ",this.itemsData);
     }
-    console.log("data loaded : ",this.itemsData);
   }
 }
