@@ -13,44 +13,63 @@ export class DbaccessService {
 
   constructor(private readonly _http: HttpClient) { }
 
-  async getMessages(discussionId:string,count?:number){
-    let result = await this.getElement("Messages",discussionId,100);
-    return result;
-  }
-
-  async getEvent(index:string){
-    let result = await this.getElement("Events",index,100);
-    return result;
-  }
-
   private async getElement(tableName:string,itemIndex:string,count?:number){
-    await this.loadData();
+    let temp = await this.getElements(tableName,count);
 
-    if(!this.itemsData[tableName][itemIndex])
-      return [];
+    if(!temp){
+      return undefined;
+    }
 
-    return this.itemsData[tableName][itemIndex];
+    // if(Array.isArray(temp))
+    //   // return temp[parseInt(itemIndex)];
+    //   return temp.find(e=>e.key===itemIndex)
+
+    temp = temp.filter(Boolean);
+    return temp.find((e:{key:string})=> e.key===itemIndex);
   }
 
-  async getActivities(){
+  private async getElements(tableName:string,count?:number){
     await this.loadData();
-    return this.itemsData.Activities;
+
+    // if(Array.isArray(this.itemsData[tableName]))
+    //   return this.itemsData[tableName];
+
+    let temp:any = [];
+
+    Object.entries(this.itemsData[tableName]).forEach(
+      ([key,value]:[key:string,value:any]) => {
+        temp.push({key,...value})
+      });
+
+    return temp;
   }
 
-  async getUsers(discussionId:string){
-    // TODO load only discussion users
-    await this.loadData();
-    return this.itemsData.Users;
+  getActivities(){
+    return this.getElements("Activities");
   }
 
-  async getEvents(){
-    await this.loadData();
-    return this.itemsData.Events;
+  getMessages(discussionId:string,count?:number){
+    return this.getElement("Messages",discussionId);
   }
 
-  async getPendingRequests(){
-    await this.loadData();
-    return this.itemsData.Requests;
+  getUsers(){
+    return this.getElements("Users");
+  }
+
+  getUser(userId:string){
+    return this.getElement("Users",userId);
+  }
+
+  getEvent(index:string){
+    return this.getElement("Events",index);
+  }
+
+  getEvents(){
+    return this.getElements("Events");
+  }
+
+  getPendingRequests(){
+    return this.getElements("Requests");
   }
 
   async loadData(){

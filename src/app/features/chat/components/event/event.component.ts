@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
@@ -11,6 +11,7 @@ export class EventComponent {
 
   eventId!:string;
   eventContent!:any;
+  creatorName!:any;
 
   constructor(private readonly _dataLoader: DbaccessService, private readonly _route: ActivatedRoute){
   }
@@ -19,11 +20,15 @@ export class EventComponent {
     this.eventId = this._route.snapshot.queryParams["eventId"];
     this.loadData();
     console.log("loaded data : ",this.eventContent);
-    
   }
 
   async loadData(){
-    this.eventContent = await this._dataLoader.getEvent(this.eventId);
-  }
+    console.log("loading event ",this.eventId);
+    this.eventContent = await this._dataLoader.getEvent(String(this.eventId));
+    console.log("event content = ",this.eventContent);
+    console.log("event creator = ",this.eventContent.creator);
 
+    this.creatorName = await this._dataLoader.getUser(this.eventContent.creator);
+    console.log("creator name = ",this.creatorName);
+  }
 }

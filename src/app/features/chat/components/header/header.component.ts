@@ -8,8 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() currentPage!:any;
-  @Input() previousPage?:any;
+  @Input() parentPage!:any;
   @Input() discussionName!:any;
 
   constructor(private readonly _route : Router, private readonly _activatedRoute: ActivatedRoute) {

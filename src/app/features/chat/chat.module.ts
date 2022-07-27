@@ -37,7 +37,7 @@ import { FooterComponent } from './components/footer/footer.component';
             path:'pendingrequests',
             component:PendingrequestsComponent
           },{
-            path:'events',
+            path:'pendingevents',
             component:PendingeventsComponent
           },{
             path:'event',

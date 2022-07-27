@@ -11,7 +11,7 @@ export class PendingeventsComponent implements OnInit {
 
   pendingEvents!:any[];
 
-  constructor(private readonly _dbLoader:DbaccessService, private readonly _route: Router){
+  constructor(private readonly _dbLoader:DbaccessService, private readonly _router: Router){
   }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class PendingeventsComponent implements OnInit {
   }
 
   navigateToEventDetail(param:string){
-    this._route.navigate(["event"],{queryParams:{eventId:param}});
+    this._router.navigate(["event"],{queryParams:{eventId:param}});
   }
 
 }

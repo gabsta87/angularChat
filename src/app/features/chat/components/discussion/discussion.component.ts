@@ -8,14 +8,13 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
   styleUrls: ['./discussion.component.scss']
 })
 export class DiscussionComponent {
-
-  @Input() discussionId!:string;
-  @Input() discussionName!:string;
-  messagesList!:any;
+  discussionId!:string;
+  discussionName!:string;
+  messagesList!:{key:string, date: string, message: string, userId: string};
   usersList!:any;
 
   ionViewWillEnter(){
-    this.discussionId = this._route.snapshot.queryParams["discussion"];
+    this.discussionId = this._route.snapshot.queryParams["discussionId"];
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
     this.loadData();
   }
@@ -26,14 +25,14 @@ export class DiscussionComponent {
   async loadData(event?:any){
     this.messagesList = await this._dataLoader.getMessages(this.discussionId);
     console.log("messages list = ",this.messagesList);
-    
-    this.usersList = await this._dataLoader.getUsers(this.discussionId);
+
+    this.usersList = await this._dataLoader.getUsers();
+    // this.usersList = await this._dataLoader.getUsers(this.discussionId);
     console.log("users list = ",this.usersList);
   }
 
   getUserName(userId:string){
     console.log("users list = ",this.usersList);
-    
   }
 
 }

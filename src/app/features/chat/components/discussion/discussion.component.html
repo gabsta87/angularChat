@@ -1,4 +1,4 @@
-<app-header currentPage="discussion" discussionName="{{discussionName}}"></app-header>
+<app-header [parentPage]="'activities'" [discussionName]="discussionName"></app-header>
 <ion-content>
     <ion-list>
         <ion-item *ngFor="let item of messagesList|keyvalue;
@@ -12,7 +12,7 @@
                 <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
                 <ion-card-subtitle>{{item.key}}</ion-card-subtitle>
                 <!-- <ion-card-title>{{getUserName(item.value[userId])}}</ion-card-title> -->
-                <ion-card-title>{{item.value|json}}</ion-card-title>
+                <!-- <ion-card-title>{{item?.value?.userId}}</ion-card-title> -->
             </ion-card-header>
 
             <ion-card-content>{{item.value|json}}</ion-card-content>
