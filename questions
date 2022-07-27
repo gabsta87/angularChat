@@ -1,3 +1,6 @@
 best to use resolvers ? or lifecycle hooks ? as programming practice
 comment genérer son propre event quand on arrive en haut de la liste ? 
     Ion-refresher
+
+Peut-on utiliser librement (ion-infinite) en dehors d'un scroll ?
+

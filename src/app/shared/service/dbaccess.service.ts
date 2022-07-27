@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, KeyValueDiffers } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +15,6 @@ export class DbaccessService {
   private async getElement(tableName:string,itemIndex:string,count?:number){
     let temp = await this.getElements(tableName,count);
 
-    if(!temp){
-      return undefined;
-    }
-
     // if(Array.isArray(temp))
     //   // return temp[parseInt(itemIndex)];
     //   return temp.find(e=>e.key===itemIndex)
@@ -31,33 +26,36 @@ export class DbaccessService {
   private async getElements(tableName:string,count?:number){
     await this.loadData();
 
-    // if(Array.isArray(this.itemsData[tableName]))
-    //   return this.itemsData[tableName];
-
     let temp:any = [];
+
+    // if(Array.isArray(this.itemsData[tableName])){
+    //   return this.itemsData[tableName];
+    // }else{
 
     Object.entries(this.itemsData[tableName]).forEach(
       ([key,value]:[key:string,value:any]) => {
         temp.push({key,...value})
       });
 
+    // console.log("items data : ",temp);
+    // }
     return temp;
+  }
+
+  getActivity(activityId: string){
+    return this.getElement("Activities",activityId);
   }
 
   getActivities(){
     return this.getElements("Activities");
   }
 
-  getMessages(discussionId:string,count?:number){
-    return this.getElement("Messages",discussionId);
+  getUser(userId:string){
+    return this.getElement("Users",userId);
   }
 
   getUsers(){
     return this.getElements("Users");
-  }
-
-  getUser(userId:string){
-    return this.getElement("Users",userId);
   }
 
   getEvent(index:string){
@@ -66,6 +64,10 @@ export class DbaccessService {
 
   getEvents(){
     return this.getElements("Events");
+  }
+
+  getMessages(discussionId:string,count?:number){
+    return this.getElement("Messages",discussionId);
   }
 
   getPendingRequests(){

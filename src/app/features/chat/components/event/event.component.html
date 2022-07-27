@@ -1,8 +1,8 @@
-<app-header [parentPage]="'pendingevents'"></app-header>
+<app-header [parentPage]="'pendingevents'" [title]="eventContent?.title"></app-header>
 <ion-content>
     <ion-card>
         <ion-card-header>
-            <ion-card-title>{{eventContent?.title}}</ion-card-title>
+            <ion-card-title>{{activity?.name}}</ion-card-title>
             <ion-card-subtitle>{{eventContent?.date}}</ion-card-subtitle>
         </ion-card-header>
 
@@ -11,14 +11,8 @@
             <ion-label>Created by {{creatorName?.firstname}}</ion-label>
         </ion-item>
 
-        <ion-item>
-            <ion-label>{{eventContent?.activity}}</ion-label>
-        </ion-item>
-
         <ion-card-content>
             {{eventContent?.description}}
-            <br>
-            {{eventContent|json}}
         </ion-card-content>
     </ion-card>
 </ion-content>

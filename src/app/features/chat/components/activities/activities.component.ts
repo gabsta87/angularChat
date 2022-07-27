@@ -24,7 +24,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   navigateToDiscussion(item:{id:string,name:string}){
-    console.log("going to discussion ",item);
     this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
   }
 

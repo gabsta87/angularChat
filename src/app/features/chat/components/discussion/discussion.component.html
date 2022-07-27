@@ -1,29 +1,35 @@
-<app-header [parentPage]="'activities'" [discussionName]="discussionName"></app-header>
+<app-header [parentPage]="'activities'" [title]="discussionName"></app-header>
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let item of messagesList|keyvalue;
+        <ion-item *ngFor="let item of messagesList;
                             let index = index"
                             lines="none"
         >
         <ion-card>
             <ion-card-header>
-                <ion-thumbnail>{{index}}</ion-thumbnail>
-                {{item|json}}
                 <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
-                <ion-card-subtitle>{{item.key}}</ion-card-subtitle>
-                <!-- <ion-card-title>{{getUserName(item.value[userId])}}</ion-card-title> -->
+                <!-- <ion-card-title>{{getUserName(item.userId)}}</ion-card-title> -->
+                <ion-card-subtitle>{{item.date}}</ion-card-subtitle>
+                <!-- <ion-card-title>{{getUserName(item?.userId)}}</ion-card-title> -->
+                <ion-card-title>{{usersMap.get(item?.userId)}}</ion-card-title>
                 <!-- <ion-card-title>{{item?.value?.userId}}</ion-card-title> -->
             </ion-card-header>
 
-            <ion-card-content>{{item.value|json}}</ion-card-content>
+            <ion-card-content>{{item?.message}}</ion-card-content>
         </ion-card>
         </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll (ionInfinite)="loadData($event)">
+    <!-- <ion-infinite-scroll (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="Loading more data...">
         </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll> -->
+
+    <ion-content>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+    </ion-content>
 </ion-content>

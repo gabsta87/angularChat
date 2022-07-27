@@ -10,8 +10,9 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 export class DiscussionComponent {
   discussionId!:string;
   discussionName!:string;
-  messagesList!:{key:string, date: string, message: string, userId: string};
-  usersList!:any;
+  // messagesList!:{key:string, date: string, message: string, userId: string};
+  messagesList!:any;
+  usersMap = new Map();
 
   ionViewWillEnter(){
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
@@ -23,16 +24,34 @@ export class DiscussionComponent {
   }
 
   async loadData(event?:any){
-    this.messagesList = await this._dataLoader.getMessages(this.discussionId);
-    console.log("messages list = ",this.messagesList);
+    this.messagesList = [];
+    Object.entries(await this._dataLoader.getMessages(this.discussionId))
+    .slice(1,)
+    .forEach(([key,value]:[key:string,value:any])=>{
+      this.messagesList.push({key,...value})
+    });
 
-    this.usersList = await this._dataLoader.getUsers();
-    // this.usersList = await this._dataLoader.getUsers(this.discussionId);
-    console.log("users list = ",this.usersList);
+    this.messagesList.forEach((elem:{userId:string}) => {
+      this.getUserName(elem.userId);
+    });
   }
 
-  getUserName(userId:string){
-    console.log("users list = ",this.usersList);
+  async getUserName(userId:string){
+    let temp = this.usersMap.get(userId);
+    if(temp === undefined){
+      temp = await this._dataLoader.getUser(userId);
+      this.usersMap.set(temp.key,temp.firstname);
+    }
+    return temp;
+  }
+
+  doRefresh(event:any) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 
 }

@@ -9,17 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   @Input() parentPage!:any;
-  @Input() discussionName!:any;
+  @Input() title!:any;
 
   constructor(private readonly _route : Router, private readonly _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-  }
-
-  ionViewWillEnter(){
-    this.discussionName = this._activatedRoute.snapshot.queryParams["discussionName"];
-    console.log("disc name = ",this.discussionName);
   }
 
   navigateBack(){

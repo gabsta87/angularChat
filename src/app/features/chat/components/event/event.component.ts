@@ -12,6 +12,7 @@ export class EventComponent {
   eventId!:string;
   eventContent!:any;
   creatorName!:any;
+  activity!:any;
 
   constructor(private readonly _dataLoader: DbaccessService, private readonly _route: ActivatedRoute){
   }
@@ -19,16 +20,13 @@ export class EventComponent {
   ionViewWillEnter(){
     this.eventId = this._route.snapshot.queryParams["eventId"];
     this.loadData();
-    console.log("loaded data : ",this.eventContent);
   }
 
   async loadData(){
-    console.log("loading event ",this.eventId);
     this.eventContent = await this._dataLoader.getEvent(String(this.eventId));
-    console.log("event content = ",this.eventContent);
-    console.log("event creator = ",this.eventContent.creator);
 
     this.creatorName = await this._dataLoader.getUser(this.eventContent.creator);
-    console.log("creator name = ",this.creatorName);
+
+    this.activity = await this._dataLoader.getActivity(this.eventContent.activity);
   }
 }
