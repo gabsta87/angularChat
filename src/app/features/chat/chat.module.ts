@@ -10,6 +10,7 @@ import { EventComponent } from './components/event/event.component';
 import { PendingeventsComponent } from './components/pendingevents/pendingevents.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { MapComponent } from './components/pendingevents/map/map.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FooterComponent } from './components/footer/footer.component';
     PendingeventsComponent,
     HeaderComponent,
     FooterComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,
