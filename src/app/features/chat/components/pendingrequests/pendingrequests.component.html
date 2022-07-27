@@ -2,7 +2,8 @@
     <ion-list>
         <div style="display: flex;" class="ion-justify-content-center ">
             <ion-item *ngFor="let request of pendingRequestsList" lines="none">
-                <ion-button>{{request.key}}</ion-button>
+                <ion-toggle></ion-toggle>
+                <ion-label disabled="false">{{request.key}}</ion-label>
                 <ion-badge color="warning">55</ion-badge>
             </ion-item>
         </div>

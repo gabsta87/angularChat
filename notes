@@ -2,7 +2,7 @@ trouver des clusters ou l'utilisateur a participé à des événements
 chercher des corrélations entre les clusters et le type d'événements
 définir un rayon max selon le type d'activité
 
-rechercher les événements dans le rayon max défini autour de chaque cluster 
+rechercher les événements dans le rayon max défini autour de chaque cluster
     selon les activités pratiquées dans les clusters
 
 IA ne serait pas efficace car pas assez de données pour l'entrainer. En revanche,
@@ -14,3 +14,7 @@ https://medium.com/@joaogabriellima/clustering-with-javascript-part-3-clustering
 Concernant les cartes
 https://www.storemapper.com/blog/google-maps-api-alternative/
 https://www.mapbox.com/
+
+
+Concernant le scroll infini vers le haut : 
+https://ionicframework.com/docs/api/refresher
