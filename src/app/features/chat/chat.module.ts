@@ -56,5 +56,6 @@ import { AccountComponent } from './components/account/account.component';
   ],
   providers:[
   ],
+  // bootstrap: [],
 })
 export class ChatModule { }
