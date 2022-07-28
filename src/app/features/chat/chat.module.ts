@@ -38,9 +38,6 @@ import { AccountComponent } from './components/account/account.component';
             path:'activities',
             component:ActivitiesComponent
           },{
-            path:'pendingrequests',
-            component:PendingrequestsComponent
-          },{
             path:'pendingevents',
             component:PendingeventsComponent
           },{

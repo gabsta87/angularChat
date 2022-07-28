@@ -30,7 +30,10 @@ export class ActivitiesComponent implements OnInit {
   }
 
   filter(event:any){
-    this.filteredList = this.activitiesList.filter((e:any)=>e.name.includes(event.detail.value));
+    // TODO
+    console.log("TODO : passer la valeur de la recherche a pendingRequests");
+    
+    this.filteredList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(event.detail.value.toLowerCase()));
   }
 
   filteredListIsEmpty(){

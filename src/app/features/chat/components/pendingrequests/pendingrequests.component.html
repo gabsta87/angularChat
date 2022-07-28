@@ -1,4 +1,5 @@
 <ion-content>
+    <ion-button>Create new request</ion-button>
     <ion-list>
         <div style="display: flex;" class="ion-justify-content-center ">
             <ion-item *ngFor="let request of displayList" lines="none">
@@ -9,7 +10,7 @@
         </div>
     </ion-list>
     <!-- <div style="display: flex;" class="ion-justify-content-center"> -->
-        <ion-input placeholder="Enter your activity" (ionChange)="filterRequests($event)"></ion-input>
-        <ion-button>Confirm</ion-button>
+        <!-- <ion-input placeholder="Enter your activity" (ionChange)="filterRequests($event)"></ion-input>
+        <ion-button>Confirm</ion-button> -->
     <!-- </div> -->
 </ion-content>

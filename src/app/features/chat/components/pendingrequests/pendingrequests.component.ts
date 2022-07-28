@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -8,12 +8,14 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 })
 export class PendingrequestsComponent implements OnInit {
 
+  @Input() searchValue:any;
   pendingRequestsList!:any;
   displayList!:any;
   requestsMap = new Map();
 
   constructor(private readonly _dbLoader: DbaccessService) {
     this.loadData();
+    console.log("search value : ",this.searchValue);
   }
 
   ngOnInit(): void {
@@ -27,7 +29,11 @@ export class PendingrequestsComponent implements OnInit {
     this.displayList = this.pendingRequestsList;
   }
 
-  filterRequests(event:any){
-    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.includes(event.detail.value));
+  filterOld(event:any){
+    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(event.detail.value.toLowerCase()));
+  }
+
+  filter(){
+    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 }

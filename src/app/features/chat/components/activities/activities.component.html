@@ -1,5 +1,5 @@
 <ion-content>
-    <ion-input placeholder="Enter your activity" (ionChange)="filter($event)"></ion-input>
+    <ion-input #search placeholder="Enter your activity" (ionChange)="filter($event)"></ion-input>
 
     <ion-list>
         <ion-item *ngFor="let item of filteredList;
@@ -10,6 +10,6 @@
             <ion-label>{{item.name}}</ion-label>
         </ion-item>
     </ion-list>
-
-    <app-pendingrequests *ngIf="filteredListIsEmpty()"></app-pendingrequests>
+<!-- TODO corriger le passage de valeur pour la recherche, sinon tout implémenter directement dans activities -->
+    <app-pendingrequests [searchValue]="search.value" *ngIf="filteredListIsEmpty()" ></app-pendingrequests>
 </ion-content>

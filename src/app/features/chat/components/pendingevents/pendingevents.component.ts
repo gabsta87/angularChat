@@ -50,10 +50,12 @@ export class PendingeventsComponent {
   }
 
   filter(event:any){
-    let searchItem = event.detail.value;
+    let searchItem = event.detail.value.toLowerCase();
     this.filteredList = this.pendingEvents.filter(
       (e:{activity:string,creator:string,title:string,description:string})=>
-        e.activity.includes(searchItem) || e.creator.includes(searchItem) || e.title.includes(searchItem)
+        e.activity.toLowerCase().includes(searchItem) ||
+        e.creator.toLowerCase().includes(searchItem) ||
+        e.title.toLowerCase().includes(searchItem)
     );
   }
 }
