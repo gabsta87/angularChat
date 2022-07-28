@@ -11,6 +11,7 @@ import { PendingeventsComponent } from './components/pendingevents/pendingevents
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MapComponent } from './components/pendingevents/map/map.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MapComponent } from './components/pendingevents/map/map.component';
     HeaderComponent,
     FooterComponent,
     MapComponent,
+    AccountComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +49,9 @@ import { MapComponent } from './components/pendingevents/map/map.component';
           },{
             path:'discussion',
             component:DiscussionComponent
+          },{
+            path:'account',
+            component:AccountComponent
           },
         ]
       },]

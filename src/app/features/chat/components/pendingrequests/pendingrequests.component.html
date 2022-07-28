@@ -1,15 +1,15 @@
 <ion-content>
     <ion-list>
         <div style="display: flex;" class="ion-justify-content-center ">
-            <ion-item *ngFor="let request of pendingRequestsList" lines="none">
+            <ion-item *ngFor="let request of displayList" lines="none">
                 <ion-toggle></ion-toggle>
                 <ion-label disabled="false">{{request.key}}</ion-label>
-                <ion-badge color="warning">55</ion-badge>
+                <ion-badge color="warning">{{requestsMap.get(request?.key)}}</ion-badge>
             </ion-item>
         </div>
     </ion-list>
     <!-- <div style="display: flex;" class="ion-justify-content-center"> -->
-        <ion-input placeholder="Enter your activity"></ion-input>
+        <ion-input placeholder="Enter your activity" (ionChange)="filterRequests($event)"></ion-input>
         <ion-button>Confirm</ion-button>
     <!-- </div> -->
 </ion-content>
