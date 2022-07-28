@@ -30,7 +30,13 @@ export class ActivitiesComponent implements OnInit {
   }
 
   filter(event:any){
-    this.filteredList = this.activitiesList.filter((e:any)=>e.name.includes(event.detail.value))
+    this.filteredList = this.activitiesList.filter((e:any)=>e.name.includes(event.detail.value));
+  }
+
+  filteredListIsEmpty(){
+    if(this.filteredList === undefined)
+      return true;
+    return this.filteredList.length === 0;
   }
 
 }

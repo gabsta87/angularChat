@@ -10,4 +10,6 @@
             <ion-label>{{item.name}}</ion-label>
         </ion-item>
     </ion-list>
+
+    <app-pendingrequests *ngIf="filteredListIsEmpty()"></app-pendingrequests>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
@@ -7,45 +7,37 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
   templateUrl: './pendingevents.component.html',
   styleUrls: ['./pendingevents.component.scss']
 })
-export class PendingeventsComponent implements OnInit {
+export class PendingeventsComponent {
 
   pendingEvents!:any[];
   filteredList:any;
-  usersMap = new Map();
+  // usersMap = new Map();
 
   constructor(private readonly _dbLoader:DbaccessService, private readonly _router: Router){
-  }
-
-  ngOnInit(): void {
   }
 
   async loadData(){
     this.pendingEvents = await this._dbLoader.getEvents();
 
     this.pendingEvents.forEach((e:any)=> {
-      console.log("event : ",e);
-
       this._dbLoader.getUser(e.creator).then((creatorName:any)=>
-        this.usersMap.set(e.creator,creatorName.firstname)
+        // this.usersMap.set(e.creator,creatorName.firstname)
+        e.creator = creatorName.firstname
       );
 
-      e.users.forEach((userId:any) => {
-        console.log("users : ",userId);
-
-        this._dbLoader.getUser(userId).then(
-          (userName:any)=>{
-            console.log(userName);
-
-        this.usersMap.set(userId,userName)
-          }
-        );
-
+      e.users.forEach((userId:any,index:number) => {
+        this._dbLoader.getUser(userId).then((userName:any)=>{
+          if(userName !== undefined)
+            e.users[index] = userName.firstname;
+            // this.usersMap.set(userId,userName.firstname)
+        });
       });
+
+      this._dbLoader.getActivity(e.activity).then((activityName:any) =>
+      // this.activityMap.set(e.activity,activityName.name)
+        e.activity = activityName.name
+      )
     });
-    console.log("users map : ",this.usersMap);
-
-    // this.activity = await this._dataLoader.getActivity(this.eventContent.activity);
-
     this.filteredList = this.pendingEvents;
   }
 
@@ -58,8 +50,10 @@ export class PendingeventsComponent implements OnInit {
   }
 
   filter(event:any){
-    console.log(event);
-    console.log(this.pendingEvents);
-    // this.filteredList = this.pendingEvents.filter((e:any)=>)
+    let searchItem = event.detail.value;
+    this.filteredList = this.pendingEvents.filter(
+      (e:{activity:string,creator:string,title:string,description:string})=>
+        e.activity.includes(searchItem) || e.creator.includes(searchItem) || e.title.includes(searchItem)
+    );
   }
 }
