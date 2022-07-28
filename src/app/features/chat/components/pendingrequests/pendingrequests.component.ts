@@ -17,8 +17,9 @@ export class PendingrequestsComponent implements OnInit {
     this.loadData();
     console.log("search value : ",this.searchValue);
   }
-
+  
   ngOnInit(): void {
+    console.log("search value : ",this.searchValue);
   }
 
   async loadData(){
