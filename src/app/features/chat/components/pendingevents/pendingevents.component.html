@@ -1,5 +1,6 @@
 <ion-content>
     <app-map></app-map>
+    <ion-input placeholder="Search for an event" (ionChange)="filter($event)"></ion-input>
     <ion-list>
         <ion-item 
             *ngFor="let event of pendingEvents; let index = index" 

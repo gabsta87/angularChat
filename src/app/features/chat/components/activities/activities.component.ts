@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
@@ -9,7 +9,8 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 })
 export class ActivitiesComponent implements OnInit {
 
-  @Input() activitiesList:any = [{name:"first activity"},{name:"second"}];
+  activitiesList:any;
+  filteredList:any;
 
   constructor(private readonly _dataLoader : DbaccessService, private readonly _route : Router) {
     this.loadData();
@@ -21,10 +22,15 @@ export class ActivitiesComponent implements OnInit {
   async loadData(){
     let temp = await this._dataLoader.getActivities();
     this.activitiesList = Object.keys(temp).map(key => ({id: key, ...temp[key]}));
+    this.filteredList = this.activitiesList;
   }
 
   navigateToDiscussion(item:{id:string,name:string}){
     this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
+  }
+
+  filter(event:any){
+    this.filteredList = this.activitiesList.filter((e:any)=>e.name.includes(event.detail.value))
   }
 
 }

@@ -29,4 +29,5 @@ export class EventComponent {
 
     this.activity = await this._dataLoader.getActivity(this.eventContent.activity);
   }
+
 }
