@@ -38,6 +38,10 @@
       "date": "27.12.2022_12:00",
       "description": "explain if there are some rules/details",
       "title": "whatever",
+      "lngLat":{
+        "lng": 6.158735354613896,
+        "lat": 46.198162397323784
+      },
       "users": [
         "24Y5w0yp8iOV8GfZSkQWvAr9hm72",
         "2"
@@ -49,6 +53,10 @@
       "date": "01.01.2022_13:00",
       "description": "reveillon, amenez vos bouteilles",
       "title": "fete de nouvel an",
+      "lngLat":{
+        "lng": 6.12647283862313,
+        "lat": 46.197386560601956
+      },
       "users": [
         "24Y5w0yp8iOV8GfZSkQWvAr9hm72"
       ]

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
   selector: 'app-map',
@@ -16,8 +17,16 @@ export class MapComponent implements OnInit,AfterViewInit{
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 46.2044;
   lng = 6.1432;
+  events!:any;
 
-  constructor() { }
+  constructor(private readonly _dataLoader: DbaccessService) {
+    // this.loadData();
+    // console.log("events = ",this.events);
+  }
+
+  async loadData(){
+    this.events = await this._dataLoader.getEvents();
+  }
 
   // ngAfterViewChecked(){ }
 
@@ -31,6 +40,7 @@ export class MapComponent implements OnInit,AfterViewInit{
     this._tryGeoLoc();
 
     setTimeout(()=>{
+
       console.log(mapboxgl);
 
       this.map = new mapboxgl.Map({
@@ -51,21 +61,21 @@ export class MapComponent implements OnInit,AfterViewInit{
       this.map.on('mouseup', (event) => {
         console.log("mouseup event = ",event);
         this.buttonRelease(event);
-        
       });
 
       this.map.on("click",(event)=>{
         console.log("click event = ",event);
         console.log("target = ",event.target);
-        
-        // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
-        const popup = new mapboxgl.Popup({ offset: [0, -15] })
-        .setLngLat(event.lngLat)
-        .setHTML(
-          `<h3>an event</h3><p>description</p>`
-        )
-        .addTo(this.map);
+
+        // // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
+        // const popup = new mapboxgl.Popup({ offset: [0, -15] })
+        // .setLngLat(event.lngLat)
+        // .setHTML(
+        //   `<h3>an event</h3><p>description</p>`
+        // )
+        // .addTo(this.map);
       })
+
     },50);
   }
 
@@ -88,17 +98,34 @@ export class MapComponent implements OnInit,AfterViewInit{
       el.style.width = "20px";
 
       el.className = 'marker';
-      new mapboxgl.Marker(el).setLngLat(event.lngLat).addTo(this.map);
+      let marker = new mapboxgl.Marker(el);
+
+      marker.setLngLat(event.lngLat).addTo(this.map);
+
+      // marker.on("click",(e)=>{
+      //   console.log("clicked on marker ",e);
+      // })
 
       // Adding event listener
-      el.addEventListener("click",_=>{event.originalEvent.stopPropagation();this.listener(el,event);});
-
+      el.addEventListener("mouseup",mouseUpEvent=>{this.listener(el,mouseUpEvent,event);});
     }
   }
 
-  listener(elem:HTMLDivElement,event:mapboxgl.MapMouseEvent | mapboxgl.EventData){
-    console.log("event raised : ",event," , elem : ",elem);
-    event.originalEvent.stopPropagation();
+  listener(elem:HTMLDivElement,
+    divMouseUpEvent:mapboxgl.MapMouseEvent | mapboxgl.EventData,
+    parentEvent:mapboxgl.MapMouseEvent | mapboxgl.EventData){
+    console.log("event raised : ",divMouseUpEvent," , elem : ",elem);
+    parentEvent.originalEvent.stopPropagation();
+
+    // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
+    const popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(parentEvent.lngLat)
+    .setHTML(
+      `<h3>an event</h3><p>description</p>`
+    )
+    .addTo(this.map);
+    console.log("popup : ",popup);
+
     return undefined as any;
   }
 
