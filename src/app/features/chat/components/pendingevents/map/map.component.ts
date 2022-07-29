@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 
@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment';
 })
 export class MapComponent implements OnInit,AfterViewInit{
 
+  delay = 400;
+  clickDate!:any;
+  releaseDate!:any;
   map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 46.2044;
@@ -16,9 +19,7 @@ export class MapComponent implements OnInit,AfterViewInit{
 
   constructor() { }
 
-  // ngAfterViewChecked(){
-
-  // }
+  // ngAfterViewChecked(){ }
 
   async ngAfterViewInit(){
 
@@ -27,7 +28,7 @@ export class MapComponent implements OnInit,AfterViewInit{
     console.log("temp = ",temp);
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
 
-    this.tryGeoLoc();
+    this._tryGeoLoc();
 
     setTimeout(()=>{
       console.log(mapboxgl);
@@ -42,37 +43,66 @@ export class MapComponent implements OnInit,AfterViewInit{
       // Add map controls
       this.map.addControl(new mapboxgl.NavigationControl());
 
-      this.map.on('click', (event) => {
+      this.map.on("mousedown",event =>{
+        this.buttonClicked();
 
-        // Add red square on click
-        const el = document.createElement('div');
-        console.log("new div : ",el);
+      })
 
-        el.addEventListener("click",this.listener(el,event));
+      this.map.on('mouseup', (event) => {
+        console.log("mouseup event = ",event);
+        this.buttonRelease(event);
+        
+      });
 
-        ( el.style as any)= "background-color:red; height:20px; width:20px;";
-        el.className = 'marker';
-        new mapboxgl.Marker(el).setLngLat(event.lngLat).addTo(this.map);
-
-        // Add popup on click
+      this.map.on("click",(event)=>{
+        console.log("click event = ",event);
+        console.log("target = ",event.target);
+        
+        // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
         const popup = new mapboxgl.Popup({ offset: [0, -15] })
         .setLngLat(event.lngLat)
         .setHTML(
           `<h3>an event</h3><p>description</p>`
         )
         .addTo(this.map);
-      });
+      })
     },50);
+  }
 
+  buttonClicked(){
+    this.clickDate = Date.now().valueOf();
+  }
+
+  buttonRelease(event:mapboxgl.MapMouseEvent | mapboxgl.EventData){
+    this.releaseDate = Date.now().valueOf();
+
+    if(this.releaseDate-this.clickDate > this.delay){
+      // Add red square on click
+      const el = document.createElement('div');
+      el.style.backgroundColor = "red";
+      // el.style.backgroundImage = `url(https://placekitten.com/g/20/20/)`;
+      // el.style.backgroundImage = `./src/assets/icons/red_marker.png`;
+      el.style.opacity="0.5";
+      el.style.borderRadius="10px";
+      el.style.height = "20px";
+      el.style.width = "20px";
+
+      el.className = 'marker';
+      new mapboxgl.Marker(el).setLngLat(event.lngLat).addTo(this.map);
+
+      // Adding event listener
+      el.addEventListener("click",_=>{event.originalEvent.stopPropagation();this.listener(el,event);});
+
+    }
   }
 
   listener(elem:HTMLDivElement,event:mapboxgl.MapMouseEvent | mapboxgl.EventData){
     console.log("event raised : ",event," , elem : ",elem);
-    
+    event.originalEvent.stopPropagation();
     return undefined as any;
   }
 
-  tryGeoLoc(){
+  private _tryGeoLoc(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
         if (position) {
@@ -81,16 +111,13 @@ export class MapComponent implements OnInit,AfterViewInit{
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
           console.log(this.lat);
-          console.log(this.lat);
+          console.log(this.lng);
         }
       },
         (error: any) => console.log(error));
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-  }
-
-  ionViewWillEnter(){
   }
 
   ngOnInit() {
