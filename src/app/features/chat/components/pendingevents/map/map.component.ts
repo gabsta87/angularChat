@@ -25,12 +25,12 @@ export class MapComponent implements OnInit,AfterViewInit{
     console.log("geo location = ",navigator.geolocation);
     let temp = await navigator.geolocation.getCurrentPosition((e:any)=>console.log(e));
     console.log("temp = ",temp);
+    (mapboxgl as any).accessToken = environment.mapbox.accessToken;
 
     this.tryGeoLoc();
 
     setTimeout(()=>{
       console.log(mapboxgl);
-      (mapboxgl as any).accessToken = environment.mapbox.accessToken;
 
       this.map = new mapboxgl.Map({
         container: 'map',
@@ -38,41 +38,38 @@ export class MapComponent implements OnInit,AfterViewInit{
         zoom: 13,
         center: [this.lng, this.lat]
       });
+
       // Add map controls
       this.map.addControl(new mapboxgl.NavigationControl());
 
-
       this.map.on('click', (event) => {
-        // If the user clicked on one of your markers, get its information.
-        const features = this.map.queryRenderedFeatures(event.point);
 
-        if (!features.length) {
-          return;
-        }
-        const feature = features[0];
-        console.log("event raised",event);
-
-        const popup = new mapboxgl.Popup();
-        console.log("feature geometry",feature.geometry);
-
-        // .setLngLat(feature.geometry.coordinates)
-        // .setHTML(
-        //   // `<h3>${feature?.properties?[title]}</h3><p>${feature.properties.description}</p>`
-        //   "this is a test"
-        // )
-        // .addTo(this.map);
-
+        // Add red square on click
         const el = document.createElement('div');
-        el.className = 'marker';
-        let geom = feature.geometry;
-        console.log("coords : ",(geom as any).coordinates);
+        console.log("new div : ",el);
 
-        // new mapboxgl.Marker(el).setLngLat((geom as any).coordinates).addTo(this.map);
+        el.addEventListener("click",this.listener(el,event));
+
+        ( el.style as any)= "background-color:red; height:20px; width:20px;";
+        el.className = 'marker';
         new mapboxgl.Marker(el).setLngLat(event.lngLat).addTo(this.map);
 
+        // Add popup on click
+        const popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(event.lngLat)
+        .setHTML(
+          `<h3>an event</h3><p>description</p>`
+        )
+        .addTo(this.map);
       });
     },50);
 
+  }
+
+  listener(elem:HTMLDivElement,event:mapboxgl.MapMouseEvent | mapboxgl.EventData){
+    console.log("event raised : ",event," , elem : ",elem);
+    
+    return undefined as any;
   }
 
   tryGeoLoc(){
