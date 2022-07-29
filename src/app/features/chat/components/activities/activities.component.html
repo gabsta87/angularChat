@@ -5,15 +5,19 @@
         (ionChange)="filterRequests($event)"
     ></ion-input>
 
+    <div class="ion-justify-content-center ion-align-items-center">
     <ion-list>
         <ion-item *ngFor="let item of filteredList;
                             let index = index"
                 (click)="navigateToDiscussion(item)"
+                lines="none"
         >
-            <ion-thumbnail>{{index}}</ion-thumbnail>
-            <ion-label>{{item.name}}</ion-label>
+            <div class="activityButtonContainer">
+                <ion-button class="activityButton" expand="block">{{item.name}}</ion-button>
+            </div>
         </ion-item>
     </ion-list>
+    </div>
 
     <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredListIsEmpty()" ></app-pendingrequests>-->
 

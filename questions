@@ -1,6 +1,11 @@
-best to use resolvers ? or lifecycle hooks ? as programming practice
-comment genérer son propre event quand on arrive en haut de la liste ? 
-    Ion-refresher
+Pourquoi la carte n'a-t-elle pas la bonne taille?
+background du footer/header
+
 
 Peut-on utiliser librement (ion-infinite) en dehors d'un scroll ?
 
+
+Ion-refresher
+    comment genérer son propre event quand on arrive en haut de la liste ? 
+Hooks for fast development, resolvers for refactoring
+    best to use resolvers ? or lifecycle hooks ? as programming practice

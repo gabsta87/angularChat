@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -13,11 +14,13 @@ export class DiscussionComponent {
   // messagesList!:{key:string, date: string, message: string, userId: string};
   messagesList!:any;
   usersMap = new Map();
+  @ViewChild(IonContent) ionContent!:IonContent; 
 
-  ionViewWillEnter(){
+  async ionViewWillEnter(){
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
-    this.loadData();
+    await this.loadData();
+    setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 
   constructor(private readonly _route : ActivatedRoute, private readonly _dataLoader: DbaccessService){

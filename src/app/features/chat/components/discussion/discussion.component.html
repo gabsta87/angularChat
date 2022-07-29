@@ -1,6 +1,6 @@
 <app-header [parentPage]="'activities'" [title]="discussionName"></app-header>
 <ion-content>
-    <ion-grid>
+    <ion-grid style="margin-bottom: 3rem;">
         <ion-row *ngFor="let item of messagesList;
                             let index = index"
                             lines="none"
@@ -18,8 +18,8 @@
             <ion-card-content>{{item?.message}}</ion-card-content>
         </ion-card>
         </ion-row>
-        <ion-row>
-            <ion-item lines="none" class="sendGroup">
+        <ion-row style="position: fixed; bottom:0; width:100%">
+            <ion-item lines="none" class="sendGroup" style="width: 100%;">
                 <ion-input placeholder="type here"></ion-input>
                 <ion-button expand="block">Send</ion-button>
             </ion-item>
@@ -33,9 +33,7 @@
         </ion-infinite-scroll-content>
     </ion-infinite-scroll> -->
 
-    <ion-content>
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
             <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-    </ion-content>
+        </ion-refresher> -->
 </ion-content>
