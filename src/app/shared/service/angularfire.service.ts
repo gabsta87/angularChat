@@ -23,7 +23,21 @@ export class AngularfireService {
   writeMessage(message:string){
     const id = Date.now();
     const docRef = doc(this._dbaccess,this._dbName+'/'+id);
-    setDoc(docRef,{orderValue:message});
+    setDoc(docRef,{messageContent:message});
+  }
+
+  getMessagesFromDiscussion(discussion:string){
+    const myCollection = collection(this._dbaccess,this._dbName+'/discussions/'+discussion);
+    const q = query(myCollection);
+    this._myData = collectionData(q,{idField:'id'});
+    return this._myData;
+  }
+
+  writeMessageToDiscussion(discussion:string,message:string){
+    const id = Date.now();
+    debugger;
+    const docRef = doc(this._dbaccess,this._dbName+'/discussions/'+discussion+'/'+id);
+    setDoc(docRef,{messageContent:message});
   }
 
   // addOrder(newValue:number){

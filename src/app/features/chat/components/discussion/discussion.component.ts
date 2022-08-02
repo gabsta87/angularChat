@@ -49,7 +49,8 @@ export class DiscussionComponent {
     let temp = this.usersMap.get(userId);
     if(temp === undefined){
       temp = await this._dataLoader.getUser(userId);
-      this.usersMap.set(temp.key,temp.firstname);
+      if(temp)
+        this.usersMap.set(temp.key,temp.firstname);
     }
     return temp;
   }
@@ -69,6 +70,11 @@ export class DiscussionComponent {
 
   sendMessage(){
     this._fireStore.writeMessage(this.currentMessage);
+    this.currentMessage = "";
+  }
+
+  sendMessageToDiscussion(){
+    this._fireStore.writeMessageToDiscussion(this.discussionId,this.currentMessage);
     this.currentMessage = "";
   }
 
