@@ -22,3 +22,6 @@ Concernant le scroll infini vers le haut :
 https://ionicframework.com/docs/api/refresher
 
 Afficher les requêtes en attente si on recherche un chat qui n'existe pas
+
+Pour créer un ID unique
+npm uuid

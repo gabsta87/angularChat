@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -9,6 +10,9 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
   styleUrls: ['./discussion.component.scss']
 })
 export class DiscussionComponent {
+
+  currentMessage!:any;
+
   discussionId!:string;
   discussionName!:string;
   // messagesList!:{key:string, date: string, message: string, userId: string};
@@ -23,8 +27,10 @@ export class DiscussionComponent {
     setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 
-  constructor(private readonly _route : ActivatedRoute, private readonly _dataLoader: DbaccessService){
-  }
+  constructor(private readonly _route : ActivatedRoute, 
+    private readonly _dataLoader: DbaccessService,
+    private readonly _fireStore:AngularfireService
+    ){}
 
   async loadData(event?:any){
     this.messagesList = [];
@@ -55,6 +61,15 @@ export class DiscussionComponent {
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
+  }
+
+  updateValue($event:any){
+    this.currentMessage = $event.target.value;
+  }
+
+  sendMessage(){
+    this._fireStore.writeMessage(this.currentMessage);
+    this.currentMessage = "";
   }
 
 }

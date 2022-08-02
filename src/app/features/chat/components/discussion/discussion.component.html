@@ -20,8 +20,9 @@
         </ion-row>
         <ion-row style="position: fixed; bottom:0; width:100%">
             <ion-item lines="none" class="sendGroup" style="width: 100%;">
-                <ion-input placeholder="type here"></ion-input>
-                <ion-button expand="block">Send</ion-button>
+                <ion-input placeholder="type here" (ionChange)="updateValue($event)"></ion-input>
+                <!-- <ion-input placeholder="type here" [(ngModel)]="currentMessage"></ion-input> -->
+                <ion-button expand="block" (click)="sendMessage()">Send</ion-button>
             </ion-item>
         </ion-row>
     </ion-grid>

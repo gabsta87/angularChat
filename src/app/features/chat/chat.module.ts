@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -56,6 +56,9 @@ import { AccountComponent } from './components/account/account.component';
   ],
   providers:[
   ],
+  schemas:[
+    NO_ERRORS_SCHEMA,
+  ]
   // bootstrap: [],
 })
 export class ChatModule { }
