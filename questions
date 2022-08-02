@@ -1,5 +1,11 @@
-Pourquoi la carte n'a-t-elle pas la bonne taille?
-background du footer/header
+comment faire pour utiliser un [(ngModel)] dans un ion-input ?
+comment stopper la propagation d'un event dans mapbox ?
+
+
+mettre un delai pour laisser au html le temps de charger
+    Pourquoi la carte n'a-t-elle pas la bonne taille?
+solved
+    background du footer/header
 
 
 Peut-on utiliser librement (ion-infinite) en dehors d'un scroll ?
