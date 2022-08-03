@@ -102,24 +102,36 @@ export class MapComponent implements OnInit,AfterViewInit{
 
       marker.setLngLat(event.lngLat).addTo(this.map);
 
-      // marker.on("click",(e)=>{
-      //   console.log("clicked on marker ",e);
-      // })
+      marker.on("click",(e)=>{
+        console.log("clicked on marker ",e);
+        
+      })
 
       // Adding event listener
       el.addEventListener("mouseup",mouseUpEvent=>{
-        console.log("mouse up",mouseUpEvent);
+        console.log("mouse up on div",mouseUpEvent);
         
         mouseUpEvent.stopPropagation();
         // mouseUpEvent.preventDefault();
         this.listener(el,mouseUpEvent,event);
       });
 
-      el.addEventListener("click",mouseUpEvent => {
-        console.log("div clicked",mouseUpEvent);
+      el.addEventListener("mousedown",mouseUpEvent => {
+        console.log("mouse down on div",mouseUpEvent);
 
         mouseUpEvent.stopPropagation();
         this.listener(el,mouseUpEvent,event);
+      });
+
+      el.addEventListener("click",mouseEvent => {
+        // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
+        const popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(event.lngLat)
+        .setHTML(
+          `<h3>an event</h3><p>description</p>`
+        )
+        .addTo(this.map);
+        console.log("popup : ",popup);
       })
 
     }
@@ -131,14 +143,6 @@ export class MapComponent implements OnInit,AfterViewInit{
     console.log("event raised : ",divMouseUpEvent," , elem : ",elem);
     // parentEvent.originalEvent.stopPropagation();
 
-    // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
-    const popup = new mapboxgl.Popup({ offset: [0, -15] })
-    .setLngLat(parentEvent.lngLat)
-    .setHTML(
-      `<h3>an event</h3><p>description</p>`
-    )
-    .addTo(this.map);
-    console.log("popup : ",popup);
   }
 
   private _tryGeoLoc(){
