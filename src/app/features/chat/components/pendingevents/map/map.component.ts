@@ -54,8 +54,8 @@ export class MapComponent implements OnInit,AfterViewInit{
       this.map.addControl(new mapboxgl.NavigationControl());
 
       this.map.on("mousedown",event =>{
+        console.log("mouse down event");
         this.buttonClicked();
-
       })
 
       this.map.on('mouseup', (event) => {
@@ -108,10 +108,19 @@ export class MapComponent implements OnInit,AfterViewInit{
 
       // Adding event listener
       el.addEventListener("mouseup",mouseUpEvent=>{
+        console.log("mouse up",mouseUpEvent);
+        
         mouseUpEvent.stopPropagation();
         // mouseUpEvent.preventDefault();
         this.listener(el,mouseUpEvent,event);
       });
+
+      el.addEventListener("click",mouseUpEvent => {
+        console.log("div clicked",mouseUpEvent);
+
+        mouseUpEvent.stopPropagation();
+        this.listener(el,mouseUpEvent,event);
+      })
 
     }
   }
@@ -130,8 +139,6 @@ export class MapComponent implements OnInit,AfterViewInit{
     )
     .addTo(this.map);
     console.log("popup : ",popup);
-
-    return undefined as any;
   }
 
   private _tryGeoLoc(){

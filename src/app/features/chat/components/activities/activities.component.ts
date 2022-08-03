@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent{
 
   activitiesList:any;
   filteredList:any;
@@ -16,12 +17,13 @@ export class ActivitiesComponent implements OnInit {
   pendingRequestsList!:any;
   displayList!:any;
   requestsMap = new Map();
+  activitiesFromFirestore:any;
 
-  constructor(private readonly _dataLoader : DbaccessService, private readonly _route : Router) {
+  constructor(
+    private readonly _dataLoader : DbaccessService,
+    private readonly _route : Router,
+    private readonly _dbAccess : AngularfireService) {
     this.loadData();
-  }
-
-  ngOnInit(): void {
   }
 
   async loadData(){
@@ -34,6 +36,9 @@ export class ActivitiesComponent implements OnInit {
       this.requestsMap.set(element[1].key,Object.entries(element[1]).length-1);
     });
     this.displayList = this.pendingRequestsList;
+
+    // this.activitiesFromFirestore = await this._dbAccess.getActivities();
+    console.log("messages fs = ",this.activitiesFromFirestore);
   }
 
   navigateToDiscussion(item:{id:string,name:string}){
@@ -54,5 +59,9 @@ export class ActivitiesComponent implements OnInit {
     if(this.filteredList === undefined)
       return true;
     return this.filteredList.length === 0;
+  }
+
+  action(event:any){
+    console.log("new value = ",event.detail.checked);
   }
 }

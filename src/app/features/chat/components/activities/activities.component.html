@@ -1,4 +1,5 @@
 <ion-content>
+    <div className="custom_body">
     <ion-input 
         placeholder="Enter your activity" 
         (ionChange)="filterActivities($event)"
@@ -6,32 +7,35 @@
     ></ion-input>
 
     <div class="ion-justify-content-center ion-align-items-center">
-    <ion-list>
+    <ion-list class="ion-no-padding">
         <ion-item *ngFor="let item of filteredList;
                             let index = index"
                 (click)="navigateToDiscussion(item)"
                 lines="none"
         >
             <div class="activityButtonContainer">
-                <ion-button class="activityButton" expand="block">{{item.name}}</ion-button>
+                <ion-button class="activityButton ion-no-margin" expand="block">{{item.name}}</ion-button>
             </div>
         </ion-item>
     </ion-list>
+    <ion-item lines="none">
+        {{activitiesFromFirestore|async|json}}
+    </ion-item>
     </div>
 
-    <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredListIsEmpty()" ></app-pendingrequests>-->
+    <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredListIsEmpty()" ></app-pendingrequests> -->
 
     <div *ngIf="filteredListIsEmpty()">
         <ion-button>Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center ">
                 <ion-item *ngFor="let request of displayList" lines="none">
-                    <ion-toggle></ion-toggle>
+                    <ion-toggle (ionChange)="action($event)"></ion-toggle>
                     <ion-label disabled="false">{{request.key}}</ion-label>
                     <ion-badge color="warning">{{requestsMap.get(request?.key)}}</ion-badge>
                 </ion-item>
             </div>
         </ion-list>
     </div>
-
+    </div>
 </ion-content>

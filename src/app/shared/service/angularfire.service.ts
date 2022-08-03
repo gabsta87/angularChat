@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { collection, collectionData, doc, DocumentData, Firestore, setDoc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
@@ -13,8 +14,15 @@ export class AngularfireService {
 
   constructor(private readonly _dbaccess:Firestore) { }
 
-  getMessages(){
-    const myCollection = collection(this._dbaccess,this._dbName);
+  getActivities(){
+    const myCollection = collection(this._dbaccess,this._dbName,"activities");
+    const q = query(myCollection);
+    this._myData = collectionData(q,{idField:'id'});
+    return this._myData;
+  }
+
+  getMessages(discussionId:string){
+    const myCollection = collection(this._dbaccess,this._dbName,"discussions",discussionId);
     const q = query(myCollection);
     this._myData = collectionData(q,{idField:'id'});
     return this._myData;

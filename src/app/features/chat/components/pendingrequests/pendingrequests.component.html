@@ -1,16 +1,14 @@
-<ion-content>
-    <ion-button>Create new request</ion-button>
-    <ion-list>
-        <div style="display: flex;" class="ion-justify-content-center ">
-            <ion-item *ngFor="let request of displayList" lines="none">
-                <ion-toggle></ion-toggle>
-                <ion-label disabled="false">{{request.key}}</ion-label>
-                <ion-badge color="warning">{{requestsMap.get(request?.key)}}</ion-badge>
-            </ion-item>
-        </div>
-    </ion-list>
-    <!-- <div style="display: flex;" class="ion-justify-content-center"> -->
-        <!-- <ion-input placeholder="Enter your activity" (ionChange)="filterRequests($event)"></ion-input>
-        <ion-button>Confirm</ion-button> -->
-    <!-- </div> -->
-</ion-content>
+<ion-list>
+    <div class="ion-justify-content-center myDiv">
+        <ion-item *ngFor="let request of displayList" lines="none">
+            <ion-toggle (ionChange)="action($event)"></ion-toggle>
+            <ion-label disabled="false">{{request.key}}</ion-label>
+            <ion-badge color="warning">{{requestsMap.get(request?.key)}}</ion-badge>
+        </ion-item>
+    </div>
+</ion-list>
+<ion-button>Create new request</ion-button>
+<!-- <div style="display: flex;" class="ion-justify-content-center"> -->
+    <!-- <ion-input placeholder="Enter your activity" (ionChange)="filterRequests($event)"></ion-input>
+    <ion-button>Confirm</ion-button> -->
+<!-- </div> -->

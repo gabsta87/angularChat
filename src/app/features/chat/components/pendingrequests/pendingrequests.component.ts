@@ -17,7 +17,7 @@ export class PendingrequestsComponent implements OnInit {
     this.loadData();
     console.log("search value : ",this.searchValue);
   }
-  
+
   ngOnInit(): void {
     console.log("search value : ",this.searchValue);
   }
@@ -36,5 +36,9 @@ export class PendingrequestsComponent implements OnInit {
 
   filter(){
     this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(this.searchValue.toLowerCase()));
+  }
+
+  action(event:any){
+    console.log("event = ",event);
   }
 }
