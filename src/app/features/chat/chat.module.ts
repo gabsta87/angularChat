@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MapComponent } from './components/pendingevents/map/map.component';
 import { AccountComponent } from './components/account/account.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AccountComponent } from './components/account/account.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     IonicModule,
     RouterModule.forChild(
       [{

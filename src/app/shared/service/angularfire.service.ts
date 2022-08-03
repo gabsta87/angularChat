@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, deleteDoc, doc, DocumentData, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
+import { collection, collectionData, doc, DocumentData, Firestore, setDoc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 
@@ -35,7 +35,6 @@ export class AngularfireService {
 
   writeMessageToDiscussion(discussion:string,message:string){
     const id = Date.now();
-    debugger;
     const docRef = doc(this._dbaccess,this._dbName+'/discussions/'+discussion+'/'+id);
     setDoc(docRef,{messageContent:message});
   }

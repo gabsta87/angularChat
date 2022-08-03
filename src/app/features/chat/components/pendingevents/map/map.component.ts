@@ -107,7 +107,12 @@ export class MapComponent implements OnInit,AfterViewInit{
       // })
 
       // Adding event listener
-      el.addEventListener("mouseup",mouseUpEvent=>{this.listener(el,mouseUpEvent,event);});
+      el.addEventListener("mouseup",mouseUpEvent=>{
+        mouseUpEvent.stopPropagation();
+        // mouseUpEvent.preventDefault();
+        this.listener(el,mouseUpEvent,event);
+      });
+
     }
   }
 
@@ -115,7 +120,7 @@ export class MapComponent implements OnInit,AfterViewInit{
     divMouseUpEvent:mapboxgl.MapMouseEvent | mapboxgl.EventData,
     parentEvent:mapboxgl.MapMouseEvent | mapboxgl.EventData){
     console.log("event raised : ",divMouseUpEvent," , elem : ",elem);
-    parentEvent.originalEvent.stopPropagation();
+    // parentEvent.originalEvent.stopPropagation();
 
     // Pourquoi le Popup ne fonctionne-t-il qu'avec l'event click ou mousedown, et non pas mouseup ?
     const popup = new mapboxgl.Popup({ offset: [0, -15] })
