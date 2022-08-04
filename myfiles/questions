@@ -1,3 +1,13 @@
+Conception très bizarre
+    Lister les sous-collections d'un document
+    La méthode listCollections() des bibliothèques clientes du serveur Cloud Firestore répertorie toutes les sous-collections d'une référence de document.
+
+    La récupération d'une liste de collections n'est pas possible avec les bibliothèques clientes mobiles/web. Vous ne devez rechercher les noms de collection que dans le cadre de tâches administratives dans des environnements de serveur approuvés. Si vous trouvez que vous avez besoin de cette fonctionnalité dans les bibliothèques clientes mobiles/web, envisagez de restructurer vos données afin que les noms de sous-collection soient prévisibles.
+
+UUID ne fonctionne pas malgré
+    npm install uuid
+    npm i --save-dev @types/uuid
+
 Est-ce possible d'avoir le code de l'encodage des tokens ?
 
 Observable.pipe(
