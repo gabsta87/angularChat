@@ -25,3 +25,6 @@ Afficher les requêtes en attente si on recherche un chat qui n'existe pas
 
 Pour créer un ID unique
 npm uuid
+
+pour l'encryption : openpgp.js, cryptojs
+Ou simple : environment : token.stringify puis .encode

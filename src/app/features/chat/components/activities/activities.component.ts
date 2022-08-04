@@ -37,7 +37,7 @@ export class ActivitiesComponent{
     });
     this.displayList = this.pendingRequestsList;
 
-    // this.activitiesFromFirestore = await this._dbAccess.getActivities();
+    this.activitiesFromFirestore = await this._dbAccess.getActivities();
     console.log("messages fs = ",this.activitiesFromFirestore);
   }
 

@@ -17,4 +17,23 @@
     position: fixed;
     bottom:0;
     width:100%;
+    border: 1px lightgray solid;
+    left:0px;
+    width: 100%;
+}
+
+.messageDetails{
+    font-size: small;
+    font-style: italic;
+    color: lightgray;
+}
+
+.messageBubble{
+    padding:6px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    margin: 5px;
 }

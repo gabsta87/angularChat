@@ -14,17 +14,18 @@ export class AngularfireService {
 
   constructor(private readonly _dbaccess:Firestore) { }
 
-  getActivities(){
-    const myCollection = collection(this._dbaccess,this._dbName,"activities");
+  async getActivities(){
+    // Need 1 more argument here
+    const myCollection = collection(this._dbaccess,this._dbName,"activities","2");
     const q = query(myCollection);
-    this._myData = collectionData(q,{idField:'id'});
+    this._myData = await collectionData(q,{idField:'id'});
     return this._myData;
   }
 
-  getMessages(discussionId:string){
+  async getMessages(discussionId:string){
     const myCollection = collection(this._dbaccess,this._dbName,"discussions",discussionId);
     const q = query(myCollection);
-    this._myData = collectionData(q,{idField:'id'});
+    this._myData = await collectionData(q,{idField:'id'});
     return this._myData;
   }
 
@@ -34,10 +35,10 @@ export class AngularfireService {
     setDoc(docRef,{messageContent:message});
   }
 
-  getMessagesFromDiscussion(discussion:string){
-    const myCollection = collection(this._dbaccess,this._dbName+'/discussions/'+discussion);
+  async getMessagesFromDiscussion(discussion:string){
+    const myCollection = collection(this._dbaccess,this._dbName,'/discussions/',discussion);
     const q = query(myCollection);
-    this._myData = collectionData(q,{idField:'id'});
+    this._myData = await collectionData(q,{idField:'id'});
     return this._myData;
   }
 

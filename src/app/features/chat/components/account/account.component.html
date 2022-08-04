@@ -11,9 +11,10 @@
     </ion-item>
     <ion-item>
         <ion-label>Use auto-location</ion-label>
-        <ion-toggle></ion-toggle>
+        <ion-toggle [(ngModel)]="autoLocation"></ion-toggle>
 
         <ion-label>Location</ion-label>
+        <!-- <ion-input *ngIf="!autoLocation; else 'disabled'"></ion-input> -->
         <ion-input></ion-input>
         <ion-button>Save</ion-button>
     </ion-item>

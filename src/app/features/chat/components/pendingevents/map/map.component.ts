@@ -41,7 +41,7 @@ export class MapComponent implements OnInit,AfterViewInit{
 
     setTimeout(()=>{
 
-      console.log(mapboxgl);
+      console.log("mapbox = ",mapboxgl);
 
       this.map = new mapboxgl.Map({
         container: 'map',

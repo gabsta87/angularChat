@@ -1,4 +1,13 @@
-
+Observable.pipe(
+    tap(e=>console.log(e)),
+    map((value:any[]) => {
+        return value.map((todo)=> {
+            const {userId,...data} = todo
+            return data;
+        })
+    )
+)
+    Comment accéder aux valeurs d'un observable
 
     comment faire pour utiliser un [(ngModel)] dans un ion-input ?
 
