@@ -1,11 +1,14 @@
-afficher sur la carte tous les événements dont la date n'est pas encore passée
+charger les messages depuis firestore
 permettre de cliquer sur un événement de la carte pour voir les infos et chat
 
+afficher sur la carte tous les événements dont la date n'est pas encore passée
 
 § passer la valeur de recherche des discussions à pending requests
 
 § Mettre le bouton/input pour le chat en bas et au centre
 § régler la discussion sur le bas
+
+§ Afficher les requêtes en attente si on recherche un chat qui n'existe pas
 
 Outil de recherche
     Selon les événements auquel l'utilisateur a participé, définir les clusters

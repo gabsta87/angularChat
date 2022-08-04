@@ -1,3 +1,5 @@
+Est-ce possible d'avoir le code de l'encodage des tokens ?
+
 Observable.pipe(
     tap(e=>console.log(e)),
     map((value:any[]) => {

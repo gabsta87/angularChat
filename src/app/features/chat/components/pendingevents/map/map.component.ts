@@ -51,7 +51,7 @@ export class MapComponent implements OnInit,AfterViewInit{
       });
 
       // Add map controls
-      this.map.addControl(new mapboxgl.NavigationControl());
+      this.map.addControl(new mapboxgl.NavigationControl({showCompass:true,showZoom:true,visualizePitch:true}));
 
       this.map.on("mousedown",event =>{
         console.log("mouse down event");
