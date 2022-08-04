@@ -1,8 +1,8 @@
-import { AsyncPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { collection, collectionData, doc, DocumentData, Firestore, setDoc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
+import { uuid } from 'uuidv4';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,14 @@ export class AngularfireService {
     // Need 1 more argument here
     const myCollection = collection(this._dbaccess,this._dbName,"activities","2");
     const q = query(myCollection);
-    this._myData = await collectionData(q,{idField:'id'});
+    this._myData = await collectionData(q,{idField:'id'}).pipe(
+      tap(e=>console.log(e)),
+      map((value:any[]) => {
+          return value.map((todo)=> {
+              const {userId,...data} = todo
+              return data;
+          })
+        }));
     return this._myData;
   }
 
@@ -30,7 +37,9 @@ export class AngularfireService {
   }
 
   writeMessage(message:string){
-    const id = Date.now();
+    const id = uuid();
+    console.log("id from uuid : ",id);
+    
     const docRef = doc(this._dbaccess,this._dbName+'/'+id);
     setDoc(docRef,{messageContent:message});
   }
@@ -43,7 +52,9 @@ export class AngularfireService {
   }
 
   writeMessageToDiscussion(discussion:string,message:string){
-    const id = Date.now();
+    const id = uuid();
+    console.log("id from uuid : ",id);
+    
     const docRef = doc(this._dbaccess,this._dbName+'/discussions/'+discussion+'/'+id);
     setDoc(docRef,{messageContent:message});
   }
