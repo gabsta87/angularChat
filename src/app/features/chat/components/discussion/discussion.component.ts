@@ -1,8 +1,8 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
-import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
   selector: 'app-discussion',
@@ -15,8 +15,7 @@ export class DiscussionComponent {
 
   discussionId!:string;
   discussionName!:string;
-  messagesFromFirestore!:any;
-  // messagesList!:{key:string, date: string, message: string, userId: string};
+  // messagesList!:{id:string, date: string, content: string, userId: string};
   messagesList!:any;
   usersMap = new Map();
   @ViewChild(IonContent) ionContent!:IonContent; 
@@ -25,7 +24,6 @@ export class DiscussionComponent {
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
     await this.loadData();
-    // await this.loadDataFromFirestore();
     setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 
@@ -33,31 +31,11 @@ export class DiscussionComponent {
     private readonly _route : ActivatedRoute, 
     // private readonly _dataLoader: DbaccessService,
     private readonly _fireStore:AngularfireService,
+    private readonly _auth:Auth,
     ){}
 
-  async loadDataFromFirestore(event?:any){
-    this.messagesList = [];
-
-    Object.entries(await this._fireStore.getMessages(this.discussionId))
-    .slice(1,)
-    .forEach(([key,value]:[key:string,value:any])=>{
-      this.messagesList.push({key,...value})
-    });
-
-    this.messagesList.forEach((elem:{userId:string}) => {
-      this.getUserName(elem.userId);
-    });
-  }
-
   async loadData(event?:any){
-    this.messagesList = [];
-
-    // Object.entries(await this._dataLoader.getMessages(this.discussionId))
-    Object.entries(await this._fireStore.getMessages(this.discussionId))
-    .slice(1,)
-    .forEach(([key,value]:[key:string,value:any])=>{
-      this.messagesList.push({key,...value})
-    });
+    this.messagesList = await this._fireStore.getMessages(this.discussionId);
 
     this.messagesList.forEach((elem:{userId:string}) => {
       this.getUserName(elem.userId);
@@ -68,8 +46,9 @@ export class DiscussionComponent {
     let temp = this.usersMap.get(userId);
     if(temp === undefined){
       temp = await this._fireStore.getUser(userId);
+
       if(temp)
-        this.usersMap.set(temp.key,temp.firstname);
+        this.usersMap.set(temp.id,temp.name);
     }
     return temp;
   }
@@ -84,13 +63,9 @@ export class DiscussionComponent {
   }
 
   sendMessage(){
-    // this._fireStore.writeMessage(this.currentMessage);
-    // this.currentMessage = "";
+    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"discussion",this._auth.currentUser);
+    this.currentMessage = "";
   }
 
-  sendMessageToDiscussion(){
-    // this._fireStore.writeMessageToDiscussion(this.discussionId,this.currentMessage);
-    // this.currentMessage = "";
-  }
 
 }

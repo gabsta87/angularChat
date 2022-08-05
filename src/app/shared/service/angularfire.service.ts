@@ -1,7 +1,8 @@
-import { Injectable, Query } from '@angular/core';
-import { collection, collectionData, doc, QueryConstraint, DocumentData, Firestore, getDoc, setDoc, where, limit, getDocs } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { User } from '@angular/fire/auth';
+import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, orderBy } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { map, Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -57,26 +58,38 @@ export class AngularfireService {
 
   async getUser(userId:string){
     let temp = await this.getUsers();
-    return temp.find((e:{id:string})=>{e.id === userId});
+    return temp.find((e:{id:string})=>e.id === userId);
   }
 
   createActivity(name:string){
     console.log("trying to add ",name," into db");
   }
 
-  async getMessages(discussionId:string,count?:number){
-    // TODO fix document/collection access
-    console.log("TODO fix document/collection access");
+  private async getMessagesFiltered(discussionId:string){
+    const myCollection = collection(this._dbaccess,"messages");
 
-    const discussion:QueryConstraint = where("refId","==",discussionId);
-    let messagesDoc = await this.getElements("messages",discussion)
+    const discussionFilter:QueryConstraint = where("discussionId","==",discussionId);
+    const orderByDate:QueryConstraint = orderBy("date","desc");
+
+    let data = await query(myCollection,discussionFilter,orderByDate)
+    const querySnapshot = await getDocs(data);
+
+    let result:any[] = [];
+    querySnapshot.forEach((doc) => {
+      result.push({id:doc.id,...doc.data()})
+    });
+    return result;
+  }
+
+  async getMessages(discussionId:string,count?:number){
+    let messagesDoc = await this.getMessagesFiltered(discussionId);
     console.log("messages : ",messagesDoc);
     return messagesDoc;
   }
 
-  writeMessage(discussionId:string,message:string,user:{id:string}){
-      // const docRef = doc(this._dbaccess,"messages");
-      // setDoc(docRef,{content:message,date:Date.now,discussionId:discussionId,user:user.id});
+  writeMessage(discussionId:string,message:string,type:string,user:User|null){
+    console.log("TODO : add user -> ",user);
+    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,type:type});
   }
 
   // addOrder(newValue:number){

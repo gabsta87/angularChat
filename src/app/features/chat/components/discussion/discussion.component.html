@@ -12,22 +12,18 @@
                 <ion-card-title>{{usersMap.get(item?.userId)}}</ion-card-title>
             </ion-card-header> -->
 
-            <ion-card-content class="ion-no-padding">{{item?.message}}</ion-card-content>
+            <ion-card-content class="ion-no-padding">{{item?.content}}</ion-card-content>
 
             <ion-label class="messageDetails">{{usersMap.get(item?.userId)}} at {{item.date}}</ion-label>
         </ion-card>
         </ion-row>
-
-        <ion-item lines="none">
-            {{messagesFromFirestore|async|json}}
-        </ion-item>
 
         <ion-row class="sendRow">
             <ion-item lines="none" class="sendGroup">
                 <!-- <ion-input placeholder="type here" (ionChange)="updateValue($event)"></ion-input> -->
                 <ion-input placeholder="type here" [(ngModel)]="currentMessage"></ion-input>
                 <!-- <ion-button expand="block" (click)="sendMessage()">Send</ion-button> -->
-                <ion-button class="sendButton" expand="block" (click)="sendMessageToDiscussion()">Send</ion-button>
+                <ion-button class="sendButton" expand="block" (click)="sendMessage()">Send</ion-button>
             </ion-item>
         </ion-row>
     </ion-grid>
