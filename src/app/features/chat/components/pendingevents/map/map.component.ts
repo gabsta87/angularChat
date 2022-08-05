@@ -119,7 +119,7 @@ export class MapComponent implements OnInit,AfterViewInit{
       el.addEventListener("mousedown",mouseUpEvent => {
         console.log("mouse down on div",mouseUpEvent);
 
-        mouseUpEvent.stopPropagation();
+        // mouseUpEvent.stopPropagation();
         this.listener(el,mouseUpEvent,event);
       });
 

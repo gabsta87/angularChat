@@ -30,3 +30,13 @@ ID unique
 
 Encryption : openpgp.js, cryptojs
     Ou simple : environment : token.stringify puis .encode
+    créer un fichier utils.js à la racine du projet avec les fonctions d'encodage/decodage
+    coller la fonction d'encodage dans le navigateur
+    encoder la variable d'environment et mettre le résultat dans environment
+    dans appmodule, modifier la ligne 
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+    pour insérer initializeApp(decode(environment.firebase))
+
+
+Observables :
+    https://nicolasfazio.ch/programmation/angular/angular-creer-service-reactif-observables

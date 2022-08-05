@@ -8,7 +8,10 @@ UUID ne fonctionne pas malgré
     npm install uuid
     npm i --save-dev @types/uuid
 
-Est-ce possible d'avoir le code de l'encodage des tokens ?
+Est-ce possible d'avoir le code de
+    l'encodage des tokens
+    BehaviorSubject
+    Resolver
 
 Observable.pipe(
     tap(e=>console.log(e)),

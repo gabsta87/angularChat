@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, DocumentData, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { collection, collectionData, doc, QueryConstraint, DocumentData, Firestore, getDoc, setDoc, where, limit } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { map, Observable, tap } from 'rxjs';
 
@@ -8,82 +8,76 @@ import { map, Observable, tap } from 'rxjs';
 })
 export class AngularfireService {
 
-  private _myData!:Observable<DocumentData[]>;
-  private _dbName:string = "meectivity";
+  private _messages!:Observable<DocumentData[]>;
 
   constructor(private readonly _dbaccess:Firestore) { }
 
-  activitiesList!:string[];
-
-  async getCollection(name:string){
-
-    const ref = doc(this._dbaccess,this._dbName,"name");
+  private async getElements(name:string){
+    const ref = doc(this._dbaccess,name);
     const myDoc:any = await getDoc(ref);
-    const collectionsList = myDoc._document.data.value.mapValue.fields.activitiesList["stringValue"].split(";");
+    const collectionsList = myDoc._document.data.value;
 
+    console.log("list of collections : ",collectionsList);
+
+    return collectionsList;
   }
 
   async getActivities(){
+    console.log("getting activities");
     // const myCollection = collection(this._dbaccess,this._dbName);
-    if(!this.activitiesList){
-      const messageRef = doc(this._dbaccess,this._dbName,"activities");
-      const myDoc:any = await getDoc(messageRef);
-      this.activitiesList = myDoc._document.data.value.mapValue.fields.activitiesList["stringValue"].split(";");
-    }
-    console.log("activities list = ",this.activitiesList);
     
-
-    // const final = doc(this._dbaccess,this._dbName,"activities").coll
+    let activitiesList = await this.getElements("activities");
     
+    console.log("activities list = ",activitiesList);
 
-    // const myDocument = document(this._dbaccess,this._dbName+"/activities/","Foot");
-    // const q = query(messageRef);
-    // this._myData = await collectionData(q,{idField:'id'}).pipe(
-    //   tap(e=>console.log("e = ",e)),
-    //   map((value:any[]) => {
-    //       return value.map((todo)=> {
-    //           const {userId,...data} = todo
-    //           return data;
-    //       })
-    //     }));
-    console.log("my data = ",this._myData);
-    return this._myData;
+    return activitiesList;
   }
+// const final = doc(this._dbaccess,this._dbName,"activities").coll
+
+// const myDocument = document(this._dbaccess,this._dbName+"/activities/","Foot");
+// const q = query(messageRef);
+// this._myData = await collectionData(q,{idField:'id'}).pipe(
+//   tap(e=>console.log("e = ",e)),
+//   map((value:any[]) => {
+//       return value.map((todo)=> {
+//           const {userId,...data} = todo
+//           return data;
+//       })
+//   }));
 
   createActivity(name:string){
-    console.log("trying to add ",name," into ",this.activitiesList);
-
-    if(!this.activitiesList.includes(name)){
-      let tempValue = (this.activitiesList.length > 0?";":"")+name;
-      console.log("pushing ",tempValue);
-      this.activitiesList.push(tempValue);
-      // Add the name to the list, and creates the subcollection
-    }
+    console.log("trying to add ",name," into db");
   }
 
-  async getMessages(discussionId:string){
-    const myCollection = collection(this._dbaccess,this._dbName,"discussions",discussionId);
-    const q = query(myCollection);
-    this._myData = await collectionData(q,{idField:'id'});
-    return this._myData;
+  async getMessages(discussionId:string,count?:number){
+    const myCollection = collection(this._dbaccess,"messages");
+    const discussion:QueryConstraint = where("refId","==",discussionId);
+
+    let quer;
+    if(count){
+      quer = query(myCollection,discussion,limit(count));
+    }else{
+      quer = query(myCollection,discussion);
+    }
+
+    this._messages = await collectionData(quer,{idField:'id'});
+    return this._messages;
   }
 
   writeMessage(message:string){
-    const id = Date.now();
-    const docRef = doc(this._dbaccess,this._dbName+'/'+id);
-    setDoc(docRef,{messageContent:message});
+    
   }
 
   async getMessagesFromDiscussion(discussion:string){
-    const myCollection = collection(this._dbaccess,this._dbName,'/discussions/',discussion);
+    const myCollection = collection(this._dbaccess,'/messages/',discussion);
     const q = query(myCollection);
-    this._myData = await collectionData(q,{idField:'id'});
-    return this._myData;
+    this._messages = await collectionData(q,{idField:'id'});
+    return this._messages;
   }
 
   writeMessageToDiscussion(discussion:string,message:string){
     const id = Date.now();
-    const docRef = doc(this._dbaccess,this._dbName+'/discussions/'+discussion+'/'+id);
+    const docRef = doc(this._dbaccess,'/messages/'+discussion+'/'+id);
     setDoc(docRef,{messageContent:message});
   }
 
