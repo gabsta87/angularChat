@@ -61,28 +61,20 @@ export class AngularfireService {
     return temp.find((e:{id:string})=>e.id === userId);
   }
 
-  createActivity(name:string){
+  async createActivity(name:string){
     console.log("trying to add ",name," into db");
-  }
-
-  private async getMessagesFiltered(discussionId:string){
-    const myCollection = collection(this._dbaccess,"messages");
-
-    const discussionFilter:QueryConstraint = where("discussionId","==",discussionId);
-    const orderByDate:QueryConstraint = orderBy("date","desc");
-
-    let data = await query(myCollection,discussionFilter,orderByDate)
-    const querySnapshot = await getDocs(data);
-
-    let result:any[] = [];
-    querySnapshot.forEach((doc) => {
-      result.push({id:doc.id,...doc.data()})
-    });
-    return result;
+    return await addDoc(collection(this._dbaccess,"activities"),{name:name});
+    // return result;
   }
 
   async getMessages(discussionId:string,count?:number){
-    let messagesDoc = await this.getMessagesFiltered(discussionId);
+    // TODO fix document/collection access
+    console.log("TODO fix document/collection access");
+
+    const discussion:QueryConstraint = where("discussionId","==",discussionId);
+    // const orderByDate:QueryConstraint = orderBy("date","desc");
+    let messagesDoc = await this.getElements("messages",discussion)
+    messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
     console.log("messages : ",messagesDoc);
     return messagesDoc;
   }

@@ -63,9 +63,8 @@ export class DiscussionComponent {
   }
 
   sendMessage(){
-    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"discussion",this._auth.currentUser);
+    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"activities",this._auth.currentUser);
     this.currentMessage = "";
   }
-
 
 }

@@ -23,7 +23,7 @@
     <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredListIsEmpty()" ></app-pendingrequests> -->
 
     <div *ngIf="filteredListIsEmpty()">
-        <ion-button>Create new request</ion-button>
+        <ion-button (click)="createActivity()">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center ">
                 <ion-item *ngFor="let request of displayList" lines="none">

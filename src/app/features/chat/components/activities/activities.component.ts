@@ -68,4 +68,9 @@ export class ActivitiesComponent{
   action(event:any){
     console.log("new value = ",event.detail.checked);
   }
+
+  createActivity(){
+    console.log("creating ",this.searchValue);
+    this._dbAccess.createActivity(this.searchValue);
+  }
 }
