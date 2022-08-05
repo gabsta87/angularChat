@@ -67,6 +67,11 @@ export class AngularfireService {
     // return result;
   }
 
+  async createUser(newUser:User){
+    console.log("new user : ",newUser);
+    
+  }
+
   async getMessages(discussionId:string,count?:number){
     // TODO fix document/collection access
     console.log("TODO fix document/collection access");
