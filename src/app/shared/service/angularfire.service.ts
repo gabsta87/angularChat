@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, QueryConstraint, DocumentData, Firestore, getDoc, setDoc, where, limit } from '@angular/fire/firestore';
+import { Injectable, Query } from '@angular/core';
+import { collection, collectionData, doc, QueryConstraint, DocumentData, Firestore, getDoc, setDoc, where, limit, getDocs } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { map, Observable, tap } from 'rxjs';
 
@@ -12,56 +12,47 @@ export class AngularfireService {
 
   constructor(private readonly _dbaccess:Firestore) { }
 
-  private async getElements(name:string){
-    const ref = doc(this._dbaccess,name);
-    const myDoc:any = await getDoc(ref);
-    const collectionsList = myDoc._document.data.value;
+  private async getElements(name:string,constraint?:QueryConstraint){
+    const myCollection = collection(this._dbaccess,name);
 
-    console.log("list of collections : ",collectionsList);
+    let data;
+    if(constraint){
+      data = await query(myCollection,constraint)
+    }else{
+      data = await query(myCollection);
+    }
 
-    return collectionsList;
+    const querySnapshot = await getDocs(data);
+
+    let result:any[] = [];
+    querySnapshot.forEach((doc) => {
+      result.push({id:doc.id,...doc.data()})
+    });
+
+    return result;
+  }
+
+  async getPendingRequests(){
+    let requestsList = await this.getElements("requests");
+    console.log("requests : ",requestsList);
+    return requestsList;
   }
 
   async getActivities(){
-    console.log("getting activities");
-    // const myCollection = collection(this._dbaccess,this._dbName);
-    
     let activitiesList = await this.getElements("activities");
-    
-    console.log("activities list = ",activitiesList);
-
+    console.log("activities : ",activitiesList);
     return activitiesList;
   }
-// const final = doc(this._dbaccess,this._dbName,"activities").coll
-
-// const myDocument = document(this._dbaccess,this._dbName+"/activities/","Foot");
-// const q = query(messageRef);
-// this._myData = await collectionData(q,{idField:'id'}).pipe(
-//   tap(e=>console.log("e = ",e)),
-//   map((value:any[]) => {
-//       return value.map((todo)=> {
-//           const {userId,...data} = todo
-//           return data;
-//       })
-//   }));
 
   createActivity(name:string){
     console.log("trying to add ",name," into db");
   }
 
   async getMessages(discussionId:string,count?:number){
-    const myCollection = collection(this._dbaccess,"messages");
     const discussion:QueryConstraint = where("refId","==",discussionId);
-
-    let quer;
-    if(count){
-      quer = query(myCollection,discussion,limit(count));
-    }else{
-      quer = query(myCollection,discussion);
-    }
-
-    this._messages = await collectionData(quer,{idField:'id'});
-    return this._messages;
+    let messagesDoc = await this.getElements("messages",discussion)
+    console.log("messages : ",messagesDoc);
+    return messagesDoc;
   }
 
   writeMessage(message:string){

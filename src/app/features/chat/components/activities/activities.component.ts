@@ -29,7 +29,6 @@ export class ActivitiesComponent{
   async loadData(){
     let temp = await this._dataLoader.getActivities();
     this.activitiesList = Object.keys(temp).map(key => ({id: key, ...temp[key]}));
-    this.filteredList = this.activitiesList;
 
     this.pendingRequestsList = await this._dataLoader.getPendingRequests();
     Object.entries(this.pendingRequestsList).forEach((element:any) => {
@@ -37,10 +36,13 @@ export class ActivitiesComponent{
     });
     this.displayList = this.pendingRequestsList;
 
-    console.log("db access : ",this._dbAccess);
+    console.log("messages json : ",this.activitiesList);
 
     this.activitiesFromFirestore = await this._dbAccess.getActivities();
+    this.activitiesList = this.activitiesFromFirestore;
+    this.filteredList = this.activitiesList;
     console.log("messages fs = ",this.activitiesFromFirestore);
+    console.log("messages filtered = ",this.filteredList);
   }
 
   navigateToDiscussion(item:{id:string,name:string}){

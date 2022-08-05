@@ -40,3 +40,14 @@ Encryption : openpgp.js, cryptojs
 
 Observables :
     https://nicolasfazio.ch/programmation/angular/angular-creer-service-reactif-observables
+
+Pipes sur Observables
+// let finalData = activitiesList.pipe(
+//   tap(e=>console.log("e = ",e)),
+//   map((value:any[]) => {
+//     return value.map((elem)=>{
+//       const {userId,...data} = elem
+//       return data;
+//     })
+//   })
+// );
