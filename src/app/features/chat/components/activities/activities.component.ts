@@ -20,29 +20,29 @@ export class ActivitiesComponent{
   activitiesFromFirestore:any;
 
   constructor(
-    private readonly _dataLoader : DbaccessService,
+    // private readonly _dataLoader : DbaccessService,
     private readonly _route : Router,
     private readonly _dbAccess : AngularfireService) {
     this.loadData();
   }
 
   async loadData(){
-    let temp = await this._dataLoader.getActivities();
-    this.activitiesList = Object.keys(temp).map(key => ({id: key, ...temp[key]}));
+    // let temp = await this._dataLoader.getActivities();
+    // this.activitiesList = Object.keys(temp).map(key => ({id: key, ...temp[key]}));
 
-    this.pendingRequestsList = await this._dataLoader.getPendingRequests();
-    Object.entries(this.pendingRequestsList).forEach((element:any) => {
-      this.requestsMap.set(element[1].key,Object.entries(element[1]).length-1);
-    });
+    // this.pendingRequestsList = await this._dataLoader.getPendingRequests();
+    // Object.entries(this.pendingRequestsList).forEach((element:any) => {
+    //   this.requestsMap.set(element[1].key,Object.entries(element[1]).length-1);
+    // });
+    
+    // console.log("messages json : ",this.activitiesList);
+    
+    this.pendingRequestsList = await this._dbAccess.getPendingRequests();
     this.displayList = this.pendingRequestsList;
 
-    console.log("messages json : ",this.activitiesList);
-
-    this.activitiesFromFirestore = await this._dbAccess.getActivities();
-    this.activitiesList = this.activitiesFromFirestore;
+    this.activitiesList = await this._dbAccess.getActivities();
     this.filteredList = this.activitiesList;
-    console.log("messages fs = ",this.activitiesFromFirestore);
-    console.log("messages filtered = ",this.filteredList);
+    console.log("filtered = ",this.filteredList);
   }
 
   navigateToDiscussion(item:{id:string,name:string}){
@@ -56,7 +56,7 @@ export class ActivitiesComponent{
   }
 
   filterRequests(event:any){
-    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(event.detail.value.toLowerCase()));
+    this.displayList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(event.detail.value.toLowerCase()));
   }
 
   filteredListIsEmpty(){

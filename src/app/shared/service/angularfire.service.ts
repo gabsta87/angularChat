@@ -28,7 +28,6 @@ export class AngularfireService {
     querySnapshot.forEach((doc) => {
       result.push({id:doc.id,...doc.data()})
     });
-
     return result;
   }
 
@@ -44,32 +43,40 @@ export class AngularfireService {
     return activitiesList;
   }
 
+  async getEvents(){
+    let eventsList = await this.getElements("events");
+    console.log("events : ",eventsList);
+    return eventsList;
+  }
+
+  async getUsers(){
+    let usersList = await this.getElements("users");
+    console.log("users : ",usersList);
+    return usersList;
+  }
+
+  async getUser(userId:string){
+    let temp = await this.getUsers();
+    return temp.find((e:{id:string})=>{e.id === userId});
+  }
+
   createActivity(name:string){
     console.log("trying to add ",name," into db");
   }
 
   async getMessages(discussionId:string,count?:number){
+    // TODO fix document/collection access
+    console.log("TODO fix document/collection access");
+
     const discussion:QueryConstraint = where("refId","==",discussionId);
     let messagesDoc = await this.getElements("messages",discussion)
     console.log("messages : ",messagesDoc);
     return messagesDoc;
   }
 
-  writeMessage(message:string){
-    
-  }
-
-  async getMessagesFromDiscussion(discussion:string){
-    const myCollection = collection(this._dbaccess,'/messages/',discussion);
-    const q = query(myCollection);
-    this._messages = await collectionData(q,{idField:'id'});
-    return this._messages;
-  }
-
-  writeMessageToDiscussion(discussion:string,message:string){
-    const id = Date.now();
-    const docRef = doc(this._dbaccess,'/messages/'+discussion+'/'+id);
-    setDoc(docRef,{messageContent:message});
+  writeMessage(discussionId:string,message:string,user:{id:string}){
+      // const docRef = doc(this._dbaccess,"messages");
+      // setDoc(docRef,{content:message,date:Date.now,discussionId:discussionId,user:user.id});
   }
 
   // addOrder(newValue:number){

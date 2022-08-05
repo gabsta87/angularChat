@@ -29,9 +29,10 @@ export class DiscussionComponent {
     setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 
-  constructor(private readonly _route : ActivatedRoute, 
-    private readonly _dataLoader: DbaccessService,
-    private readonly _fireStore:AngularfireService
+  constructor(
+    private readonly _route : ActivatedRoute, 
+    // private readonly _dataLoader: DbaccessService,
+    private readonly _fireStore:AngularfireService,
     ){}
 
   async loadDataFromFirestore(event?:any){
@@ -51,7 +52,8 @@ export class DiscussionComponent {
   async loadData(event?:any){
     this.messagesList = [];
 
-    Object.entries(await this._dataLoader.getMessages(this.discussionId))
+    // Object.entries(await this._dataLoader.getMessages(this.discussionId))
+    Object.entries(await this._fireStore.getMessages(this.discussionId))
     .slice(1,)
     .forEach(([key,value]:[key:string,value:any])=>{
       this.messagesList.push({key,...value})
@@ -65,7 +67,7 @@ export class DiscussionComponent {
   async getUserName(userId:string){
     let temp = this.usersMap.get(userId);
     if(temp === undefined){
-      temp = await this._dataLoader.getUser(userId);
+      temp = await this._fireStore.getUser(userId);
       if(temp)
         this.usersMap.set(temp.key,temp.firstname);
     }
@@ -82,13 +84,13 @@ export class DiscussionComponent {
   }
 
   sendMessage(){
-    this._fireStore.writeMessage(this.currentMessage);
-    this.currentMessage = "";
+    // this._fireStore.writeMessage(this.currentMessage);
+    // this.currentMessage = "";
   }
 
   sendMessageToDiscussion(){
-    this._fireStore.writeMessageToDiscussion(this.discussionId,this.currentMessage);
-    this.currentMessage = "";
+    // this._fireStore.writeMessageToDiscussion(this.discussionId,this.currentMessage);
+    // this.currentMessage = "";
   }
 
 }

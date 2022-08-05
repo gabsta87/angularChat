@@ -28,8 +28,8 @@
             <div style="display: flex;" class="ion-justify-content-center ">
                 <ion-item *ngFor="let request of displayList" lines="none">
                     <ion-toggle (ionChange)="action($event)"></ion-toggle>
-                    <ion-label disabled="false">{{request.key}}</ion-label>
-                    <ion-badge color="warning">{{requestsMap.get(request?.key)}}</ion-badge>
+                    <ion-label disabled="false">{{request.name}}</ion-label>
+                    <ion-badge color="warning">{{requestsMap.get(request?.name)}}</ion-badge>
                 </ion-item>
             </div>
         </ion-list>
