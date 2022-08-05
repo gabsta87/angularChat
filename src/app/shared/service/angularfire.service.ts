@@ -69,6 +69,15 @@ export class AngularfireService {
 
   async createUser(newUser:User){
     console.log("new user : ",newUser);
+    let userId = newUser.uid;
+    console.log("user id : ",userId);
+    let userStored = await this.getUser(userId);
+    console.log("user stored : ",userStored);
+    if(!userStored){
+      console.log("TODO : register user in firestore");
+      // TODO register user in firestore
+    }
+    
     
   }
 
