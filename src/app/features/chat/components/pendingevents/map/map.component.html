@@ -1,2 +1,11 @@
 
-<div class="map" id="map" class="match-parent"></div>
+<!-- <div class="map" id="map" class="match-parent"></div> -->
+<div *ngIf="isViewLoaded === true">
+
+    <mgl-map
+    [style]="'mapbox://styles/mapbox/streets-v9'"
+    [zoom]="[12]"
+    [center]="[lng,lat]"
+    >
+    </mgl-map>
+</div>

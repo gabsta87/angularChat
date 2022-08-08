@@ -13,6 +13,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MapComponent } from './components/pendingevents/map/map.component';
 import { AccountComponent } from './components/account/account.component';
 import { FormsModule } from '@angular/forms';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken, // Optional, can also be set per map (accessToken input of mgl-map)
+    }),
     IonicModule,
     RouterModule.forChild(
       [{

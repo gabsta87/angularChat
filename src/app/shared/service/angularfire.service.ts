@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc } from '@angular/fire/firestore';
+import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +13,27 @@ export class AngularfireService {
 
   constructor(private readonly _dbaccess:Firestore) { }
 
-  private async getElements(name:string,constraint?:QueryConstraint){
+  private async getElements(name:string,...constraint:QueryConstraint[]){
     const myCollection = collection(this._dbaccess,name);
 
     let data;
     if(constraint){
-      data = await query(myCollection,constraint)
+      data = await query(myCollection,...constraint)
     }else{
       data = await query(myCollection);
     }
     // collectionData...
 
     const querySnapshot = await getDocs(data);
+
+    const observableStream = collectionData(data, {idField: 'id'}).pipe(
+      map(datas => {
+        // ici je peux manipuler les datas ...
+
+        // j'ouble pas de reourner les data manipulée
+        return datas;
+      })
+    )
 
     let result:any[] = [];
     querySnapshot.forEach((doc) => {
@@ -87,9 +96,9 @@ export class AngularfireService {
     console.log("TODO fix document/collection access");
 
     const discussion:QueryConstraint = where("discussionId","==",discussionId);
-    // const orderByDate:QueryConstraint = orderBy("date","desc");
-    let messagesDoc = await this.getElements("messages",discussion)
-    messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
+    const orderByDate:QueryConstraint = orderBy("date","asc");
+    let messagesDoc = await this.getElements("messages",discussion,orderByDate)
+    // messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
     console.log("messages : ",messagesDoc);
     return messagesDoc;
   }

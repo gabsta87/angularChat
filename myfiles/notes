@@ -51,3 +51,5 @@ Pipes sur Observables
 //     })
 //   })
 // );
+
+dayjs pour l'affichage des dates
