@@ -1,3 +1,9 @@
+utiliser les observables plutot que les promises
+inscrire les utilisateurs dans la base de données
+supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
+charger la liste des requêtes correctement pour chaque utilisateur
+supprimer toutes les méthodes appelées depuis le HTML (sinon elles sont rechargées à chaque mouvement de souris)
+
 charger les messages depuis firestore
 permettre de cliquer sur un événement de la carte pour voir les infos et chat
 

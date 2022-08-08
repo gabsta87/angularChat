@@ -1,20 +1,20 @@
 <app-header [parentPage]="'activities'" [title]="discussionName"></app-header>
 <ion-content>
-    <ion-grid style="margin-bottom: 3rem;">
-        <ion-row *ngFor="let item of messagesList;
+    <ion-grid style="margin-bottom: 3rem;" *ngIf="messagesList|async as list">
+        <ion-row *ngFor="let item of list;
                             let index = index"
                             lines="none"
         >
-        <ion-card class="messageBubble">
-            <ion-card-content class="ion-no-padding">{{item?.content}}</ion-card-content>
+            <ion-card class="messageBubble">
+                <ion-card-content class="ion-no-padding">{{item['content']}}</ion-card-content>
 
-            <ion-label class="messageDetails">{{usersMap.get(item?.userId)}} at {{item.date|date:'H:mm dd.MM.y'}}</ion-label>
-        </ion-card>
+                <ion-label class="messageDetails">{{usersMap.get(item['userId'])}} at {{item['date']|date:'H:mm dd.MM.y'}}</ion-label>
+            </ion-card>
         </ion-row>
 
         <ion-row class="sendRow">
             <ion-item lines="none" class="sendGroup">
-                <ion-input placeholder="type here" [(ngModel)]="currentMessage"></ion-input>
+                <ion-input placeholder="type here" [(ngModel)]="currentMessage" (keypress)="checkKey($event)"></ion-input>
                 <ion-button class="sendButton" expand="block" (click)="sendMessage()">Send</ion-button>
             </ion-item>
         </ion-row>

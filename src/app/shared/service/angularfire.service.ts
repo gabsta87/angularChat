@@ -3,72 +3,64 @@ import { User } from '@angular/fire/auth';
 import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { map, Observable } from 'rxjs';
+import { DataAccess } from './dataAccess';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AngularfireService {
-
-  private _messages!:Observable<DocumentData[]>;
+export class AngularfireService implements DataAccess{
 
   constructor(private readonly _dbaccess:Firestore) { }
 
   private async getElements(name:string,...constraint:QueryConstraint[]){
     const myCollection = collection(this._dbaccess,name);
 
-    let data;
-    if(constraint){
-      data = await query(myCollection,...constraint)
-    }else{
-      data = await query(myCollection);
-    }
-    // collectionData...
+    let data = await query(myCollection,...constraint)
 
     const querySnapshot = await getDocs(data);
 
-    const observableStream = collectionData(data, {idField: 'id'}).pipe(
-      map(datas => {
-        // ici je peux manipuler les datas ...
+    const observableStream = collectionData(data, {idField: 'id'})
+    return observableStream;
 
-        // j'ouble pas de reourner les data manipulée
-        return datas;
-      })
-    )
+    // observableStream.pipe(
+    //   map(datas => {
+    //     // ici je peux manipuler les datas ...
 
-    let result:any[] = [];
-    querySnapshot.forEach((doc) => {
-      result.push({id:doc.id,...doc.data()})
-    });
-    return result;
+    //     // je n'oublie pas de retourner les data manipulées
+    //     return datas;
+    //   })
+    // )
   }
 
   async getPendingRequests(){
     let requestsList = await this.getElements("requests");
-    console.log("requests : ",requestsList);
     return requestsList;
   }
 
   async getActivities(){
     let activitiesList = await this.getElements("activities");
-    console.log("activities : ",activitiesList);
     return activitiesList;
+  }
+
+  async getActivity(activityId:string){
+    let temp = await this.getActivities();
+    return temp.pipe(map(datas => datas.find(e => e['id'] === activityId)));
   }
 
   async getEvents(){
     let eventsList = await this.getElements("events");
-    console.log("events : ",eventsList);
     return eventsList;
   }
 
   async getUsers(){
     let usersList = await this.getElements("users");
-    console.log("users : ",usersList);
     return usersList;
   }
 
   async getUser(userId:string){
     let temp = await this.getUsers();
-    return temp.find((e:{id:string})=>e.id === userId);
+    return temp.pipe(map(datas => datas.find(e => e['id'] === userId)));
+    // return temp.find((e:{id:string})=>e.id === userId);
   }
 
   async createActivity(name:string){
@@ -87,25 +79,32 @@ export class AngularfireService {
       console.log("TODO : register user in firestore");
       // TODO register user in firestore
     }
-    
-    
   }
 
   async getMessages(discussionId:string,count?:number){
-    // TODO fix document/collection access
-    console.log("TODO fix document/collection access");
-
     const discussion:QueryConstraint = where("discussionId","==",discussionId);
     const orderByDate:QueryConstraint = orderBy("date","asc");
-    let messagesDoc = await this.getElements("messages",discussion,orderByDate)
+    let messagesDoc = await this.getElements("messages",discussion,orderByDate);
     // messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
-    console.log("messages : ",messagesDoc);
     return messagesDoc;
   }
 
   writeMessage(discussionId:string,message:string,type:string,user:User|null){
     console.log("TODO : add user -> ",user);
     addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,type:type});
+  }
+
+  createPendingRequest(name: string, userId: string) {
+    throw new Error('Method not implemented.');
+  }
+  deletePendingRequest(requestId: string) {
+    throw new Error('Method not implemented.');
+  }
+  createEvent(name: string, creatorId: string, date: string, location: string) {
+    throw new Error('Method not implemented.');
+  }
+  deleteEvent(eventId: string) {
+    throw new Error('Method not implemented.');
   }
 
   // addOrder(newValue:number){

@@ -22,9 +22,9 @@ import { environment } from 'src/environments/environment';
     MainComponent,
     ActivitiesComponent,
     DiscussionComponent,
-    PendingrequestsComponent,
     EventComponent,
     PendingeventsComponent,
+    PendingrequestsComponent,
     HeaderComponent,
     FooterComponent,
     MapComponent,
@@ -65,7 +65,7 @@ import { environment } from 'src/environments/environment';
   providers:[
   ],
   schemas:[
-    NO_ERRORS_SCHEMA,
+    // NO_ERRORS_SCHEMA,
   ]
   // bootstrap: [],
 })

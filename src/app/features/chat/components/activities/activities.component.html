@@ -1,35 +1,32 @@
 <ion-content>
     <div className="custom_body">
     <ion-input class="searchbar"
-        placeholder="Enter your activity" 
+        placeholder="Enter your activity"
         (ionChange)="filterActivities($event)"
         (ionChange)="filterRequests($event)"
     ></ion-input>
 
     <div class="ion-justify-content-center ion-align-items-center">
-    <ion-list class="ion-no-padding">
-        <ion-item *ngFor="let item of filteredActivitiesList;
+    <ion-list class="ion-no-padding" *ngIf="filteredActivitiesList|async as items">
+        <ion-item *ngFor="let item of items;
                             let index = index"
                 (click)="navigateToDiscussion(item)"
-                lines="none"
-        >
+                lines="none">
             <div class="activityButtonContainer">
-                <ion-button class="activityButton ion-no-margin" expand="block">{{item.name}}</ion-button>
+                <ion-button class="activityButton ion-no-margin" expand="block">{{item['name']}}</ion-button>
             </div>
         </ion-item>
     </ion-list>
     </div>
 
-    <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredActivitiesListIsEmpty()" ></app-pendingrequests> -->
-
     <div *ngIf="filteredActivitiesListIsEmpty()">
         <ion-button (click)="createActivity()" [disabled]="!pendingRequestsIsEmpty()">Create new request</ion-button>
         <ion-list>
-            <div style="display: flex;" class="ion-justify-content-center ">
-                <ion-item *ngFor="let request of filteredPendingRequestsList" lines="none">
+            <div style="display: flex;" class="ion-justify-content-center" *ngIf="filteredPendingRequestsList|async as requests">
+                <ion-item *ngFor="let request of requests" lines="none">
                     <ion-toggle (ionChange)="action($event)"></ion-toggle>
-                    <ion-label disabled="false">{{request.name}}</ion-label>
-                    <ion-badge color="warning">{{requestsMap.get(request?.name)}}</ion-badge>
+                    <ion-label disabled="false">{{request['name']}}</ion-label>
+                    <ion-badge color="warning">{{requestsMap.get(request['name'])}}</ion-badge>
                 </ion-item>
             </div>
         </ion-list>

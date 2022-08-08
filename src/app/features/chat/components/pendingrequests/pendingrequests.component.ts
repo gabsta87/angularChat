@@ -1,41 +1,38 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
+import { DocumentData } from '@angular/fire/firestore';
+import { map, Observable } from 'rxjs';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { DataAccess } from 'src/app/shared/service/dataAccess';
 
 @Component({
   selector: 'app-pendingrequests',
   templateUrl: './pendingrequests.component.html',
   styleUrls: ['./pendingrequests.component.scss']
 })
-export class PendingrequestsComponent implements OnInit {
+export class PendingrequestsComponent implements OnInit{
 
   @Input() searchValue:any;
   pendingRequestsList!:any;
-  displayList!:any;
+  pendingRequestsListFiltered!:Observable<DocumentData[]>;
   requestsMap = new Map();
 
-  constructor(private readonly _dbLoader: DbaccessService) {
-    this.loadData();
-    console.log("search value : ",this.searchValue);
-  }
+  constructor(private readonly _dataAccess: AngularfireService) {}
 
   ngOnInit(): void {
-    console.log("search value : ",this.searchValue);
+    this.loadData();
   }
 
   async loadData(){
-    this.pendingRequestsList = await this._dbLoader.getPendingRequests();
-    Object.entries(this.pendingRequestsList).forEach((element:any) => {
-      this.requestsMap.set(element[1].key,Object.entries(element[1]).length-1);
-    });
-    this.displayList = this.pendingRequestsList;
-  }
-
-  filterOld(event:any){
-    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(event.detail.value.toLowerCase()));
+    this.pendingRequestsList = await this._dataAccess.getPendingRequests();
+    this.pendingRequestsListFiltered = this.pendingRequestsList;
   }
 
   filter(){
-    this.displayList = this.pendingRequestsList.filter((e:any) => e.key.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.pendingRequestsListFiltered = 
+    this.pendingRequestsList.pipe(map((e:any)=>  e
+    .filter((e:any) => e['name'].toLowerCase().includes(this.searchValue.toLowerCase()))
+    )
+    );
   }
 
   action(event:any){

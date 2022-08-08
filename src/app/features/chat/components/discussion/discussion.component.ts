@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
+import { map, Observable } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -9,22 +11,22 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   templateUrl: './discussion.component.html',
   styleUrls: ['./discussion.component.scss']
 })
-export class DiscussionComponent {
+export class DiscussionComponent implements OnInit{
 
   currentMessage!:any;
 
   discussionId!:string;
   discussionName!:string;
-  // messagesList!:{id:string, date: string, content: string, userId: string};
-  messagesList!:any;
+  messagesList!:Observable<DocumentData[]>;
   usersMap = new Map();
   @ViewChild(IonContent) ionContent!:IonContent; 
 
   async ionViewWillEnter(){
-    this.discussionId = this._route.snapshot.queryParams["discussionId"];
-    this.discussionName = this._route.snapshot.queryParams["discussionName"];
-    await this.loadData();
     setTimeout(()=>this.ionContent.scrollToBottom(),125);
+  }
+
+  async ngOnInit(){
+    await this.loadData();
   }
 
   constructor(
@@ -32,14 +34,13 @@ export class DiscussionComponent {
     // private readonly _dataLoader: DbaccessService,
     private readonly _fireStore:AngularfireService,
     private readonly _auth:Auth,
-    ){}
+  ){}
 
-  async loadData(event?:any){
+  async loadData(){
+    this.discussionId = this._route.snapshot.queryParams["discussionId"];
+    this.discussionName = this._route.snapshot.queryParams["discussionName"];
     this.messagesList = await this._fireStore.getMessages(this.discussionId);
-
-    this.messagesList.forEach((elem:{userId:string}) => {
-      this.getUserName(elem.userId);
-    });
+    this.messagesList.pipe(map((e:any) => this.getUserName(e.userId)));
   }
 
   async getUserName(userId:string){
@@ -67,4 +68,9 @@ export class DiscussionComponent {
     this.currentMessage = "";
   }
 
+  checkKey(event:any){
+    if(event.charCode === 13){
+      this.sendMessage();
+    }
+  }
 }
