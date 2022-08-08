@@ -1,6 +1,6 @@
 <ion-content>
     <div className="custom_body">
-    <ion-input 
+    <ion-input class="searchbar"
         placeholder="Enter your activity" 
         (ionChange)="filterActivities($event)"
         (ionChange)="filterRequests($event)"
@@ -8,7 +8,7 @@
 
     <div class="ion-justify-content-center ion-align-items-center">
     <ion-list class="ion-no-padding">
-        <ion-item *ngFor="let item of filteredList;
+        <ion-item *ngFor="let item of filteredActivitiesList;
                             let index = index"
                 (click)="navigateToDiscussion(item)"
                 lines="none"
@@ -20,13 +20,13 @@
     </ion-list>
     </div>
 
-    <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredListIsEmpty()" ></app-pendingrequests> -->
+    <!-- <app-pendingrequests [searchValue]="searchValue" *ngIf="filteredActivitiesListIsEmpty()" ></app-pendingrequests> -->
 
-    <div *ngIf="filteredListIsEmpty()">
-        <ion-button (click)="createActivity()">Create new request</ion-button>
+    <div *ngIf="filteredActivitiesListIsEmpty()">
+        <ion-button (click)="createActivity()" [disabled]="!pendingRequestsIsEmpty()">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center ">
-                <ion-item *ngFor="let request of displayList" lines="none">
+                <ion-item *ngFor="let request of filteredPendingRequestsList" lines="none">
                     <ion-toggle (ionChange)="action($event)"></ion-toggle>
                     <ion-label disabled="false">{{request.name}}</ion-label>
                     <ion-badge color="warning">{{requestsMap.get(request?.name)}}</ion-badge>

@@ -11,11 +11,11 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 export class ActivitiesComponent{
 
   activitiesList:any;
-  filteredList:any;
+  filteredActivitiesList:any;
   searchValue!:string;
 
   pendingRequestsList!:any;
-  displayList!:any;
+  filteredPendingRequestsList!:any;
   requestsMap = new Map();
   activitiesFromFirestore:any;
 
@@ -38,11 +38,11 @@ export class ActivitiesComponent{
     // console.log("messages json : ",this.activitiesList);
     
     this.pendingRequestsList = await this._dbAccess.getPendingRequests();
-    this.displayList = this.pendingRequestsList;
+    this.filteredPendingRequestsList = this.pendingRequestsList;
 
     this.activitiesList = await this._dbAccess.getActivities();
-    this.filteredList = this.activitiesList;
-    console.log("filtered = ",this.filteredList);
+    this.filteredActivitiesList = this.activitiesList;
+    console.log("filtered = ",this.filteredActivitiesList);
   }
 
   navigateToDiscussion(item:{id:string,name:string}){
@@ -51,18 +51,18 @@ export class ActivitiesComponent{
 
   filterActivities(event:any){
     let temp = event.detail.value;
-    this.filteredList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(temp.toLowerCase()));
+    this.filteredActivitiesList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(temp.toLowerCase()));
     this.searchValue = temp;
   }
 
   filterRequests(event:any){
-    this.displayList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(event.detail.value.toLowerCase()));
+    this.filteredPendingRequestsList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(event.detail.value.toLowerCase()));
   }
 
-  filteredListIsEmpty(){
-    if(this.filteredList === undefined)
+  filteredActivitiesListIsEmpty(){
+    if(this.filteredActivitiesList === undefined)
       return true;
-    return this.filteredList.length === 0;
+    return this.filteredActivitiesList.length === 0;
   }
 
   action(event:any){
@@ -72,5 +72,14 @@ export class ActivitiesComponent{
   createActivity(){
     console.log("creating ",this.searchValue);
     this._dbAccess.createActivity(this.searchValue);
+    // TODO 
+    // this._dbAccess.removePendingRequest(this.searchValue);
+    this.searchValue = "";
+  }
+
+  pendingRequestsIsEmpty(){
+    if(this.filteredPendingRequestsList === undefined)
+      return true
+    return this.filteredPendingRequestsList.length === 0;
   }
 }

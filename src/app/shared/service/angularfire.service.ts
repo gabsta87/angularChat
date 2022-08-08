@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, orderBy } from '@angular/fire/firestore';
+import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 
@@ -22,6 +22,7 @@ export class AngularfireService {
     }else{
       data = await query(myCollection);
     }
+    // collectionData...
 
     const querySnapshot = await getDocs(data);
 
