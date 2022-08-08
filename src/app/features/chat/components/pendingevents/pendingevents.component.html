@@ -1,9 +1,11 @@
 <ion-content>
     <app-map></app-map>
     <ion-input placeholder="Search for an event" (ionChange)="filter($event)"></ion-input>
-    <ion-list>
+    {{filteredList|json}}
+    <ion-list *ngIf="filteredList|async as list">
+        {{list|json}}
         <ion-item 
-            *ngFor="let event of filteredList; let index = index" 
+            *ngFor="let event of list; let index = index" 
             lines="none" 
             (click)="navigateToEventDetail(event.key)"
         >

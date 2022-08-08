@@ -1,3 +1,7 @@
+Comment résoudre le problème des variables booléennes censées gérer l'apparition/disparition de mon bloc "create new request"
+ajout de l'interface fait planter les imports
+Quelle est la différence entre getEvents() et getActivities()
+
 Conception très bizarre
     Lister les sous-collections d'un document
     La méthode listCollections() des bibliothèques clientes du serveur Cloud Firestore répertorie toutes les sous-collections d'une référence de document.

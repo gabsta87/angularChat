@@ -21,25 +21,25 @@ export class PendingeventsComponent {
   async loadData(){
     this.pendingEvents = await this._dbAccess.getEvents();
 
-    this.pendingEvents.forEach((e:any)=> {
-      this._dbAccess.getUser(e.creator).then((creatorName:any)=>
-        // this.usersMap.set(e.creator,creatorName.firstname)
-        e.creator = creatorName.firstname
-      );
+    // this.pendingEvents.forEach((e:any)=> {
+    //   this._dbAccess.getUser(e.creator).then((creatorName:any)=>
+    //     // this.usersMap.set(e.creator,creatorName.firstname)
+    //     e.creator = creatorName.firstname
+    //   );
 
-      e.users.forEach((userId:any,index:number) => {
-        this._dbAccess.getUser(userId).then((userName:any)=>{
-          if(userName !== undefined)
-            e.users[index] = userName.firstname;
-            // this.usersMap.set(userId,userName.firstname)
-        });
-      });
+    //   e.users.forEach((userId:any,index:number) => {
+    //     this._dbAccess.getUser(userId).then((userName:any)=>{
+    //       if(userName !== undefined)
+    //         e.users[index] = userName.firstname;
+    //         // this.usersMap.set(userId,userName.firstname)
+    //     });
+    //   });
 
-      this._dbAccess.getActivity(e.activity).then((activityName:any) =>
-      // this.activityMap.set(e.activity,activityName.name)
-        e.activity = activityName.name
-      )
-    });
+    //   this._dbAccess.getActivity(e.activity).then((activityName:any) =>
+    //   // this.activityMap.set(e.activity,activityName.name)
+    //     e.activity = activityName.name
+    //   )
+    // });
     this.filteredList = this.pendingEvents;
   }
 
