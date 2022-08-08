@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   templateUrl: './discussion.component.html',
   styleUrls: ['./discussion.component.scss']
 })
-export class DiscussionComponent implements OnInit{
+export class DiscussionComponent{
 
   currentMessage!:any;
 
@@ -22,11 +22,16 @@ export class DiscussionComponent implements OnInit{
   @ViewChild(IonContent) ionContent!:IonContent; 
 
   async ionViewWillEnter(){
-    setTimeout(()=>this.ionContent.scrollToBottom(),125);
-  }
+    this.discussionId = this._route.snapshot.queryParams["discussionId"];
+    this.discussionName = this._route.snapshot.queryParams["discussionName"];
+    this.messagesList = await this._fireStore.getMessages(this.discussionId);
 
-  async ngOnInit(){
-    await this.loadData();
+    console.log("ml : ",this.messagesList);
+    
+    console.log("WARNING : not getting names");
+    // this.messagesList.pipe(map((e:any) => this.getUserName(e.userId)));
+    this.messagesList.pipe(tap(console.log),map((e:any) => {console.log("salut"); return this.getUserName(e.userId);}));
+    setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 
   constructor(
@@ -36,21 +41,18 @@ export class DiscussionComponent implements OnInit{
     private readonly _auth:Auth,
   ){}
 
-  async loadData(){
-    this.discussionId = this._route.snapshot.queryParams["discussionId"];
-    this.discussionName = this._route.snapshot.queryParams["discussionName"];
-    this.messagesList = await this._fireStore.getMessages(this.discussionId);
-    this.messagesList.pipe(map((e:any) => this.getUserName(e.userId)));
-  }
-
   async getUserName(userId:string){
     let temp = this.usersMap.get(userId);
+    console.log("getting ",userId," from ",this.usersMap);
+
     if(temp === undefined){
       temp = await this._fireStore.getUser(userId);
+      console.log("temp user = ",temp);
 
       if(temp)
         this.usersMap.set(temp.id,temp.name);
     }
+    console.log("temp user = ",temp);
     return temp;
   }
 
@@ -64,7 +66,7 @@ export class DiscussionComponent implements OnInit{
   }
 
   sendMessage(){
-    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"activities",this._auth.currentUser);
+    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"activities");
     this.currentMessage = "";
   }
 

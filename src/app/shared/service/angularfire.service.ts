@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { User } from '@angular/fire/auth';
+import { Auth, User } from '@angular/fire/auth';
 import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { map, Observable } from 'rxjs';
+import { isEmpty, map, Observable } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { DataAccess } from './dataAccess';
 })
 export class AngularfireService implements DataAccess{
 
-  constructor(private readonly _dbaccess:Firestore) { }
+  constructor(private readonly _dbaccess:Firestore, private readonly _auth:Auth) { }
 
   private async getElements(name:string,...constraint:QueryConstraint[]){
     const myCollection = collection(this._dbaccess,name);
@@ -60,25 +60,20 @@ export class AngularfireService implements DataAccess{
   async getUser(userId:string){
     let temp = await this.getUsers();
     return temp.pipe(map(datas => datas.find(e => e['id'] === userId)));
-    // return temp.find((e:{id:string})=>e.id === userId);
   }
 
   async createActivity(name:string){
-    console.log("trying to add ",name," into db");
     return await addDoc(collection(this._dbaccess,"activities"),{name:name});
-    // return result;
   }
 
   async createUser(newUser:User){
-    console.log("new user : ",newUser);
     let userId = newUser.uid;
-    console.log("user id : ",userId);
     let userStored = await this.getUser(userId);
-    console.log("user stored : ",userStored);
-    if(!userStored){
-      console.log("TODO : register user in firestore");
-      // TODO register user in firestore
+
+    if(userStored.pipe(isEmpty())){
+      return await addDoc(collection(this._dbaccess,"users"),{name:newUser.displayName});
     }
+    return undefined;
   }
 
   async getMessages(discussionId:string,count?:number){
@@ -89,9 +84,8 @@ export class AngularfireService implements DataAccess{
     return messagesDoc;
   }
 
-  writeMessage(discussionId:string,message:string,type:string,user:User|null){
-    console.log("TODO : add user -> ",user);
-    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,type:type});
+  writeMessage(discussionId:string,message:string,type:string){
+    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,type:type,userId:this._auth.currentUser?.uid});
   }
 
   createPendingRequest(name: string, userId: string) {

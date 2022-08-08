@@ -2,8 +2,9 @@
     <div className="custom_body">
     <ion-input class="searchbar"
         placeholder="Enter your activity"
-        (ionChange)="filterActivities($event)"
-        (ionChange)="filterRequests($event)"
+        [(ngModel)]="searchValue"
+        (ionChange)="filterActivities()"
+        (ionChange)="filterRequests()"
     ></ion-input>
 
     <div class="ion-justify-content-center ion-align-items-center">
@@ -19,14 +20,14 @@
     </ion-list>
     </div>
 
-    <div *ngIf="filteredActivitiesListIsEmpty()">
-        <ion-button (click)="createActivity()" [disabled]="!pendingRequestsIsEmpty()">Create new request</ion-button>
+    <div *ngIf="isAEmpty">
+        <ion-button (click)="createActivity()" [disabled]="!isPREmpty">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center" *ngIf="filteredPendingRequestsList|async as requests">
                 <ion-item *ngFor="let request of requests" lines="none">
                     <ion-toggle (ionChange)="action($event)"></ion-toggle>
                     <ion-label disabled="false">{{request['name']}}</ion-label>
-                    <ion-badge color="warning">{{requestsMap.get(request['name'])}}</ion-badge>
+                    <!-- <ion-badge color="warning">{{requestsMap.get(request['name'])}}</ion-badge> -->
                 </ion-item>
             </div>
         </ion-list>

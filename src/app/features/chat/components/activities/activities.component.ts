@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { isEmpty, Observable } from 'rxjs';
+import { isEmpty, map, Observable, tap } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
-import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
   selector: 'app-activities',
@@ -18,8 +17,14 @@ export class ActivitiesComponent implements OnInit{
 
   pendingRequestsList!:any;
   filteredPendingRequestsList!:Observable<DocumentData[]>;
-  requestsMap = new Map();
   activitiesFromFirestore:any;
+  isAEmpty!:Observable<Boolean>|true;
+  isPREmpty!:Observable<Boolean>|true;
+  
+  ionAfterViewInit(){
+    this.isAEmpty = this.filteredActivitiesListIsEmpty();
+    this.isPREmpty = this.pendingRequestsIsEmpty();
+  }
 
   constructor(
     // private readonly _dataLoader : DbaccessService,
@@ -37,29 +42,27 @@ export class ActivitiesComponent implements OnInit{
 
     this.activitiesList = await this._dbAccess.getActivities();
     this.filteredActivitiesList = this.activitiesList;
-    console.log("filtered = ",this.filteredActivitiesList);
   }
 
   // navigateToDiscussion(item:{id:string,name:string}){
   navigateToDiscussion(item:any){
-    console.log("item : ",item);
-    
     this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
   }
 
-  filterActivities(event:any){
-    this.filteredActivitiesList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+  filterActivities(){
+    // this.filteredActivitiesList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    // TODO dois-je plutôt faire une requête filtrée ?
+    this.filteredActivitiesList = this.activitiesList.pipe(
+      map((e:any) => e.filter((elem:any) => elem['name'].toLowerCase().includes(this.searchValue.toLowerCase()))));
+    // filter((e:any)=>e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 
-  filterRequests(event:any){
-    this.filteredPendingRequestsList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
-  }
-
-  filteredActivitiesListIsEmpty(){
-    if(this.filteredActivitiesList === undefined)
-      return true;
-    // return this.filteredActivitiesList.length === 0;
-    return this.filteredActivitiesList.pipe(isEmpty());
+  filterRequests(){
+    // this.filteredPendingRequestsList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    // TODO dois-je plutôt faire une requête filtrée ?
+    this.filteredPendingRequestsList = this.pendingRequestsList.pipe(
+      map((e:any) => e.filter((elem:any) => elem['name'].toLowerCase().includes(this.searchValue.toLowerCase()))));
+    // filter((e:any) => e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 
   action(event:any){
@@ -75,8 +78,16 @@ export class ActivitiesComponent implements OnInit{
   }
 
   pendingRequestsIsEmpty(){
+    // TODO corriger ce bug : si la valeur est vraie, elle sera ensuite toujours vraie
     if(this.filteredPendingRequestsList === undefined)
       return true
     return this.filteredPendingRequestsList.pipe(isEmpty());
+  }
+
+  filteredActivitiesListIsEmpty(){
+    // TODO corriger ce bug : si la valeur est vraie, elle sera ensuite toujours vraie
+    if(this.filteredActivitiesList === undefined)
+      return true;
+    return this.filteredActivitiesList.pipe(isEmpty());
   }
 }
