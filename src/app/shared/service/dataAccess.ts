@@ -9,6 +9,10 @@ export interface DataAccess{
 
     deletePendingRequest(requestId:string):any;
 
+    addUserToRequest(requestId:string):any;
+
+    removeUserFromRequest(requestId:string):any;
+
     // activities
     getActivities():any;
 
@@ -24,6 +28,10 @@ export interface DataAccess{
     createEvent(name:string,creatorId:string,activityId:string,date:string,location:string):any;
 
     deleteEvent(eventId:string):any;
+
+    addUserToEvent(requestId:string):any;
+
+    removeUserFromEvent(requestId:string):any;
 
     // getEventsFiltered(location:string,distance:number,...types:string[]):any;
     // getEventsFiltered(name:string,location:string,distance:number,...types:string[]):any;

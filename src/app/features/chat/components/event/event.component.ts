@@ -33,4 +33,9 @@ export class EventComponent {
     this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent.activityId));
   }
 
+  subscribe(event:any){
+    console.log(event.target.value);
+    this._dbAccess.addUserToEvent(this.eventId);
+  }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc } from '@angular/fire/firestore';
+import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { firstValueFrom, map } from 'rxjs';
 import { DataAccess } from './dataAccess';
@@ -9,8 +9,6 @@ import { DataAccess } from './dataAccess';
   providedIn:'root'
 })
 export class AngularfireService implements DataAccess{
-
-  
 
   constructor(private readonly _dbaccess:Firestore, private readonly _auth:Auth) { }
 
@@ -112,6 +110,33 @@ export class AngularfireService implements DataAccess{
   deleteEvent(eventId: string) {
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return deleteDoc(docRef);
+  }
+
+  private addUser(tableName:string,itemId:string){
+    const docRef = doc(this._dbaccess, `${tableName}/${itemId}`);
+    return updateDoc(docRef, {users: arrayUnion(this._auth.currentUser?.uid)});
+  }
+
+  addUserToEvent(eventId:string){
+    return this.addUser("events",eventId);
+  }
+
+  addUserToRequest(requestId:string){
+    return this.addUser("requests",requestId);
+  }
+
+  private async removeUser(tableName:string,itemId:string){
+    const docRef = doc(this._dbaccess, `${tableName}/${itemId}`);
+    return await updateDoc(docRef, {users: arrayRemove(this._auth.currentUser?.uid)});
+  }
+
+  removeUserFromRequest(requestId:string){
+    return this.removeUser("requests",requestId);
+    // TODO remove request if last user unsubcribes
+  }
+
+  removeUserFromEvent(eventId:string){
+    return this.removeUser("events",eventId);
   }
 
   // addOrder(newValue:number){
