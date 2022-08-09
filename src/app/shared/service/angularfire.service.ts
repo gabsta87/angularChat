@@ -68,16 +68,12 @@ export class AngularfireService implements DataAccess{
     let userId = newUser.uid;
     let userStored = await this.getUser(userId);
 
-    console.log("checking if user is already inside DB : ",userStored);
-    
-    if(userStored)
+    if(userStored){
       return
+    }
 
-    console.log("TODO check for errors");
-    
     const docRef = doc(this._dbaccess,'users/'+userId);
     return setDoc(docRef,{name:newUser.displayName});
-    // return setDoc(collection(this._dbaccess+"/"+userId,"users"),{name:newUser.displayName});
   }
 
   getMessages(discussionId:string,count?:number){

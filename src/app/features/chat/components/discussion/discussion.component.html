@@ -7,8 +7,6 @@
         >
             <ion-card class="messageBubble">
                 <ion-card-content class="ion-no-padding">{{item['content']}}</ion-card-content>
-                {{item['userId']|json}}
-                {{usersMap|json}}
                 <ion-label class="messageDetails">{{usersMap.get(item['userId'])}} at {{item['date']|date:'H:mm dd.MM.y'}}</ion-label>
             </ion-card>
         </ion-row>

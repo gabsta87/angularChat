@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, isEmpty, map, observable, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -47,9 +46,9 @@ export class ActivitiesComponent{
   isEmptyRequests$ = this.filteredPendingRequestsList.pipe(
     map(data => {
       if (data?.length||0 > 0){
-        return true
-      } else {
         return false
+      } else {
+        return true
       }
     })
   );
@@ -57,9 +56,9 @@ export class ActivitiesComponent{
   isEmptyActivities$ = this.filteredActivitiesList.pipe(
     map(data => {
       if (data?.length||0 > 0){
-        return true
-      } else {
         return false
+      } else {
+        return true
       }
     })
   );

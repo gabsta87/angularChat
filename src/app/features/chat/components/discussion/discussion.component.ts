@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { isEmpty, map, Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -26,14 +26,6 @@ export class DiscussionComponent{
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
     this.messagesList = await this._fireStore.getMessages(this.discussionId);
 
-    console.log("ml : ",this.messagesList);
-    
-    console.log("WARNING : not getting names");
-    // this.messagesList.pipe(map((e:any) => this.getUserName(e.userId)));
-    if(this.messagesList.pipe(isEmpty())){
-      console.log("empty observable");
-    }
-
     this.messagesList = this.messagesList.pipe(tap(console.log),switchMap(async (e:any) => {
       e.forEach(async (elem:any)=>await this.getUserName(elem.userId))
       return e;
@@ -50,26 +42,15 @@ export class DiscussionComponent{
 
   async getUserName(userId:string){
     let temp = this.usersMap.get(userId);
-    console.log("getting ",userId," from ",this.usersMap);
+    // console.log("getting ",userId," from ",this.usersMap);
 
     if(temp === undefined){
       temp = await this._fireStore.getUser(userId);
-      console.log("temp user = ",temp);
 
       if(temp)
         this.usersMap.set(temp.id,temp.name);
     }
-    console.log("temp user = ",temp);
     return temp;
-  }
-
-  doRefresh(event:any) {
-    console.log('Begin async operation');
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
   }
 
   sendMessage(){
@@ -82,4 +63,15 @@ export class DiscussionComponent{
       this.sendMessage();
     }
   }
+
+  // // Method for infinite scroll
+  // doRefresh(event:any) {
+  //   console.log('Begin async operation');
+
+  //   setTimeout(() => {
+  //     console.log('Async operation has ended');
+  //     event.target.complete();
+  //   }, 2000);
+  // }
+
 }
