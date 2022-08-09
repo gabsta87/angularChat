@@ -23,3 +23,14 @@ mgl-map{
         height: 100%!important;
     }
 }
+
+.marker{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}

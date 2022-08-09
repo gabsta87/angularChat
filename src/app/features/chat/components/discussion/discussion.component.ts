@@ -16,7 +16,7 @@ export class DiscussionComponent{
   discussionName!:string;
   messagesList!:Observable<DocumentData[]>;
   usersMap = new Map();
-  @ViewChild(IonContent) ionContent!:IonContent; 
+  @ViewChild(IonContent) ionContent!:IonContent;
 
   async ionViewWillEnter(){
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
@@ -32,7 +32,7 @@ export class DiscussionComponent{
   }
 
   constructor(
-    private readonly _route : ActivatedRoute, 
+    private readonly _route : ActivatedRoute,
     private readonly _fireStore:AngularfireService,
   ){}
 
@@ -50,7 +50,7 @@ export class DiscussionComponent{
   }
 
   sendMessage(){
-    this._fireStore.writeMessage(this.discussionId,this.currentMessage,"activities");
+    this._fireStore.writeMessage(this.discussionId,this.currentMessage);
     this.currentMessage = "";
   }
 

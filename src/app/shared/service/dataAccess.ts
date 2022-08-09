@@ -25,7 +25,7 @@ export interface DataAccess{
 
     getEvents():any;
 
-    createEvent(name:string,creatorId:string,activityId:string,date:string,location:string):any;
+    createEvent(name:string,activityId:string,date:string,location:string):any;
 
     deleteEvent(eventId:string):any;
 
@@ -46,5 +46,5 @@ export interface DataAccess{
     // messages
     getMessages(discussionId:string,count?:number):any;
 
-    writeMessage(discussionId:string,message:string,type:string,user:User|null):any;
+    writeMessage(discussionId:string,message:string):any;
 }

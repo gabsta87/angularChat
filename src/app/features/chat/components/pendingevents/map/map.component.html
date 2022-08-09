@@ -2,10 +2,15 @@
 <!-- <div class="map" id="map" class="match-parent"></div> -->
 <div *ngIf="isViewLoaded === true">
 
-    <mgl-map
-    [style]="'mapbox://styles/mapbox/streets-v9'"
+    <mgl-map id="map"
+    [style]="'mapbox://styles/mapbox/streets-v11'"
     [zoom]="[12]"
     [center]="[lng,lat]"
     >
+
+    <mgl-marker [lngLat]="[6.1266445, 46.1889497]">
+        <div (click)="alert($event)" class="marker"></div>
+    </mgl-marker>
+
     </mgl-map>
 </div>

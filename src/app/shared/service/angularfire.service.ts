@@ -88,8 +88,8 @@ export class AngularfireService implements DataAccess{
     return messagesDoc;
   }
 
-  writeMessage(discussionId:string,message:string,type:string){
-    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,type:type,userId:this._auth.currentUser?.uid});
+  writeMessage(discussionId:string,message:string){
+    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
   }
 
   createPendingRequest(name: string, userId: string) {
@@ -101,8 +101,8 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  createEvent(name: string, creatorId: string, activityId:string ,date: string, location: string) {
-    let newEvent = {name:name,creationDate:Date.now(),creatorId:creatorId,activityId:activityId,date:date,position:location};
+  createEvent(name: string, activityId:string ,date: string, location: string) {
+    let newEvent = {name:name,creationDate:Date.now(),creatorId:this._auth.currentUser?.uid,activityId:activityId,date:date,position:location};
     return addDoc(collection(this._dbaccess,"events"),newEvent);
   }
 

@@ -1,4 +1,4 @@
-Calculer des clusters 
+Calculer des clusters
     https://medium.com/@joaogabriellima/clustering-with-javascript-part-3-clustering-algorithms-in-practice-75631b241917
     trouver des clusters ou l'utilisateur a participé à des événements
     chercher des corrélations entre les clusters et le type d'événements
@@ -10,7 +10,7 @@ Calculer des clusters
     IA ne serait pas efficace car pas assez de données pour l'entrainer. En revanche,
     l'IA pourrait être entraînée avec les données générées par l'algorithme
 
-Scroll infini vers le haut : 
+Scroll infini vers le haut :
     https://ionicframework.com/docs/api/refresher
 
 Concernant les cartes
@@ -33,7 +33,7 @@ Encryption : openpgp.js, cryptojs
     créer un fichier utils.js à la racine du projet avec les fonctions d'encodage/decodage
     coller la fonction d'encodage dans le navigateur
     encoder la variable d'environment et mettre le résultat dans environment
-    dans appmodule, modifier la ligne 
+    dans appmodule, modifier la ligne
         provideFirebaseApp(() => initializeApp(environment.firebase)),
     pour insérer initializeApp(decode(environment.firebase))
 

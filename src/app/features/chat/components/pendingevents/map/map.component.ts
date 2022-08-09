@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -19,15 +20,14 @@ export class MapComponent implements AfterViewInit{
   events = this._dataLoader.getEvents();
   isViewLoaded:boolean = false;
 
-  constructor(private readonly _dataLoader: DbaccessService) { }
+  constructor(private readonly _dataLoader: AngularfireService) { }
 
   async ngAfterViewInit(){
-    navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
-
     this._tryGeoLoc();
-
-    await new Promise ((res)=>{setTimeout(()=> res(true),500)});
+    await new Promise ((res)=>{setTimeout(()=> res(true),1000)});
     this.isViewLoaded = true;
+
+    navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
   }
 
   buttonClicked(){
@@ -53,6 +53,7 @@ export class MapComponent implements AfterViewInit{
 
       marker.setLngLat(event.lngLat).addTo(this.map);
 
+      console.log("long press triggered");
     }
   }
 
@@ -74,4 +75,11 @@ export class MapComponent implements AfterViewInit{
     }
   }
 
+  alert(event:any){
+    console.log("event: ",event);
+    new mapboxgl.Popup({ closeOnClick: true })
+    .setLngLat([6.1432,46.2044])
+    .setHTML('<h1>Hello World!</h1>')
+    .addTo(this.map);
+  }
 }
