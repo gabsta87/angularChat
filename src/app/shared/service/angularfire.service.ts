@@ -85,7 +85,6 @@ export class AngularfireService implements DataAccess{
     const discussion:QueryConstraint = where("discussionId","==",discussionId);
     const orderByDate:QueryConstraint = orderBy("date","asc");
     let messagesDoc = this.getElements("messages",discussion,orderByDate);
-    // messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
     return messagesDoc;
   }
 
@@ -137,6 +136,7 @@ export class AngularfireService implements DataAccess{
 
   removeUserFromEvent(eventId:string){
     return this.removeUser("events",eventId);
+    // TODO decide in which conditions to remove events
   }
 
   // addOrder(newValue:number){
