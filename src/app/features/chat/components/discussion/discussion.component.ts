@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
@@ -24,7 +23,7 @@ export class DiscussionComponent{
   async ionViewWillEnter(){
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
-    this.messagesList = await this._fireStore.getMessages(this.discussionId);
+    this.messagesList = this._fireStore.getMessages(this.discussionId);
 
     this.messagesList = this.messagesList.pipe(tap(console.log),switchMap(async (e:any) => {
       e.forEach(async (elem:any)=>await this.getUserName(elem.userId))
@@ -35,9 +34,7 @@ export class DiscussionComponent{
 
   constructor(
     private readonly _route : ActivatedRoute, 
-    // private readonly _dataLoader: DbaccessService,
     private readonly _fireStore:AngularfireService,
-    private readonly _auth:Auth,
   ){}
 
   async getUserName(userId:string){

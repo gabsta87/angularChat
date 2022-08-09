@@ -10,16 +10,18 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   styleUrls: ['./pendingevents.component.scss']
 })
 export class PendingeventsComponent {
+  
+  constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
 
-  pendingEvents!:Observable<DocumentData[]>;
+  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
   filteredList!:Observable<DocumentData[]>;
+
   // usersMap = new Map();
 
   // constructor(private readonly _dbLoader:DbaccessService, private readonly _router: Router){ }
-  constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
-
+  
   async loadData(){
-    this.pendingEvents = await this._dbAccess.getEvents();
+    this.pendingEvents ;
 
     // this.pendingEvents.forEach((e:any)=> {
     //   this._dbAccess.getUser(e.creator).then((creatorName:any)=>
