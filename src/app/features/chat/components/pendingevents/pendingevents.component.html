@@ -1,12 +1,12 @@
 <ion-content>
     <app-map></app-map>
-    <ion-input placeholder="Search for an event" (ionChange)="filter($event)"></ion-input>
-    <ion-list *ngIf="filteredList|async as list" style="background:transparent;">
+    <ion-input placeholder="Search for an event" (ionChange)="updateSearchValue($event)"></ion-input>
+    <ion-list *ngIf="filteredPendingEvents|async as list" style="background:transparent;">
         <ion-item 
             style="--background:transparent;"
             *ngFor="let event of list; let index = index" 
             lines="none" 
-            (click)="navigateToEventDetail($event)"
+            (click)="navigateToEventDetail(event['id'])"
         >
             <ion-card>
                 <ion-card-header>

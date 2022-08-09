@@ -8,14 +8,11 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent{
 
   autoLocation!:boolean;
 
   constructor(private readonly _auth: Auth,private readonly _dbAccess:AngularfireService) { }
-
-  ngOnInit(): void {
-  }
 
   async logout(){
     await signOut(this._auth);

@@ -32,13 +32,27 @@
     </div>
     </div>
     <ng-template #loginTempl>
-        <div style="display:flex; height: 10%;" class="myDiv ion-justify-content-center ion-align-items-center">
+        <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center">
+        <ion-list lines="none" >
+            <ion-item>
+                <ion-button
+                    (click)="loginWithGoogle()"
+                >Login with Google</ion-button>
+            </ion-item>
+            <ion-item>
+                <ion-button
+                    (click)="loginAnonymously()"
+                >Login anonymously</ion-button>
+            </ion-item>
+        </ion-list>
+        </div>
+        <!-- <div style="display:flex; height: 10%;" class="myDiv ion-justify-content-center ion-align-items-center">
             <ion-button
                 (click)="loginWithGoogle()"
             >Login with Google</ion-button>
             <ion-button
                 (click)="loginAnonymously()"
             >Login anonymously</ion-button>
-        </div>
+        </div> -->
     </ng-template>
 </ion-content>

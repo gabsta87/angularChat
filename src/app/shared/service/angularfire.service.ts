@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc } from '@angular/fire/firestore';
+import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { firstValueFrom, isEmpty, map, Observable } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
 @Injectable({
@@ -48,6 +48,11 @@ export class AngularfireService implements DataAccess{
   getEvents(){
     let eventsList = this.getElements("events");
     return eventsList;
+  }
+
+  getEvent(eventId:string){
+    let temp = this.getEvents();
+    return temp.pipe(map(datas => datas.find(e => e['id'] === eventId)));
   }
 
   getUsers(){

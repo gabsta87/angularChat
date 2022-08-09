@@ -41,7 +41,7 @@ export class ActivitiesComponent{
       }
       return requestsList.filter((elem:any) => elem['name'].toLowerCase().includes(searchQuery.toLowerCase()))
     })
-  )
+  );
 
   isEmptyRequests$ = this.filteredPendingRequestsList.pipe(
     map(data => {

@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { environment } from 'src/environments/environment';
 import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
@@ -8,7 +7,7 @@ import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit,AfterViewInit{
+export class MapComponent implements AfterViewInit{
 
   delay = 400;
   clickDate!:any;
@@ -17,21 +16,13 @@ export class MapComponent implements OnInit,AfterViewInit{
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 46.2044;
   lng = 6.1432;
-  events!:any;
+  events = this._dataLoader.getEvents();
   isViewLoaded:boolean = false;
 
   constructor(private readonly _dataLoader: DbaccessService) { }
 
-  async loadData(){
-    this.events = await this._dataLoader.getEvents();
-  }
-
-  // ngAfterViewChecked(){ }
-
   async ngAfterViewInit(){
-
-    console.log("geo location = ",navigator.geolocation);
-    let temp = await navigator.geolocation.getCurrentPosition((e:any)=>console.log(e));
+    navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
 
     this._tryGeoLoc();
 
@@ -83,6 +74,4 @@ export class MapComponent implements OnInit,AfterViewInit{
     }
   }
 
-  ngOnInit() {
-  }
 }

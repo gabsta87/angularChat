@@ -11,9 +11,7 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   styleUrls: ['./discussion.component.scss']
 })
 export class DiscussionComponent{
-
   currentMessage!:any;
-
   discussionId!:string;
   discussionName!:string;
   messagesList!:Observable<DocumentData[]>;
@@ -24,6 +22,7 @@ export class DiscussionComponent{
     this.discussionId = this._route.snapshot.queryParams["discussionId"];
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
     this.messagesList = this._fireStore.getMessages(this.discussionId);
+    this.currentMessage = "";
 
     this.messagesList = this.messagesList.pipe(tap(console.log),switchMap(async (e:any) => {
       e.forEach(async (elem:any)=>await this.getUserName(elem.userId))

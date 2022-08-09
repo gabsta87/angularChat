@@ -17,6 +17,8 @@ export interface DataAccess{
     createActivity(name:string):any;
 
     // events
+    getEvent(eventId:string):any;
+
     getEvents():any;
 
     createEvent(name:string,creatorId:string,date:string,location:string):any;

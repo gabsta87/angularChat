@@ -1,3 +1,5 @@
+send message to debug
+
 utiliser les observables plutot que les promises
 inscrire les utilisateurs dans la base de données
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
