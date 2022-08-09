@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { map, Observable, tap } from 'rxjs';
+import { isEmpty, map, Observable, switchMap, tap } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -30,7 +30,14 @@ export class DiscussionComponent{
     
     console.log("WARNING : not getting names");
     // this.messagesList.pipe(map((e:any) => this.getUserName(e.userId)));
-    this.messagesList.pipe(tap(console.log),map((e:any) => {console.log("salut"); return this.getUserName(e.userId);}));
+    if(this.messagesList.pipe(isEmpty())){
+      console.log("empty observable");
+    }
+
+    this.messagesList = this.messagesList.pipe(tap(console.log),switchMap(async (e:any) => {
+      e.forEach(async (elem:any)=>await this.getUserName(elem.userId))
+      return e;
+    }));
     setTimeout(()=>this.ionContent.scrollToBottom(),125);
   }
 

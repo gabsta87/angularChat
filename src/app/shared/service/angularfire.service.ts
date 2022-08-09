@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy } from '@angular/fire/firestore';
+import { collection, QueryConstraint, DocumentData, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { isEmpty, map, Observable } from 'rxjs';
+import { firstValueFrom, isEmpty, map, Observable } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn:'root'
 })
 export class AngularfireService implements DataAccess{
 
   constructor(private readonly _dbaccess:Firestore, private readonly _auth:Auth) { }
 
-  private async getElements(name:string,...constraint:QueryConstraint[]){
+  private getElements(name:string,...constraint:QueryConstraint[]){
     const myCollection = collection(this._dbaccess,name);
 
-    let data = await query(myCollection,...constraint)
-
-    const querySnapshot = await getDocs(data);
+    let data = query(myCollection,...constraint)
 
     const observableStream = collectionData(data, {idField: 'id'})
     return observableStream;
@@ -32,54 +30,60 @@ export class AngularfireService implements DataAccess{
     // )
   }
 
-  async getPendingRequests(){
-    let requestsList = await this.getElements("requests");
+  getPendingRequests(){
+    let requestsList = this.getElements("requests");
     return requestsList;
   }
 
-  async getActivities(){
-    let activitiesList = await this.getElements("activities");
+  getActivities(){
+    let activitiesList = this.getElements("activities");
     return activitiesList;
   }
 
-  async getActivity(activityId:string){
-    let temp = await this.getActivities();
+  getActivity(activityId:string){
+    let temp = this.getActivities();
     return temp.pipe(map(datas => datas.find(e => e['id'] === activityId)));
   }
 
-  async getEvents(){
-    let eventsList = await this.getElements("events");
+  getEvents(){
+    let eventsList = this.getElements("events");
     return eventsList;
   }
 
-  async getUsers(){
-    let usersList = await this.getElements("users");
-    return usersList;
+  getUsers(){
+    let usersList = this.getElements("users");
+    return firstValueFrom(usersList);
   }
 
   async getUser(userId:string){
     let temp = await this.getUsers();
-    return temp.pipe(map(datas => datas.find(e => e['id'] === userId)));
+    return temp.find(e => e['id'] === userId);
   }
 
-  async createActivity(name:string){
-    return await addDoc(collection(this._dbaccess,"activities"),{name:name});
+  createActivity(name:string){
+    return addDoc(collection(this._dbaccess,"activities"),{name:name});
   }
 
   async createUser(newUser:User){
     let userId = newUser.uid;
     let userStored = await this.getUser(userId);
 
-    if(userStored.pipe(isEmpty())){
-      return await addDoc(collection(this._dbaccess,"users"),{name:newUser.displayName});
-    }
-    return undefined;
+    console.log("checking if user is already inside DB : ",userStored);
+    
+    if(userStored)
+      return
+
+    console.log("TODO check for errors");
+    
+    const docRef = doc(this._dbaccess,'users/'+userId);
+    return setDoc(docRef,{name:newUser.displayName});
+    // return setDoc(collection(this._dbaccess+"/"+userId,"users"),{name:newUser.displayName});
   }
 
-  async getMessages(discussionId:string,count?:number){
+  getMessages(discussionId:string,count?:number){
     const discussion:QueryConstraint = where("discussionId","==",discussionId);
     const orderByDate:QueryConstraint = orderBy("date","asc");
-    let messagesDoc = await this.getElements("messages",discussion,orderByDate);
+    let messagesDoc = this.getElements("messages",discussion,orderByDate);
     // messagesDoc.sort((a:{date:string},b:{date:string}) => {return a.date > b.date ? 1 : ((b.date > a.date) ? -1 : 0)});
     return messagesDoc;
   }

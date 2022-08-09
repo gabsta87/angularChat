@@ -25,9 +25,9 @@ export class EventComponent {
   async loadData(){
     this.eventContent = await this._dataLoader.getEvent(String(this.eventId));
 
-    this.creatorName = await this._dataLoader.getUser(this.eventContent.creator);
+    // this.creatorName = await this._dataLoader.getUser(this.eventContent.creatorId);
 
-    this.activity = await this._dataLoader.getActivity(this.eventContent.activity);
+    this.activity = await this._dataLoader.getActivity(this.eventContent.activityId);
   }
 
 }

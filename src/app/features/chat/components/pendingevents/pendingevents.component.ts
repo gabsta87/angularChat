@@ -12,7 +12,7 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 export class PendingeventsComponent {
 
   pendingEvents!:Observable<DocumentData[]>;
-  filteredList:any;
+  filteredList!:Observable<DocumentData[]>;
   // usersMap = new Map();
 
   // constructor(private readonly _dbLoader:DbaccessService, private readonly _router: Router){ }
@@ -47,7 +47,9 @@ export class PendingeventsComponent {
     this.loadData();
   }
 
-  navigateToEventDetail(param:string){
+  navigateToEventDetail(param:Event){
+    console.log("param : ",param);
+    
     this._router.navigate(["event"],{queryParams:{eventId:param}});
   }
 
@@ -64,6 +66,6 @@ export class PendingeventsComponent {
         );
         }
       )
-    )
+    );
   }
 }

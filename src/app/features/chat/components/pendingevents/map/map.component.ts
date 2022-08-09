@@ -20,10 +20,7 @@ export class MapComponent implements OnInit,AfterViewInit{
   events!:any;
   isViewLoaded:boolean = false;
 
-  constructor(private readonly _dataLoader: DbaccessService) {
-    // this.loadData();
-    // console.log("events = ",this.events);
-  }
+  constructor(private readonly _dataLoader: DbaccessService) { }
 
   async loadData(){
     this.events = await this._dataLoader.getEvents();
@@ -35,8 +32,6 @@ export class MapComponent implements OnInit,AfterViewInit{
 
     console.log("geo location = ",navigator.geolocation);
     let temp = await navigator.geolocation.getCurrentPosition((e:any)=>console.log(e));
-    console.log("temp = ",temp);
-    // (mapboxgl as any).accessToken = environment.mapbox.accessToken;
 
     this._tryGeoLoc();
 

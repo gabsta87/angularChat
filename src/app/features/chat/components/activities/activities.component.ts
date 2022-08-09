@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { isEmpty, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, isEmpty, map, observable, Observable, of, tap } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -9,85 +9,83 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
-export class ActivitiesComponent implements OnInit{
+export class ActivitiesComponent{
 
-  activitiesList:any;
-  filteredActivitiesList!:Observable<DocumentData[]>;
+  searchQ = new BehaviorSubject(null as any);
+  activitiesList = this._dbAccess.getActivities();
+  pendingRequestsList = this._dbAccess.getPendingRequests();
   searchValue!:string;
 
-  pendingRequestsList!:any;
-  filteredPendingRequestsList!:Observable<DocumentData[]>;
-  activitiesFromFirestore:any;
-  isAEmpty!:Observable<Boolean>|true;
-  isPREmpty!:Observable<Boolean>|true;
-  
-  ionAfterViewInit(){
-    this.isAEmpty = this.filteredActivitiesListIsEmpty();
-    this.isPREmpty = this.pendingRequestsIsEmpty();
-  }
+  filteredActivitiesList = combineLatest([
+    this.activitiesList,
+    this.searchQ.asObservable()
+  ]).pipe(
+    map(observables => {
+      const aL = observables[0];
+      const sQ: any = observables[1];
+      if (!sQ) {
+        return aL;
+      }
+      return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()))
+    })
+  );
+
+  filteredPendingRequestsList = combineLatest([
+    this.pendingRequestsList,
+    this.searchQ.asObservable()
+  ]).pipe(
+    map(observables => {
+      const requestsList = observables[0];
+      const searchQuery : any = observables[1];
+      if(!searchQuery){
+        return requestsList;
+      }
+      return requestsList.filter((elem:any) => elem['name'].toLowerCase().includes(searchQuery.toLowerCase()))
+    })
+  )
+
+  isEmptyRequests$ = this.filteredPendingRequestsList.pipe(
+    map(data => {
+      if (data?.length||0 > 0){
+        return true
+      } else {
+        return false
+      }
+    })
+  );
+
+  isEmptyActivities$ = this.filteredActivitiesList.pipe(
+    map(data => {
+      if (data?.length||0 > 0){
+        return true
+      } else {
+        return false
+      }
+    })
+  );
 
   constructor(
-    // private readonly _dataLoader : DbaccessService,
     private readonly _route : Router,
     private readonly _dbAccess : AngularfireService) {
   }
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
-  async loadData(){
-    this.pendingRequestsList = await this._dbAccess.getPendingRequests();
-    this.filteredPendingRequestsList = this.pendingRequestsList;
-
-    this.activitiesList = await this._dbAccess.getActivities();
-    this.filteredActivitiesList = this.activitiesList;
-  }
-
-  // navigateToDiscussion(item:{id:string,name:string}){
   navigateToDiscussion(item:any){
     this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
   }
 
   filterActivities(){
-    // this.filteredActivitiesList = this.activitiesList.filter((e:any)=>e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
-    // TODO dois-je plutôt faire une requête filtrée ?
-    this.filteredActivitiesList = this.activitiesList.pipe(
-      map((e:any) => e.filter((elem:any) => elem['name'].toLowerCase().includes(this.searchValue.toLowerCase()))));
-    // filter((e:any)=>e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
-  }
-
-  filterRequests(){
-    // this.filteredPendingRequestsList = this.pendingRequestsList.filter((e:any) => e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
-    // TODO dois-je plutôt faire une requête filtrée ?
-    this.filteredPendingRequestsList = this.pendingRequestsList.pipe(
-      map((e:any) => e.filter((elem:any) => elem['name'].toLowerCase().includes(this.searchValue.toLowerCase()))));
-    // filter((e:any) => e.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.searchQ.next(this.searchValue);
   }
 
   action(event:any){
-    console.log("new value = ",event.detail.checked);
+    console.log("subscribe to pending request = ",event.detail.checked);
   }
 
   createActivity(){
     console.log("creating ",this.searchValue);
     this._dbAccess.createActivity(this.searchValue);
-    // TODO 
+    // TODO
     // this._dbAccess.removePendingRequest(this.searchValue);
     this.searchValue = "";
-  }
-
-  pendingRequestsIsEmpty(){
-    // TODO corriger ce bug : si la valeur est vraie, elle sera ensuite toujours vraie
-    if(this.filteredPendingRequestsList === undefined)
-      return true
-    return this.filteredPendingRequestsList.pipe(isEmpty());
-  }
-
-  filteredActivitiesListIsEmpty(){
-    // TODO corriger ce bug : si la valeur est vraie, elle sera ensuite toujours vraie
-    if(this.filteredActivitiesList === undefined)
-      return true;
-    return this.filteredActivitiesList.pipe(isEmpty());
   }
 }

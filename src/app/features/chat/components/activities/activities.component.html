@@ -4,7 +4,6 @@
         placeholder="Enter your activity"
         [(ngModel)]="searchValue"
         (ionChange)="filterActivities()"
-        (ionChange)="filterRequests()"
     ></ion-input>
 
     <div class="ion-justify-content-center ion-align-items-center">
@@ -20,8 +19,8 @@
     </ion-list>
     </div>
 
-    <div *ngIf="isAEmpty">
-        <ion-button (click)="createActivity()" [disabled]="!isPREmpty">Create new request</ion-button>
+    <div *ngIf="isEmptyActivities$">
+        <ion-button *ngIf="isEmptyActivities$" (click)="createActivity()" [disabled]="!isEmptyRequests$">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center" *ngIf="filteredPendingRequestsList|async as requests">
                 <ion-item *ngFor="let request of requests" lines="none">

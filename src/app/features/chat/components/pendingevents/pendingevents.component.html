@@ -1,23 +1,22 @@
 <ion-content>
     <app-map></app-map>
     <ion-input placeholder="Search for an event" (ionChange)="filter($event)"></ion-input>
-    {{filteredList|json}}
-    <ion-list *ngIf="filteredList|async as list">
-        {{list|json}}
+    <ion-list *ngIf="filteredList|async as list" style="background:transparent;">
         <ion-item 
+            style="--background:transparent;"
             *ngFor="let event of list; let index = index" 
             lines="none" 
-            (click)="navigateToEventDetail(event.key)"
+            (click)="navigateToEventDetail($event)"
         >
             <ion-card>
                 <ion-card-header>
                     <ion-thumbnail>{{index}}</ion-thumbnail>
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
-                    <ion-card-subtitle>{{event.date}}</ion-card-subtitle>
-                    <ion-card-title>{{event.title}}</ion-card-title>
+                    <ion-card-subtitle>{{event['date']}}</ion-card-subtitle>
+                    <ion-card-title>{{event['title']}}</ion-card-title>
                 </ion-card-header>
     <!-- Show location and activity type -->
-                <ion-card-content>{{event.description}}</ion-card-content>
+                <ion-card-content>{{event['description']}}</ion-card-content>
             </ion-card>
             <ion-label></ion-label>
         </ion-item>
