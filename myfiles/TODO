@@ -1,15 +1,20 @@
-send message to debug
-
-utiliser les observables plutot que les promises
-inscrire les utilisateurs dans la base de données
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
+faire l'inscription des utilisateurs dans les événements/charger correctement les valeurs des boutons pour
+chaque utilisateur
+
+affichage des événements sur la carte
+création d'événements
 charger la liste des requêtes correctement pour chaque utilisateur
+afficher sur la carte tous les événements dont la date n'est pas encore passée
+
+REFACTORING
 supprimer toutes les méthodes appelées depuis le HTML (sinon elles sont rechargées à chaque mouvement de souris)
 
-charger les messages depuis firestore
-permettre de cliquer sur un événement de la carte pour voir les infos et chat
+§ utiliser les observables plutot que les promises
+§ inscrire les utilisateurs dans la base de données
 
-afficher sur la carte tous les événements dont la date n'est pas encore passée
+§ charger les messages depuis firestore
+§ permettre de cliquer sur un événement de la carte pour voir les infos et chat
 
 § passer la valeur de recherche des discussions à pending requests
 

@@ -21,7 +21,7 @@ export interface DataAccess{
 
     getEvents():any;
 
-    createEvent(name:string,creatorId:string,date:string,location:string):any;
+    createEvent(name:string,creatorId:string,activityId:string,date:string,location:string):any;
 
     deleteEvent(eventId:string):any;
 

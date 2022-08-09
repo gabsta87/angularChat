@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc } from '@angular/fire/firestore';
+import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
 import { firstValueFrom, map } from 'rxjs';
 import { DataAccess } from './dataAccess';
@@ -9,6 +9,8 @@ import { DataAccess } from './dataAccess';
   providedIn:'root'
 })
 export class AngularfireService implements DataAccess{
+
+  
 
   constructor(private readonly _dbaccess:Firestore, private readonly _auth:Auth) { }
 
@@ -94,16 +96,22 @@ export class AngularfireService implements DataAccess{
   }
 
   createPendingRequest(name: string, userId: string) {
-    throw new Error('Method not implemented.');
+    return addDoc(collection(this._dbaccess,"requests"),{name:name,users:[userId]});
   }
+
   deletePendingRequest(requestId: string) {
-    throw new Error('Method not implemented.');
+    const docRef = doc(this._dbaccess,`requests/${requestId}`);
+    return deleteDoc(docRef);
   }
-  createEvent(name: string, creatorId: string, date: string, location: string) {
-    throw new Error('Method not implemented.');
+
+  createEvent(name: string, creatorId: string, activityId:string ,date: string, location: string) {
+    let newEvent = {name:name,creationDate:Date.now(),creatorId:creatorId,activityId:activityId,date:date,position:location};
+    return addDoc(collection(this._dbaccess,"events"),newEvent);
   }
+
   deleteEvent(eventId: string) {
-    throw new Error('Method not implemented.');
+    const docRef = doc(this._dbaccess,`events/${eventId}`);
+    return deleteDoc(docRef);
   }
 
   // addOrder(newValue:number){

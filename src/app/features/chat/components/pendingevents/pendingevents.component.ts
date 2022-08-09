@@ -26,7 +26,7 @@ export class PendingeventsComponent{
       if (!sQ) {
         return aL;
       }
-      return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()))
+      return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()));
     })
   );
 
