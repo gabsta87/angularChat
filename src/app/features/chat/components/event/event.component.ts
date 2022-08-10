@@ -29,8 +29,8 @@ export class EventComponent {
   async loadData(){
     this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
     console.log("event content : ",this.eventContent);
-    this.creatorName = await this._dbAccess.getUser(this.eventContent.creatorId);
-    this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent.activityId));
+    this.creatorName = await this._dbAccess.getUser(this.eventContent?.creatorId);
+    this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
   }
 
   subscribe(event:any){

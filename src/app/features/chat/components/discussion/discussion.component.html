@@ -13,7 +13,10 @@
 
         <ion-row class="sendRow">
             <ion-item lines="none" class="sendGroup">
-                <ion-input placeholder="type here" [(ngModel)]="currentMessage" (keypress)="checkKey($event)"></ion-input>
+                <ion-input placeholder="type here" 
+                    [(ngModel)]="currentMessage" 
+                    (keydown.enter)="handleEnterKey()"
+                    (keydown.esc)="handleEscKey()"></ion-input>
                 <ion-button class="sendButton" expand="block" (click)="sendMessage()">Send</ion-button>
             </ion-item>
         </ion-row>

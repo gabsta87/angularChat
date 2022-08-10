@@ -1,4 +1,5 @@
 comment déplacer ma userMap de discussion dans le service angularFireService sans déclencher une méthode à chaque changement?
+comment appliquer mes règles de css pour l'image de background opacity et cover ?
 
     ajout de l'interface fait planter les imports
     Comment résoudre le problème des variables booléennes censées gérer l'apparition/disparition de mon bloc "create new request"

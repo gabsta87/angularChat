@@ -54,10 +54,12 @@ export class DiscussionComponent{
     this.currentMessage = "";
   }
 
-  checkKey(event:any){
-    if(event.charCode === 13){
-      this.sendMessage();
-    }
+  handleEnterKey(){
+    this.sendMessage();
+  }
+
+  handleEscKey(){
+    this.currentMessage = "";
   }
 
   // // Method for infinite scroll

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
-import { DbaccessService } from 'src/app/shared/service/dbaccess.service';
 
 @Component({
   selector: 'app-map',
@@ -13,47 +13,40 @@ export class MapComponent implements AfterViewInit{
   delay = 400;
   clickDate!:any;
   releaseDate!:any;
-  map!: mapboxgl.Map;
+  map!:any;
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 46.2044;
   lng = 6.1432;
-  events = this._dataLoader.getEvents();
+  events = this._dataAccess.getEvents();
   isViewLoaded:boolean = false;
 
-  constructor(private readonly _dataLoader: AngularfireService) { }
+  constructor(private readonly _dataAccess: AngularfireService, private readonly _router:Router) { }
 
   async ngAfterViewInit(){
     this._tryGeoLoc();
     await new Promise ((res)=>{setTimeout(()=> res(true),1000)});
     this.isViewLoaded = true;
-
     navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
+    this.map = document.getElementById('map');
   }
 
-  buttonClicked(){
+  buttonClicked(event:any){
     this.clickDate = Date.now().valueOf();
   }
 
-  buttonRelease(event:mapboxgl.MapMouseEvent | mapboxgl.EventData){
+  buttonRelease(event:any){
     this.releaseDate = Date.now().valueOf();
-
     if(this.releaseDate-this.clickDate > this.delay){
-      // Add red square on click
-      const el = document.createElement('div');
-      el.style.backgroundColor = "red";
-      // el.style.backgroundImage = `url(https://placekitten.com/g/20/20/)`;
-      // el.style.backgroundImage = `./src/assets/icons/red_marker.png`;
-      el.style.opacity="0.5";
-      el.style.borderRadius="10px";
-      el.style.height = "20px";
-      el.style.width = "20px";
-
-      el.className = 'marker';
-      let marker = new mapboxgl.Marker(el);
-
-      marker.setLngLat(event.lngLat).addTo(this.map);
-
-      console.log("long press triggered");
+      console.log("map = ",this.map);
+      
+      console.log("long press triggered : ",event);
+      let eventData = new mapboxgl.Popup({ closeOnClick: true })
+      .setHTML('<h1>Hello World!</h1>')
+      // .addTo(this.map);
+      // eventData.setLngLat(event);
+      console.log(eventData);
+      
+      // this._dataAccess.createEvent(eventData)
     }
   }
 
@@ -61,7 +54,7 @@ export class MapComponent implements AfterViewInit{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
         if (position) {
-          console.log("Latitude: " + position.coords.latitude +
+          console.log("My position : Latitude: " + position.coords.latitude +
             "Longitude: " + position.coords.longitude);
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
@@ -80,6 +73,10 @@ export class MapComponent implements AfterViewInit{
     new mapboxgl.Popup({ closeOnClick: true })
     .setLngLat([6.1432,46.2044])
     .setHTML('<h1>Hello World!</h1>')
-    .addTo(this.map);
+    // .addTo(this.map);
+  }
+
+  navigateToEventDetail(param:any){
+    this._router.navigate(["event"],{queryParams:{eventId:param}});
   }
 }

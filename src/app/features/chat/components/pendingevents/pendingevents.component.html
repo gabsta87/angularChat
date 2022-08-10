@@ -1,6 +1,12 @@
 <ion-content>
     <app-map></app-map>
-    <ion-input placeholder="Search for an event" (ionChange)="updateSearchValue($event)"></ion-input>
+    <ion-input 
+        id="searchField" 
+        placeholder="Search for an event" 
+        (ionChange)="updateSearchValue($event)"
+        (keydown.enter)="handleEnterKey($event)"
+        (keydown.esc)="handleEscKey($event)"
+        ></ion-input>
     <ion-list *ngIf="filteredPendingEvents|async as list" style="background:transparent;">
         <ion-item 
             style="--background:transparent;"

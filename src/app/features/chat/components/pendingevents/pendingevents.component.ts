@@ -30,12 +30,30 @@ export class PendingeventsComponent{
     })
   );
 
-  navigateToEventDetail(param:Event){
+  navigateToEventDetail(param:string){
     this._router.navigate(["event"],{queryParams:{eventId:param}});
   }
 
   updateSearchValue($event:any){
     this.searchQ.next($event.target.value);
+  }
+
+  handleEnterKey($event:any){
+    console.log("enter pressed");
+    
+    // TODO go to detail event if there is only 1 left
+    this.filteredPendingEvents.pipe(map((e:any) => {
+      console.log("elem",e);
+      if(e.length === 1)
+        console.log("navigate to event ",e[0]);
+        
+      return e;
+    }))
+  }
+
+  handleEscKey($event:any){
+    $event.target.value = "";
+    this.updateSearchValue($event);
   }
 }
 
