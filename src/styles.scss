@@ -12,3 +12,16 @@
 //     opacity: 0.5;
 //     z-index: -1;
 // }
+
+// ion-content{
+    // background-image:url("./assets/icons/background.jpg") no-repeat;
+    // background-size: cover;
+    // position: fixed;
+    // opacity: 0.5;
+// }
+
+ion-content{
+    // --background : fixed cover;
+    --background:url("./assets/icons/background.jpg") no-repeat;
+    // --ion-background-color: transparent !important;
+}

@@ -137,6 +137,8 @@ export class AngularfireService implements DataAccess{
   removeUserFromEvent(eventId:string){
     return this.removeUser("events",eventId);
     // TODO decide in which conditions to remove events
+    // For example, if there are no more attendants before the event,
+    // If the creator deletes the event
   }
 
   // addOrder(newValue:number){

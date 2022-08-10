@@ -4,6 +4,8 @@
         placeholder="Enter your activity"
         [(ngModel)]="searchValue"
         (ionChange)="filterActivities()"
+        (keydown.enter)="handleEnterKey()"
+        (keydown.esc)="handleEscKey()"
     ></ion-input>
 
     <div class="ion-justify-content-center ion-align-items-center">

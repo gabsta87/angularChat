@@ -87,4 +87,15 @@ export class ActivitiesComponent{
     // this._dbAccess.removePendingRequest(this.searchValue);
     this.searchValue = "";
   }
+
+  handleEscKey(){
+    this.searchValue = "";
+  }
+
+  handleEnterKey(){
+    console.log("TODO : enter pressed");
+    // Enter chat 
+    // OR 
+    // Create request if possible
+  }
 }

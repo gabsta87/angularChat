@@ -25,12 +25,9 @@ mgl-map{
 }
 
 .marker{
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    background: url("../../../../../../assets/icons/red_marker.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-width: 20px;
+    min-height: 30px;
 }
