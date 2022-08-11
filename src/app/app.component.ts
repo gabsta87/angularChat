@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UpdateManagerService } from './shared/service/update-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angularChat';
+  constructor(private readonly _updateService : UpdateManagerService){
+    this._updateService.displayToastInstall();
+  }
 }
