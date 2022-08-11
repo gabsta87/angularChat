@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { InstallIosManagerService } from './shared/service/install-ios-manager.service';
 import { UpdateManagerService } from './shared/service/update-manager.service';
 
@@ -11,7 +12,9 @@ export class AppComponent {
   title = 'angularChat';
   constructor(private readonly _installService : InstallIosManagerService,
     private readonly _updateService: UpdateManagerService){
-    this._installService.displayToastInstall();
-    this._updateService.activateUpdate();
+      console.log("Version : ",environment.version);
+      
+      this._installService.displayToastInstall();
+      this._updateService.initUpdate();
   }
 }

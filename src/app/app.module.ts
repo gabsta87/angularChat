@@ -14,8 +14,6 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { InstallIosManagerService } from './shared/service/install-ios-manager.service';
-import { UpdateManagerService } from './shared/service/update-manager.service';
 
 @NgModule({
   declarations: [

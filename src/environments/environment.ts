@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  version:'0.0.2',
   firebase: {
     projectId: 'angularchat-eaffb',
     appId: '1:10970880489:web:882d0eda3c956e463dd378',
