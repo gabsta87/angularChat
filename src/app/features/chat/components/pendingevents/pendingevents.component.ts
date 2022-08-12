@@ -10,11 +10,13 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   styleUrls: ['./pendingevents.component.scss']
 })
 export class PendingeventsComponent implements AfterViewInit{
-  
-    pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
-    searchQ = new BehaviorSubject(null as any);
-    activities!:any;
-    userNames = new Map();
+
+  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+  searchQ = new BehaviorSubject(null as any);
+  activities!:any;
+  // userNames = new Map();
+
+  activitiesNames = new Map();
 
   constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
 
@@ -23,20 +25,12 @@ export class PendingeventsComponent implements AfterViewInit{
   }
 
   async loadData(){
-    console.log("loading data");
-    
     // TODO fix bug that will happen when an event will be created with a name still not loaded
     this.activities = await firstValueFrom(this._dbAccess.getActivities());
 
-    console.log("activities : ",this.activities);
-    
-    this.pendingEvents.pipe(map((e:any)=>{
-      console.log("e : ",e);
-      
-      e.forEach(
-        // this.userNames.set()
-      )
-    }))
+    this.activities.forEach((e:{id:string,name:string})=>{
+      this.activitiesNames.set(e.id,e.name);
+    });
   }
 
   filteredPendingEvents = combineLatest([
