@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, Firestore, where, getDocs, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
-import { query } from '@firebase/firestore';
+import { collection, QueryConstraint, Firestore, where, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
+import { query, GeoPoint } from '@firebase/firestore';
+import { AlertController } from '@ionic/angular';
 import { firstValueFrom, map } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
@@ -9,8 +10,9 @@ import { DataAccess } from './dataAccess';
   providedIn:'root'
 })
 export class AngularfireService implements DataAccess{
-
-  constructor(private readonly _dbaccess:Firestore, private readonly _auth:Auth) { }
+  constructor(
+    private readonly _dbaccess:Firestore, 
+    private readonly _auth:Auth) { }
 
   private getElements(name:string,...constraint:QueryConstraint[]){
     const myCollection = collection(this._dbaccess,name);
@@ -101,8 +103,15 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  createEvent(name: string, activityId:string ,date: string, location: string) {
-    let newEvent = {name:name,creationDate:Date.now(),creatorId:this._auth.currentUser?.uid,activityId:activityId,date:date,position:location};
+  async createEvent(name: string, activityId:string ,date: string, location: {lat:number,lng:number}) {
+    let newEvent:any = {
+      name:name,
+      creationDate:Date.now(),
+      creatorId:this._auth.currentUser?.uid,
+      activityId:activityId,
+      date:date,
+      position:new GeoPoint(location.lat,location.lng)
+    };
     return addDoc(collection(this._dbaccess,"events"),newEvent);
   }
 
