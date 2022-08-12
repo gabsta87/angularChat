@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
 import { collection, QueryConstraint, Firestore, where, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
 import { query, GeoPoint } from '@firebase/firestore';
-import { AlertController } from '@ionic/angular';
 import { firstValueFrom, map } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
@@ -122,7 +121,7 @@ export class AngularfireService implements DataAccess{
 
   private addUser(tableName:string,itemId:string){
     const docRef = doc(this._dbaccess, `${tableName}/${itemId}`);
-    return updateDoc(docRef, {users: arrayUnion(this._auth.currentUser?.uid)});
+    return updateDoc(docRef, {attendantsId: arrayUnion(this._auth.currentUser?.uid)});
   }
 
   addUserToEvent(eventId:string){
@@ -135,7 +134,7 @@ export class AngularfireService implements DataAccess{
 
   private async removeUser(tableName:string,itemId:string){
     const docRef = doc(this._dbaccess, `${tableName}/${itemId}`);
-    return await updateDoc(docRef, {users: arrayRemove(this._auth.currentUser?.uid)});
+    return await updateDoc(docRef, {attendantsId: arrayRemove(this._auth.currentUser?.uid)});
   }
 
   removeUserFromRequest(requestId:string){

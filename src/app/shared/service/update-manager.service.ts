@@ -49,8 +49,6 @@ export class UpdateManagerService {
       ),
       this.closed.pipe(map(()=>false))
     );
-    this.updateAvailable.subscribe(
-      (r) => console.log('r', r)
-    );
+    this.updateAvailable.subscribe();
   }
 }

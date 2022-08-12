@@ -62,8 +62,11 @@ export class MapComponent implements AfterViewInit{
         ],
       });
       await alert.present();
+      
       console.log("result.inputs = ",alert.inputs);
       console.log("result = ",alert);
+      
+      console.log("TODO get alert infos");
       this._dataAccess.createEvent("new event","asdlfja","12.12.2024 14:00",$event.lngLat)
     }
   }
@@ -84,6 +87,7 @@ export class MapComponent implements AfterViewInit{
     }
   }
 
+  // éventuellement pour du hover
   showPopup(event:any){
     console.log("event: ",event);
     new mapboxgl.Popup({ closeOnClick: true })
