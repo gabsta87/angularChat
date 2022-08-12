@@ -102,17 +102,27 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  async createEvent(name: string, activityId:string ,date: string, location: {lat:number,lng:number}) {
-    let newEvent:any = {
-      name:name,
-      creationDate:Date.now(),
-      creatorId:this._auth.currentUser?.uid,
-      activityId:activityId,
-      date:date,
-      position:new GeoPoint(location.lat,location.lng)
-    };
-    return addDoc(collection(this._dbaccess,"events"),newEvent);
+  async createEvent(event : {name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number},creatorId?:string}){
+    event.creatorId = this._auth.currentUser?.uid;
+    event.position = new GeoPoint(event.position.latitude,event.position.longitude);
+    return addDoc(collection(this._dbaccess,"events"),event);
   }
+
+  // async createEvent2(name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number}) {
+  //   console.log("activityId : ",activityId);
+
+  //   let newEvent = {
+  //     name:name,
+  //     creationDate:Date.now(),
+  //     creatorId:this._auth.currentUser?.uid,
+  //     activityId:activityId,
+  //     date:date,
+  //     description:description,
+  //     position:new GeoPoint(position.latitude,position.longitude)
+  //   };
+  //   console.log("adding with method 1 : ",newEvent);
+  //   return addDoc(collection(this._dbaccess,"events"),newEvent);
+  // }
 
   deleteEvent(eventId: string) {
     const docRef = doc(this._dbaccess,`events/${eventId}`);

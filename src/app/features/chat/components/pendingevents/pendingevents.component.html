@@ -1,25 +1,25 @@
 <ion-content>
     <app-map></app-map>
-    <ion-input 
-        id="searchField" 
-        placeholder="Search for an event" 
+    <ion-input
+        id="searchField"
+        placeholder="Search for an event"
         (ionChange)="updateSearchValue($event)"
         (keydown.enter)="handleEnterKey($event)"
         (keydown.esc)="handleEscKey($event)"
         ></ion-input>
-    <ion-list *ngIf="filteredPendingEvents|async as list" style="background:transparent;">
-        <ion-item 
+    <ion-list *ngIf="filteredPendingEvents|async as list" style="background:transparent;pointer-events: none;">
+        <ion-item
             style="--background:transparent;"
-            *ngFor="let event of list; let index = index" 
-            lines="none" 
-            (click)="navigateToEventDetail(event['id'])"
+            *ngFor="let event of list; let index = index"
+            lines="none"
         >
-            <ion-card>
+            <ion-card (click)="navigateToEventDetail(event['id'])" style="pointer-events: auto;">
                 <ion-card-header>
                     <!-- <ion-thumbnail>{{index}}</ion-thumbnail> -->
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
                     <ion-card-title>{{event['name']}}</ion-card-title>
                     <ion-card-subtitle>{{event['date']}}</ion-card-subtitle>
+                    <ion-card-subtitle>created by {{event['creatorId']}}</ion-card-subtitle>
                 </ion-card-header>
     <!-- Show location and activity type -->
                 <ion-card-content>{{event['description']}}</ion-card-content>

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { GeoPoint } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import * as mapboxgl from 'mapbox-gl';
@@ -22,9 +23,10 @@ export class MapComponent implements AfterViewInit{
   genevaLocation = {lat:46.2044,lng:6.1432};
   userPosition = {lat:46.2044,lng:6.1432};
   isViewLoaded:boolean = false;
+  positionClicked!:any;
 
   constructor(
-    private readonly _dataAccess: AngularfireService, 
+    private readonly _dataAccess: AngularfireService,
     private readonly _router:Router,
     private alertController: AlertController) { }
 
@@ -41,34 +43,73 @@ export class MapComponent implements AfterViewInit{
 
   async mapClickRaised($event:any){
     this.mapBoxClickDate = Date.now().valueOf();
+    this.positionClicked = $event.position;
 
     if(this.mapBoxClickDate-this.clickDate > this.delay && this.map){
+
       const alert = await this.alertController.create({
         header: 'Please enter details',
-        buttons: ['Confirm',"Cancel"],
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+            text: 'Confirm',
+            handler: (alertData) => { //takes the data
+              this.validData(alertData,$event)
+            }
+        }],
         inputs: [
           {
+            name: 'name',
             type: 'text',
             placeholder: 'Name',
           },
           {
+            name: 'date',
             type: 'date',
             placeholder: 'Event date',
           },
           {
+            name: 'activityId',
+            type: 'text',
+            placeholder: 'Type of activity',
+          },
+          {
+            name: 'description',
             type: 'text',
             placeholder: 'Enter a description',
           },
         ],
       });
+
+      // alert.onkeydown
+      alert.addEventListener("keydown",keyEvent => {
+        if(keyEvent.key === "Enter"){
+          // TODO Find a way to validate AlertInfo with Enter key
+          // console.log(alert);
+          // this.validData(alertData,$event);
+
+          // No solution here to access the data being written inside
+          // https://forum.ionicframework.com/t/handle-alert-action-when-keyboard-enter-key-is-hit/186794/5
+          
+        }
+      })
+
       await alert.present();
-      
-      console.log("result.inputs = ",alert.inputs);
-      console.log("result = ",alert);
-      
-      console.log("TODO get alert infos");
-      this._dataAccess.createEvent("new event","asdlfja","12.12.2024 14:00",$event.lngLat)
     }
+  }
+
+  validData(alertData:any,event:any){
+    let newEvent = {
+      name:alertData.name,
+      activityId:alertData.activityId,
+      description:alertData.description,
+      date:alertData.date,
+      position:{latitude:event.lngLat.lat,longitude:event.lngLat.lng}
+    }
+    this._dataAccess.createEvent(newEvent);
   }
 
   private _tryGeoLoc(){

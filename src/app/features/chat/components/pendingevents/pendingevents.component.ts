@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -9,12 +9,35 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
   templateUrl: './pendingevents.component.html',
   styleUrls: ['./pendingevents.component.scss']
 })
-export class PendingeventsComponent{
+export class PendingeventsComponent implements AfterViewInit{
+  
+    pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+    searchQ = new BehaviorSubject(null as any);
+    activities!:any;
+    userNames = new Map();
 
   constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
 
-  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
-  searchQ = new BehaviorSubject(null as any);
+  ngAfterViewInit(): void {
+    this.loadData();
+  }
+
+  async loadData(){
+    console.log("loading data");
+    
+    // TODO fix bug that will happen when an event will be created with a name still not loaded
+    this.activities = await firstValueFrom(this._dbAccess.getActivities());
+
+    console.log("activities : ",this.activities);
+    
+    this.pendingEvents.pipe(map((e:any)=>{
+      console.log("e : ",e);
+      
+      e.forEach(
+        // this.userNames.set()
+      )
+    }))
+  }
 
   filteredPendingEvents = combineLatest([
     this.pendingEvents,

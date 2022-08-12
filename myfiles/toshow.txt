@@ -2,6 +2,7 @@ infinitescroll with reverse starting position
 map with adding/removing events
     event propagation stop
 
+pointer-events none/auto
 
 
 

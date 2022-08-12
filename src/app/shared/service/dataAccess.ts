@@ -25,7 +25,9 @@ export interface DataAccess{
 
     getEvents():any;
 
-    createEvent(name:string,activityId:string,date:string,location:{lng:number,lat:number}):any;
+    // createEvent2(name:string, activityId:string, description:string ,date:string, position:{latitude:number,longitude:number}):any;
+
+    createEvent(event:{name:string, activityId:string, description:string, date:string, position:{latitude:number,longitude:number}}):any;
 
     deleteEvent(eventId:string):any;
 
