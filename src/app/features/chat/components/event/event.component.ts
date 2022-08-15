@@ -3,6 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { WeatherService } from 'src/app/shared/service/weather.service';
 
 @Component({
   selector: 'app-event',
@@ -20,12 +21,16 @@ export class EventComponent{
   isCreator!:boolean|null;
   isUserSubscribed!:boolean|null;
 
+  weatherResult!:any;
+  weatherIconAddress!:string;
+
   constructor(
     private readonly _route: ActivatedRoute,
     private readonly _dbAccess : AngularfireService,
     private readonly _auth: Auth,
-    private readonly _router: Router
-  ){}
+    private readonly _router: Router,
+    private readonly _weather: WeatherService
+    ){}
 
   ionViewWillEnter(){
     this.eventId = this._route.snapshot.queryParams["eventId"];
@@ -39,6 +44,8 @@ export class EventComponent{
     console.log("creator ? ",this.isCreator,", current uid : ",this._auth.currentUser?.uid," event creator id : ",this.eventContent.creatorId);
     this.isCreator = this._auth.currentUser?.uid === this.eventContent?.creatorId;
     this.isUserSubscribed = this.eventContent.attendantsId?.includes(this._auth.currentUser?.uid);
+    this.weatherResult = await this._weather.getWeather(this.eventContent.position.latitude, this.eventContent.position.longitude);
+    this.weatherIconAddress =  `http://openweathermap.org/img/wn/${this.weatherResult.icon}@2x.png`;
   }
 
   subscribe(){

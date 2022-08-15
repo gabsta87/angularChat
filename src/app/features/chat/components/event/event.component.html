@@ -26,7 +26,9 @@
 
         <ion-card-content>
             {{eventContent?.description}} <br>
-            {{eventContent|json}}
+            {{eventContent|json}} <br>
+            {{weatherResult|json}}<br>
+            <img [src]=weatherIconAddress/>
         </ion-card-content>
     </ion-card>
 
