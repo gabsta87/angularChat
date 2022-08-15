@@ -15,6 +15,7 @@ import { AccountComponent } from './components/account/account.component';
 import { FormsModule } from '@angular/forms';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { EventEditorComponent } from './components/event-editor/event-editor.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { environment } from 'src/environments/environment';
     FooterComponent,
     MapComponent,
     AccountComponent,
+    EventEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +59,9 @@ import { environment } from 'src/environments/environment';
           },{
             path:'account',
             component:AccountComponent
+          },{
+            path:'eventedition',
+            component:EventEditorComponent
           },
         ]
       },]

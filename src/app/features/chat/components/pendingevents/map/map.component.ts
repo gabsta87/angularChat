@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import * as mapboxgl from 'mapbox-gl';
+import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { LocationService } from 'src/app/shared/service/location.service';
 
@@ -13,6 +14,7 @@ import { LocationService } from 'src/app/shared/service/location.service';
 export class MapComponent implements AfterViewInit{
 
   pendingEvents = this._dataAccess.getEvents();
+  activitiesAvailable!:any;
 
   delay = 400;
   clickDate!:number;
@@ -24,6 +26,8 @@ export class MapComponent implements AfterViewInit{
   userPosition!:{lat:number,lng:number};
   isViewLoaded:boolean = false;
   positionClicked!:any;
+
+  activityBeingCreatedId!:string;
 
   constructor(
     private readonly _dataAccess: AngularfireService,
@@ -38,8 +42,7 @@ export class MapComponent implements AfterViewInit{
     await new Promise ((res)=>{setTimeout(()=> res(true),1000)});
     this.isViewLoaded = true;
     navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
-
-
+    
     // this.map.addControl(
     //   new mapboxgl.GeolocateControl({
     //   positionOptions: {
@@ -61,9 +64,37 @@ export class MapComponent implements AfterViewInit{
 
   async mapClickRaised($event:any){
     this.mapBoxClickDate = Date.now().valueOf();
-    this.positionClicked = $event.position;
 
     if(this.mapBoxClickDate-this.clickDate > this.delay && this.map){
+
+      this._router.navigate(["eventedition"],{queryParams:{latitude:$event.lngLat.lat,longitude:$event.lngLat.lng}});
+
+      this.activitiesAvailable = await firstValueFrom(this._dataAccess.getActivities());
+
+      let tempActivities:any[] = [];
+      this.activitiesAvailable.forEach((element:any) => {
+        tempActivities.push(
+          {
+            label: element.name,
+            type: 'radio',
+            value: element.id
+          }
+        )
+      });
+
+      const alertType = await this.alertController.create({
+        header: 'Choose the activity type...',
+        buttons: [
+        {
+          text: 'Confirm',
+          handler: (eventTypeId) => { //takes the data
+            this.activityBeingCreatedId = eventTypeId;
+          }
+        }],
+        inputs: [...tempActivities]
+      });
+
+      // await alertType.present()
 
       const alert = await this.alertController.create({
         header: 'Please enter details',
@@ -111,18 +142,16 @@ export class MapComponent implements AfterViewInit{
 
           // No solution here to access the data being written inside
           // https://forum.ionicframework.com/t/handle-alert-action-when-keyboard-enter-key-is-hit/186794/5
-          
         }
       })
-
-      await alert.present();
+      // await alert.present();
     }
   }
 
   validData(alertData:any,event:any){
     let newEvent = {
       name:alertData.name,
-      activityId:alertData.activityId,
+      activityId:this.activityBeingCreatedId,
       description:alertData.description,
       date:alertData.date,
       position:{latitude:event.lngLat.lat,longitude:event.lngLat.lng}

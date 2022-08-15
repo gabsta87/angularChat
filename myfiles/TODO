@@ -26,3 +26,6 @@ Outil de recherche
     Selon les événements auquel l'utilisateur a participé, définir les clusters
     géographiques selon le type d'activité, puis proposer des activités par type
     dans le même rayon de chaque cluster.
+
+    Ajouter automatiquement les événements dans le calendrier google de l'utilisateur
+    ou un calendrier propre à l'application
