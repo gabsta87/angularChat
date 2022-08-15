@@ -11,6 +11,8 @@ import { NgForm } from '@angular/forms';
 })
 export class EventEditorComponent implements OnInit {
 
+  parentPage!:string;
+
   activities!:any;
   eventLatitude!:number;
   eventLongitude!:number;
@@ -36,6 +38,7 @@ export class EventEditorComponent implements OnInit {
     this.eventLatitude = this._route.snapshot.queryParams["latitude"];
     this.eventLongitude = this._route.snapshot.queryParams["longitude"];
     console.log("event location : ",this.eventLatitude,",",this.eventLongitude);
+    console.log("TODO event-editor.html line 23 : *ngFor to correct");
   }
 
   async loadData(){
@@ -60,5 +63,12 @@ export class EventEditorComponent implements OnInit {
     
     this._dbAccess.createEvent(event)
     this._router.navigate(["pendingevents"]);
+  }
+
+  keyboardManagement($event:any){
+    console.log("event : ",$event);
+    if($event.keyCode === 27){
+      console.log("do shit");
+    }
   }
 }

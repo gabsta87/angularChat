@@ -14,8 +14,6 @@ export class PendingeventsComponent implements AfterViewInit{
   pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
   searchQ = new BehaviorSubject(null as any);
   activities!:any;
-  // userNames = new Map();
-
   activitiesNames = new Map();
 
   constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
@@ -43,7 +41,14 @@ export class PendingeventsComponent implements AfterViewInit{
       if (!sQ) {
         return aL;
       }
-      return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()));
+      
+      
+      return aL.filter((elem:any) =>{console.log("elem date : ",elem['date']," - date now ",Date.now()); return elem['name'].toLowerCase().includes(sQ.toLowerCase())} )
+      .filter((elem:any) => elem['date'] < Date.now());
+      // console.log("elem date : ",elem['date']," - date now ",Date.now());
+      
+      // return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()))
+      // .filter((elem:any) => elem['date'] < Date.now());
     })
   );
 
@@ -57,13 +62,11 @@ export class PendingeventsComponent implements AfterViewInit{
 
   handleEnterKey($event:any){
     console.log("enter pressed");
-    
     // TODO go to detail event if there is only 1 left
     this.filteredPendingEvents.pipe(map((e:any) => {
       console.log("elem",e);
       if(e.length === 1)
         console.log("navigate to event ",e[0]);
-        
       return e;
     }))
   }

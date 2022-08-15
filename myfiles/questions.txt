@@ -1,5 +1,7 @@
-comment déplacer ma userMap de discussion dans le service angularFireService sans déclencher une méthode à chaque changement?
+puis-je appliquer un filtre après l'autre sur les observables ? ou bien il vaut mieux faire tout en une fois ? cf pendingEvents
 comment appliquer mes règles de css pour l'image de background opacity et cover ?
+
+    comment déplacer ma userMap de discussion dans le service angularFireService sans déclencher une méthode à chaque changement?
 
     ajout de l'interface fait planter les imports
     Comment résoudre le problème des variables booléennes censées gérer l'apparition/disparition de mon bloc "create new request"

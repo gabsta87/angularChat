@@ -1,33 +1,32 @@
-<!-- <app-header [parentPage]="'pendingevents'" [title]="eventContent?.name"></app-header> -->
-<!-- <app-header [parentPage]="pendingevents"></app-header> -->
+<app-header parentPage="pendingevents"></app-header>
 <ion-content>
+    <!-- <div (onkeypress)="keyboardManagement($event)" tabindex="0"> -->
+        <ion-item>
+        <ion-label>Title</ion-label>
+        <ion-input clearInput placeholder="Enter a title" [(ngModel)]="eventTitle" type="text"></ion-input>
+        </ion-item>
 
-    <ion-item>
-    <ion-label>Title</ion-label>
-    <ion-input clearInput placeholder="Enter a title" [(ngModel)]="eventTitle" type="text"></ion-input>
-    </ion-item>
+        <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-input type="eventDate" [(ngModel)]="eventDate" type="date"></ion-input>
+        </ion-item>
 
-    <ion-item>
-    <ion-label>Date</ion-label>
-    <ion-input type="eventDate" [(ngModel)]="eventDate" type="date"></ion-input>
-    </ion-item>
+        <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-input clearInput placeholder="Enter a description" [(ngModel)]="eventDescription" type="text"></ion-input>
+        </ion-item>
 
-    <ion-item>
-    <ion-label>Description</ion-label>
-    <ion-input clearInput placeholder="Enter a description" [(ngModel)]="eventDescription" type="text"></ion-input>
-    </ion-item>
+        <ion-list *ngIf="activities">
+        <ion-item>
+            <ion-select placeholder="Select activity" [(ngModel)]="eventType">
+                <!-- <div *ngFor="let item from activities"> -->
+                    <ion-select-option *ngFor="let item from activities" value="item.id">item.name</ion-select-option>
+                <!-- </div> -->
+            </ion-select>
+        </ion-item>
+        </ion-list>
 
-    <ion-list *ngIf="activities">
-    <ion-item>
-        <ion-select placeholder="Select activity" [(ngModel)]="eventType">
-            <div *ngFor="let item from activities">
-                <ion-select-option  value="item.id">item.name</ion-select-option>
-            </div>
-        </ion-select>
-    </ion-item>
-    </ion-list>
-
-    <ion-button (click)="cancelAction()">Cancel</ion-button>
-    <ion-button (click)="confirmAction()">Confirm</ion-button>
-
+        <ion-button (click)="cancelAction()">Cancel</ion-button>
+        <ion-button (click)="confirmAction()">Confirm</ion-button>
+    <!-- </div> -->
 </ion-content>
