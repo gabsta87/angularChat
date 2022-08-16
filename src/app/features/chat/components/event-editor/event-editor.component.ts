@@ -38,7 +38,7 @@ export class EventEditorComponent implements OnInit {
     this.eventLatitude = this._route.snapshot.queryParams["latitude"];
     this.eventLongitude = this._route.snapshot.queryParams["longitude"];
     console.log("event location : ",this.eventLatitude,",",this.eventLongitude);
-    console.log("TODO event-editor.html line 23 : *ngFor to correct");
+    console.log("activities ",this.activities);
   }
 
   async loadData(){

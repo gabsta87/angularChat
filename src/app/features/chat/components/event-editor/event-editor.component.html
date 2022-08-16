@@ -20,7 +20,7 @@
         <ion-item>
             <ion-select placeholder="Select activity" [(ngModel)]="eventType">
                 <!-- <div *ngFor="let item from activities"> -->
-                    <ion-select-option *ngFor="let item from activities" value="item.id">item.name</ion-select-option>
+                    <ion-select-option *ngFor="let item of activities" [value]="item.id">{{item.name}}</ion-select-option>
                 <!-- </div> -->
             </ion-select>
         </ion-item>

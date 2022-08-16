@@ -41,12 +41,11 @@ export class PendingeventsComponent implements AfterViewInit{
       if (!sQ) {
         return aL;
       }
-      
-      
+
       return aL.filter((elem:any) =>{console.log("elem date : ",elem['date']," - date now ",Date.now()); return elem['name'].toLowerCase().includes(sQ.toLowerCase())} )
       .filter((elem:any) => elem['date'] < Date.now());
       // console.log("elem date : ",elem['date']," - date now ",Date.now());
-      
+
       // return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()))
       // .filter((elem:any) => elem['date'] < Date.now());
     })
