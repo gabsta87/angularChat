@@ -100,6 +100,8 @@ export class AngularfireService implements DataAccess{
   }
 
   async createEvent(event : {name: string, activityId:string, description:string ,date: number, position: {latitude:number,longitude:number},creatorId?:string}){
+    console.log("event : ",event);
+    
     event.creatorId = this._auth.currentUser?.uid;
     event.position = new GeoPoint(event.position.latitude,event.position.longitude);
     return addDoc(collection(this._dbaccess,"events"),event);
