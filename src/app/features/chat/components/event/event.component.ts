@@ -43,7 +43,10 @@ export class EventComponent{
     this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
     this.isCreator = this._auth.currentUser?.uid === this.eventContent?.creatorId;
     this.isUserSubscribed = this.eventContent.attendantsId?.includes(this._auth.currentUser?.uid);
-    this.weatherResult = await this._weather.getWeather(this.eventContent.position.latitude, this.eventContent.position.longitude);
+    this.weatherResult = await this._weather.getWeather(
+      this.eventContent.position.latitude, 
+      this.eventContent.position.longitude,
+      this.eventContent.date);
     this.weatherIconAddress =  `http://openweathermap.org/img/wn/${this.weatherResult.icon}@2x.png`;
   }
 

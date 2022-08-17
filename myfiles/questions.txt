@@ -1,3 +1,5 @@
+comment quitter ma boucle foreach quand je trouve la réponse ? dans openweather service
+centrer l'icone du marker mapbox
 comment appliquer mes règles de css pour l'image de background opacity et cover ?
 chatmodule:66 pas possible d'ajouter le guard : il manque push, pop ...
 
