@@ -51,13 +51,16 @@ export class EventEditorComponent implements OnInit {
 
   confirmAction(){
     let tempDate = new Date(this.eventDate).getTime();
-
+    console.log("event date : ",this.eventDate," new Date : ",new Date(this.eventDate));
+    
+    console.log("temp date : ",tempDate," type of ",typeof(tempDate));
+    
     // createEvent
     let event = { 
       name:this.eventTitle, 
       activityId:this.eventType,
       description:this.eventDescription, 
-      date:tempDate.toString(), 
+      date:tempDate, 
       position: { latitude:this.eventLatitude, longitude: this.eventLongitude} 
     }
     this._dbAccess.createEvent(event)

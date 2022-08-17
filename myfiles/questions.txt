@@ -1,3 +1,5 @@
+deploy sur git impossible à cause de l'authentication : mdp désactivé depuis aout 2021
+ng deploy --base-href=/angularChat/ --no-silent
 comment appliquer mes règles de css pour l'image de background opacity et cover ?
 
     puis-je appliquer un filtre après l'autre sur les observables ? ou bien il vaut mieux faire tout en une fois ? cf pendingEvents

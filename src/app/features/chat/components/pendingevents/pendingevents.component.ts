@@ -11,7 +11,8 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 })
 export class PendingeventsComponent implements AfterViewInit{
 
-  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+  // pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getUpToDateEvents();
   searchQ = new BehaviorSubject(null as any);
   activities!:any;
   activitiesNames = new Map();
@@ -40,7 +41,7 @@ export class PendingeventsComponent implements AfterViewInit{
       .filter((elem:any) => 
       // {console.log("raw date : ",elem['date'], " elem date num : ",parseInt(elem['date'])," date now : ", Date.now());
       // return 
-      parseInt(elem['date']) > Date.now()
+        parseInt(elem['date']) > Date.now()
       // }
        );
 
@@ -70,6 +71,7 @@ export class PendingeventsComponent implements AfterViewInit{
 
   handleEnterKey($event:any){
     console.log("enter pressed");
+
     // TODO go to detail event if there is only 1 left
     this.filteredPendingEvents.pipe(map((e:any) => {
       console.log("elem",e);

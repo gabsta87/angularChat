@@ -42,6 +42,12 @@ export class AngularfireService implements DataAccess{
     return eventsList;
   }
 
+  getUpToDateEvents(){
+    const dateConstr:QueryConstraint = where("date",">",Date.now());
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
   getEvent(eventId:string){
     let temp = this.getEvents();
     return temp.pipe(map(datas => datas.find(e => e['id'] === eventId)));
@@ -93,7 +99,7 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  async createEvent(event : {name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number},creatorId?:string}){
+  async createEvent(event : {name: string, activityId:string, description:string ,date: number, position: {latitude:number,longitude:number},creatorId?:string}){
     event.creatorId = this._auth.currentUser?.uid;
     event.position = new GeoPoint(event.position.latitude,event.position.longitude);
     return addDoc(collection(this._dbaccess,"events"),event);
