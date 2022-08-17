@@ -41,7 +41,6 @@ export class EventComponent{
     this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
     this.creatorName = await this._dbAccess.getUser(this.eventContent?.creatorId);
     this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
-    console.log("creator ? ",this.isCreator,", current uid : ",this._auth.currentUser?.uid," event creator id : ",this.eventContent.creatorId);
     this.isCreator = this._auth.currentUser?.uid === this.eventContent?.creatorId;
     this.isUserSubscribed = this.eventContent.attendantsId?.includes(this._auth.currentUser?.uid);
     this.weatherResult = await this._weather.getWeather(this.eventContent.position.latitude, this.eventContent.position.longitude);

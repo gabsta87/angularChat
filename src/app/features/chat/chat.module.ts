@@ -63,7 +63,7 @@ import { EventCreateGuard } from './guards/event-create.guard';
           },{
             path:'eventedition',
             component:EventEditorComponent,
-            // canActivate:EventCreateGuard
+            canActivate:[EventCreateGuard]
           },
         ]
       },]
