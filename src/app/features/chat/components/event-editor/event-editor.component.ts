@@ -20,7 +20,7 @@ export class EventEditorComponent implements OnInit {
   eventTitle!:string;
   eventType!:string;
   eventDescription!:string;
-  eventDate!:string;
+  eventDate!:Date;
 
   constructor(
     private readonly _dbAccess: AngularfireService, 
@@ -50,17 +50,16 @@ export class EventEditorComponent implements OnInit {
   }
 
   confirmAction(){
+    let tempDate = new Date(this.eventDate).getTime();
+
     // createEvent
     let event = { 
       name:this.eventTitle, 
-      // activityId:this.eventType, 
-      activityId:"GhptY7fTM4Ak3JqRlfbm", 
+      activityId:this.eventType,
       description:this.eventDescription, 
-      date:this.eventDate, 
+      date:tempDate.toString(), 
       position: { latitude:this.eventLatitude, longitude: this.eventLongitude} 
     }
-    console.log("TODO : change activityID - creating event ",event);
-    
     this._dbAccess.createEvent(event)
     this._router.navigate(["pendingevents"]);
   }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import * as mapboxgl from 'mapbox-gl';
@@ -13,7 +13,9 @@ import { LocationService } from 'src/app/shared/service/location.service';
 })
 export class MapComponent implements AfterViewInit{
 
-  pendingEvents = this._dataAccess.getEvents();
+  // pendingEvents = this._dataAccess.getEvents();
+  @Input() pendingEvents:any;
+
   activitiesAvailable!:any;
 
   delay = 400;
@@ -41,21 +43,8 @@ export class MapComponent implements AfterViewInit{
     this.userPosition = await this.location.getCurrentPosition();
     await new Promise ((res)=>{setTimeout(()=> res(true),1000)});
     this.isViewLoaded = true;
-    navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
+    // navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
     
-    // this.map.addControl(
-    //   new mapboxgl.GeolocateControl({
-    //   positionOptions: {
-    //   enableHighAccuracy: true
-    //   },
-    //   // When active the map will receive updates to the device's location as it changes.
-    //   trackUserLocation: true,
-    //   // Draw an arrow next to the location dot to indicate which direction the device is heading.
-    //   showUserHeading: true
-    //   })
-    // );
-
-    // this.map.ce
   }
 
   buttonClicked(event:any){
@@ -71,80 +60,6 @@ export class MapComponent implements AfterViewInit{
 
       this.activitiesAvailable = await firstValueFrom(this._dataAccess.getActivities());
 
-      let tempActivities:any[] = [];
-      this.activitiesAvailable.forEach((element:any) => {
-        tempActivities.push(
-          {
-            label: element.name,
-            type: 'radio',
-            value: element.id
-          }
-        )
-      });
-
-      const alertType = await this.alertController.create({
-        header: 'Choose the activity type...',
-        buttons: [
-        {
-          text: 'Confirm',
-          handler: (eventTypeId) => { //takes the data
-            this.activityBeingCreatedId = eventTypeId;
-          }
-        }],
-        inputs: [...tempActivities]
-      });
-
-      // await alertType.present()
-
-      const alert = await this.alertController.create({
-        header: 'Please enter details',
-        buttons: [{
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-        },
-        {
-            text: 'Confirm',
-            handler: (alertData) => { //takes the data
-              this.validData(alertData,$event)
-            }
-        }],
-        inputs: [
-          {
-            name: 'name',
-            type: 'text',
-            placeholder: 'Name',
-          },
-          {
-            name: 'date',
-            type: 'date',
-            placeholder: 'Event date',
-          },
-          {
-            name: 'activityId',
-            type: 'text',
-            placeholder: 'Type of activity',
-          },
-          {
-            name: 'description',
-            type: 'text',
-            placeholder: 'Enter a description',
-          },
-        ],
-      });
-
-      // alert.onkeydown
-      alert.addEventListener("keydown",keyEvent => {
-        if(keyEvent.key === "Enter"){
-          // TODO Find a way to validate AlertInfo with Enter key
-          // console.log(alert);
-          // this.validData(alertData,$event);
-
-          // No solution here to access the data being written inside
-          // https://forum.ionicframework.com/t/handle-alert-action-when-keyboard-enter-key-is-hit/186794/5
-        }
-      })
-      // await alert.present();
     }
   }
 

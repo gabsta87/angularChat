@@ -20,15 +20,6 @@ export class AngularfireService implements DataAccess{
 
     const observableStream = collectionData(data, {idField: 'id'})
     return observableStream;
-
-    // observableStream.pipe(
-    //   map(datas => {
-    //     // ici je peux manipuler les datas ...
-
-    //     // je n'oublie pas de retourner les data manipulées
-    //     return datas;
-    //   })
-    // )
   }
 
   getPendingRequests(){
@@ -108,22 +99,6 @@ export class AngularfireService implements DataAccess{
     return addDoc(collection(this._dbaccess,"events"),event);
   }
 
-  // async createEvent2(name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number}) {
-  //   console.log("activityId : ",activityId);
-
-  //   let newEvent = {
-  //     name:name,
-  //     creationDate:Date.now(),
-  //     creatorId:this._auth.currentUser?.uid,
-  //     activityId:activityId,
-  //     date:date,
-  //     description:description,
-  //     position:new GeoPoint(position.latitude,position.longitude)
-  //   };
-  //   console.log("adding with method 1 : ",newEvent);
-  //   return addDoc(collection(this._dbaccess,"events"),newEvent);
-  // }
-
   deleteEvent(eventId: string) {
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return deleteDoc(docRef);
@@ -158,6 +133,7 @@ export class AngularfireService implements DataAccess{
     // For example, if there are no more attendants before the event,
     // If the creator deletes the event
   }
+}
 
   // addOrder(newValue:number){
   //   const id = Date.now();
@@ -174,4 +150,3 @@ export class AngularfireService implements DataAccess{
   //   const docRef = doc(this._dbaccess,`${this._dbName}/${id}`);
   //   deleteDoc(docRef);
   // }
-}

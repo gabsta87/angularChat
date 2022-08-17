@@ -36,18 +36,27 @@ export class PendingeventsComponent implements AfterViewInit{
     this.searchQ.asObservable()
   ]).pipe(
     map(observables => {
-      const aL = observables[0];
+      const aL = observables[0]
+      .filter((elem:any) => 
+      // {console.log("raw date : ",elem['date'], " elem date num : ",parseInt(elem['date'])," date now : ", Date.now());
+      // return 
+      parseInt(elem['date']) > Date.now()
+      // }
+       );
+
       const sQ: any = observables[1];
+
       if (!sQ) {
-        return aL;
+        return aL
       }
 
-      return aL.filter((elem:any) =>{console.log("elem date : ",elem['date']," - date now ",Date.now()); return elem['name'].toLowerCase().includes(sQ.toLowerCase())} )
-      .filter((elem:any) => elem['date'] < Date.now());
-      // console.log("elem date : ",elem['date']," - date now ",Date.now());
+      return aL
+      .filter((elem:any) => 
+        elem['name'].toLowerCase().includes(sQ.toLowerCase()) || 
+        elem['description'].toLowerCase().includes(sQ.toLowerCase())
 
-      // return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()))
-      // .filter((elem:any) => elem['date'] < Date.now());
+      )
+
     })
   );
 

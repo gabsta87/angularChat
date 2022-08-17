@@ -18,7 +18,6 @@ export class WeatherService {
 
   async getWeather(lat:number,long:number){
     const url = this.getURL(lat,long);
-    console.log("url = ",url);
 
     const request = this._http.get(url);
     let response:any = await firstValueFrom(request);
