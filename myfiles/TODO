@@ -1,10 +1,24 @@
+mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, et construire des objets complets, avec noms d'utilisateurs et tout
+afficher la liste des personnes participant à un événement
+afficher le nom du créateur, et tous les éléments recherchés
+Permettre à l'auteur d'un événement de le modifier
+ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
+éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
+limiter les événements chargés à ceux proches de la localisation de l'utilisateur 
+    (ajouter un bouton recherche pour charger ceux dans la fenêtre en cours quand il n'y a rien)
+permettre à l'utilisateur de modifier son nom, son email, et de voir la liste des événements auxquels il a participé
 faire l'inscription des utilisateurs dans les événements/charger correctement les valeurs des boutons pour chaque utilisateur
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
+corriger l'erreur qui fait que les timestamp de OpenWeatherMap et ceux de Date.now() ne sont pas compatibles.
+afficher une bulle sur l'événement:hover avec la description et le type d'activité, ainsi que les participants
 
-affichage des événements sur la carte
-création d'événements
+TROUVER comment accéder à la référence de mapbox 
+
 charger la liste des requêtes correctement pour chaque utilisateur
-afficher sur la carte tous les événements dont la date n'est pas encore passée
+
+§ affichage des événements sur la carte
+§ création d'événements
+§ afficher sur la carte tous les événements dont la date n'est pas encore passée
 
 REFACTORING
 supprimer toutes les méthodes appelées depuis le HTML (sinon elles sont rechargées à chaque mouvement de souris)
