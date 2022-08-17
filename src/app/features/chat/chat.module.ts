@@ -1,4 +1,4 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { EventEditorComponent } from './components/event-editor/event-editor.component';
+import { EventCreateGuard } from './guards/event-create.guard';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { EventEditorComponent } from './components/event-editor/event-editor.com
             component:AccountComponent
           },{
             path:'eventedition',
-            component:EventEditorComponent
+            component:EventEditorComponent,
+            // canActivate:EventCreateGuard
           },
         ]
       },]
