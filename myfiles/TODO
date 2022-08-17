@@ -1,6 +1,7 @@
-mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, et construire des objets complets, avec noms d'utilisateurs et tout
+mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, 
+    et construire des objets complets, avec noms (événement/utilisateur... au lieu de juste des IDs)
 afficher la liste des personnes participant à un événement
-afficher le nom du créateur, et tous les éléments recherchés
+afficher le nom du créateur, et tous les éléments recherchés, notamment le type d'activité
 Permettre à l'auteur d'un événement de le modifier
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
 éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés

@@ -62,4 +62,8 @@ export class EventComponent{
     this._dbAccess.deleteEvent(this.eventId);
     this._router.navigate(["pendingevents"]);
   }
+
+  editPendingEvent(event:any){
+    console.log("TODO : load data and fill inputs of event-editing window");
+  }
 }
