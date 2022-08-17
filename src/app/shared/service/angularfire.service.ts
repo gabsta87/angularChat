@@ -110,10 +110,11 @@ export class AngularfireService implements DataAccess{
   }
 
   async deleteEvent(eventId: string) {
-    console.log("event : ",(await firstValueFrom(this.getEvent(eventId))));
-    
-    if(!this._auth.currentUser?.uid)
+    let currentEvent = await firstValueFrom(this.getEvent(eventId));
+
+    if(!this._auth.currentUser?.uid || !currentEvent || this._auth.currentUser.uid != currentEvent['creatorId'])
       return;
+
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return deleteDoc(docRef);
   }
