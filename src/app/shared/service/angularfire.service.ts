@@ -87,7 +87,9 @@ export class AngularfireService implements DataAccess{
   }
 
   writeMessage(discussionId:string,message:string){
-    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
+    if(!this._auth.currentUser?.uid)
+      return;
+    return addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
   }
 
   createPendingRequest(name: string, userId: string) {
@@ -100,14 +102,18 @@ export class AngularfireService implements DataAccess{
   }
 
   async createEvent(event : {name: string, activityId:string, description:string ,date: number, position: {latitude:number,longitude:number},creatorId?:string}){
-    console.log("event : ",event);
-    
     event.creatorId = this._auth.currentUser?.uid;
+    if(!event.creatorId)
+      return;
     event.position = new GeoPoint(event.position.latitude,event.position.longitude);
     return addDoc(collection(this._dbaccess,"events"),event);
   }
 
-  deleteEvent(eventId: string) {
+  async deleteEvent(eventId: string) {
+    console.log("event : ",(await firstValueFrom(this.getEvent(eventId))));
+    
+    if(!this._auth.currentUser?.uid)
+      return;
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return deleteDoc(docRef);
   }
