@@ -21,16 +21,16 @@ export class WeatherService {
     const request = this._http.get(url);
     let response:any = await firstValueFrom(request);
 
-    console.log("response = ",response);
-    console.log("response list = ",response.list);
+    // console.log("response = ",response);
+    // console.log("response list = ",response.list);
     let index = this.findIndex(response.list,date);
 
-    if(!index)
+    if(index===undefined)
       return undefined;
     
     response = response.list[index];
 
-    console.log("index found : ",index," , weather : ",response);
+    // console.log("index found : ",index," , weather : ",response);
     // return response;
 
     return {
@@ -60,7 +60,7 @@ export class WeatherService {
 
   findIndex(dataList:{dt:number}[],dateToFind:number):number|undefined{
     let tempdate = dateToFind / 1000;
-    console.log("required date = ",tempdate);
+    // console.log("required date = ",tempdate);
 
     let tempIndex:number|undefined = undefined;
     dataList.forEach((e:{dt:number},i) =>{

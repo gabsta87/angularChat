@@ -28,7 +28,7 @@
             {{eventContent?.description}} <br>
             {{eventContent|json}} <br>
             {{weatherResult|json}}<br>
-            <img [src]=weatherIconAddress/>
+            <img *ngIf="weatherResult" [src]=weatherIconAddress/>
         </ion-card-content>
     </ion-card>
 
