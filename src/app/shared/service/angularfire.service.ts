@@ -10,7 +10,7 @@ import { DataAccess } from './dataAccess';
 })
 export class AngularfireService implements DataAccess{
   constructor(
-    private readonly _dbaccess:Firestore, 
+    private readonly _dbaccess:Firestore,
     private readonly _auth:Auth) { }
 
   private getElements(name:string,...constraint:QueryConstraint[]){
@@ -33,6 +33,10 @@ export class AngularfireService implements DataAccess{
   }
 
   getActivity(activityId:string){
+    // TODO accéder au document et récupérer l'observable
+    // const docRef = doc(this._dbaccess, "activities", activityId);
+    // const dateConstr:QueryConstraint = where("id","==",activityId);
+    // return this.getElements("activities",dateConstr);
     let temp = this.getActivities();
     return temp.pipe(map(datas => datas.find(e => e['id'] === activityId)));
   }
@@ -49,6 +53,12 @@ export class AngularfireService implements DataAccess{
   }
 
   getEvent(eventId:string){
+    // TODO accéder au document et récupérer l'observable
+    // console.log("searching event ",eventId);
+    // const dateConstr:QueryConstraint = where("id","==",eventId);
+    // let temp = this.getElements("events",dateConstr);
+    // console.log("event found : ",temp);
+    // return temp;
     let temp = this.getEvents();
     return temp.pipe(map(datas => datas.find(e => e['id'] === eventId)));
   }
