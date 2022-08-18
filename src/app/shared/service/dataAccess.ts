@@ -23,6 +23,8 @@ export interface DataAccess{
     // events
     getEvent(eventId:string):any;
 
+    getUpToDateEvents():any;
+
     getEvents():any;
 
     // createEvent2(name:string, activityId:string, description:string ,date:string, position:{latitude:number,longitude:number}):any;

@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 export class EventEditorComponent implements OnInit {
 
   parentPage!:string;
+  eventId!:string;
 
   activities!:any;
   eventLatitude!:number;
@@ -20,7 +21,7 @@ export class EventEditorComponent implements OnInit {
   eventTitle!:string;
   eventType!:string;
   eventDescription!:string;
-  eventDate!:Date;
+  eventDate!:string;
 
   constructor(
     private readonly _dbAccess: AngularfireService, 
@@ -32,13 +33,25 @@ export class EventEditorComponent implements OnInit {
     await this.loadData();
   }
 
-  ionViewWillEnter(){
-    console.log("snap : ",this._route.snapshot);
+  async ionViewWillEnter(){
+    // console.log("snap : ",this._route.snapshot);
     
     this.eventLatitude = this._route.snapshot.queryParams["latitude"];
     this.eventLongitude = this._route.snapshot.queryParams["longitude"];
-    console.log("event location : ",this.eventLatitude,",",this.eventLongitude);
-    console.log("activities ",this.activities);
+
+    this.eventId = this._route.snapshot.queryParams["eventId"];
+
+    if(this.eventId){
+      let temp = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
+      if(temp){
+        this.eventDescription = temp['description'];
+        this.eventDate = new Date(temp['date']).toISOString();
+        this.eventTitle = temp['name'];
+        this.eventType = temp['activityId'];
+        this.eventLatitude = temp['position'].latitude;
+        this.eventLongitude = temp['position'].longitude;
+      }
+    }
   }
 
   async loadData(){
@@ -51,11 +64,15 @@ export class EventEditorComponent implements OnInit {
 
   confirmAction(){
     let tempDate = new Date(this.eventDate).getTime();
-    console.log("event date : ",this.eventDate," new Date : ",new Date(this.eventDate));
-    
-    console.log("temp date : ",tempDate," type of ",typeof(tempDate));
-    
-    // createEvent
+
+    // console.log("event date : ",this.eventDate," object new Date : ",new Date(this.eventDate));
+    // console.log("temp date : ",tempDate," type of ",typeof(tempDate));
+
+    if(this.eventId){
+      // delete old event
+      this._dbAccess.deleteEvent(this.eventId);
+    }
+    // create event
     let event = { 
       name:this.eventTitle, 
       activityId:this.eventType,
@@ -64,6 +81,7 @@ export class EventEditorComponent implements OnInit {
       position: { latitude:this.eventLatitude, longitude: this.eventLongitude} 
     }
     this._dbAccess.createEvent(event)
+
     this._router.navigate(["pendingevents"]);
   }
 

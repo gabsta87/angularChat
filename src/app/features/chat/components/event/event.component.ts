@@ -78,6 +78,6 @@ export class EventComponent{
   }
 
   editPendingEvent(event:any){
-    console.log("TODO : load data and fill inputs of event-editing window");
+    this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventId}});
   }
 }
