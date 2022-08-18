@@ -12,8 +12,9 @@
             <ion-label>Created by {{creatorName?.name}}</ion-label>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="attendants.length > 0">
             <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name}}, </span></ion-label>
+            <!-- <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name !== null ? person.name : "anonymous"}}, </span></ion-label> -->
         </ion-item>
 
         <ion-item *ngIf="!isCreator;else subscriberTemplate">

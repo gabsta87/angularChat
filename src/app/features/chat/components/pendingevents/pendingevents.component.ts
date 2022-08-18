@@ -3,6 +3,8 @@ import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import localeFr from '@angular/common/locales/fr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pendingevents',
@@ -16,6 +18,7 @@ export class PendingeventsComponent implements AfterViewInit{
   searchQ = new BehaviorSubject(null as any);
   activities!:any;
   activitiesNames = new Map();
+  creatorsNames = new Map();
 
   constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
 
@@ -38,12 +41,12 @@ export class PendingeventsComponent implements AfterViewInit{
   ]).pipe(
     map(observables => {
       const aL = observables[0]
-      .filter((elem:any) => 
-      // {console.log("raw date : ",elem['date'], " elem date num : ",parseInt(elem['date'])," date now : ", Date.now());
-      // return 
-        parseInt(elem['date']) > Date.now()
-      // }
-       );
+      .filter(async (elem:any) =>{
+        let tempUser = await this._dbAccess.getUser(elem['creatorId']);
+        if(tempUser)
+          this.creatorsNames.set(elem['creatorId'],tempUser['name']!==null?tempUser['name']:"anonymous")
+        return parseInt(elem['date']) > Date.now()
+      });
 
       const sQ: any = observables[1];
 
@@ -52,12 +55,18 @@ export class PendingeventsComponent implements AfterViewInit{
       }
 
       return aL
-      .filter((elem:any) => 
-        elem['name'].toLowerCase().includes(sQ.toLowerCase()) || 
-        elem['description'].toLowerCase().includes(sQ.toLowerCase())
-
+      .filter((elem:any) =>
+      // {
+      //   console.log("elem : ",elem);
+      // return elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
+        elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
+        || elem['description'].toLowerCase().includes(sQ.toLowerCase()) 
+        || this.creatorsNames.get(elem['creatorId']).toLowerCase().includes(sQ.toLowerCase())
+        // Doesnt work
+        // || elem['date']|date:'H:mm dd.MM.y'.toLowerCase().includes(sQ.toLowerCase())
+        // || DatePipe.apply(elem['date'],'H:mm dd.MM.y')
+      // }
       )
-
     })
   );
 

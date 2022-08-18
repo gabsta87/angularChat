@@ -22,6 +22,8 @@ export class EventEditorComponent implements OnInit {
   eventType!:string;
   eventDescription!:string;
   eventDate!:string;
+  eventAttendantsId!:string[];
+  initDate!:string;
 
   constructor(
     private readonly _dbAccess: AngularfireService, 
@@ -50,8 +52,12 @@ export class EventEditorComponent implements OnInit {
         this.eventType = temp['activityId'];
         this.eventLatitude = temp['position'].latitude;
         this.eventLongitude = temp['position'].longitude;
+        this.eventAttendantsId = temp['attendantsId'];
       }
     }
+    this.eventDate = new Date(this.eventDate).toISOString();
+    console.log("init date : ",this.initDate," event date : ",this.eventDate);
+    
   }
 
   async loadData(){
@@ -68,17 +74,18 @@ export class EventEditorComponent implements OnInit {
     // console.log("event date : ",this.eventDate," object new Date : ",new Date(this.eventDate));
     // console.log("temp date : ",tempDate," type of ",typeof(tempDate));
 
+// create event
+    let event = {
+      name:this.eventTitle,
+      activityId:this.eventType,
+      attendantsID:this.eventId?this.eventAttendantsId:[],
+      description:this.eventDescription,
+      date:tempDate,
+      position: { latitude:this.eventLatitude, longitude: this.eventLongitude},
+    }
     if(this.eventId){
       // delete old event
       this._dbAccess.deleteEvent(this.eventId);
-    }
-    // create event
-    let event = { 
-      name:this.eventTitle, 
-      activityId:this.eventType,
-      description:this.eventDescription, 
-      date:tempDate, 
-      position: { latitude:this.eventLatitude, longitude: this.eventLongitude} 
     }
     this._dbAccess.createEvent(event)
 

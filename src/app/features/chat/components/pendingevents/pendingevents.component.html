@@ -18,7 +18,7 @@
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
                     <ion-card-title>{{event['name']}}</ion-card-title>
                     <ion-card-subtitle>{{event['date']|date:'H:mm dd.MM.y'}}</ion-card-subtitle>
-                    <!-- <ion-card-subtitle>created by {{event['creatorId']}}</ion-card-subtitle> -->
+                    <ion-card-subtitle>Created by {{creatorsNames.get(event['creatorId'])}}</ion-card-subtitle>
                     <ion-card-subtitle>{{activitiesNames.get(event['activityId'])}}</ion-card-subtitle>
                 </ion-card-header>
                 <!-- Show location and activity type -->

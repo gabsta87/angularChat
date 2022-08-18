@@ -67,8 +67,12 @@ export class EventComponent{
     this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
     this.eventContent.attendantsId?.forEach(async (element:any) => {
       let attendantName = await this._dbAccess.getUser(element);
-      if(attendantName)
+
+      if(attendantName){
+        if(attendantName['name'] === null)
+          attendantName['name'] = "anonymous"
         this.attendants.push(attendantName)
+      }
     });
   }
 
