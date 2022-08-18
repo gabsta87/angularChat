@@ -17,8 +17,8 @@ export class EventComponent{
   eventContent!:any;
   creatorName!:any;
   activity!:any;
+  attendants:any[] = [];
 
-  isAttending!:boolean;
   isCreator!:boolean|null;
   isUserSubscribed!:boolean|null;
 
@@ -41,8 +41,7 @@ export class EventComponent{
 
   async loadData(){
     this._elemManager.getEvent(this.eventId);
-    
-    this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
+    this.initAttendants();
     this.creatorName = await this._dbAccess.getUser(this.eventContent?.creatorId);
     this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
     this.isCreator = this._auth.currentUser?.uid === this.eventContent?.creatorId;
@@ -54,12 +53,23 @@ export class EventComponent{
     this.weatherIconAddress =  `http://openweathermap.org/img/wn/${this.weatherResult?.icon}@2x.png`;
   }
 
-  subscribe(){
-    if(this.isAttending){
+  async subscribe(){
+    if(this.isUserSubscribed){
       this._dbAccess.addUserToEvent(this.eventId);
     }else{
       this._dbAccess.removeUserFromEvent(this.eventId);
     }
+    this.initAttendants();
+  }
+
+  async initAttendants(){
+    this.attendants = [];
+    this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
+    this.eventContent.attendantsId?.forEach(async (element:any) => {
+      let attendantName = await this._dbAccess.getUser(element);
+      if(attendantName)
+        this.attendants.push(attendantName)
+    });
   }
 
   deletePendingEvent(event:any){
