@@ -52,6 +52,18 @@ export class AngularfireService implements DataAccess{
     return eventsList;
   }
 
+  getEventsCreatedBy(userId:string){
+    const dateConstr:QueryConstraint = where("creatorId","==",userId);
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
+  getEventsAttendedBy(userId:string){
+    const dateConstr:QueryConstraint = where("attendantsID","array-contains",userId);
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
   getEvent(eventId:string){
     // TODO accéder au document et récupérer l'observable
     // console.log("searching event ",eventId);

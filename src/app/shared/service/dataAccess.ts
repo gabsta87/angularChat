@@ -25,6 +25,10 @@ export interface DataAccess{
 
     getUpToDateEvents():any;
 
+    getEventsCreatedBy(userId:string):any;
+
+    getEventsAttendedBy(userId:string):any;
+
     getEvents():any;
 
     // createEvent2(name:string, activityId:string, description:string ,date:string, position:{latitude:number,longitude:number}):any;
