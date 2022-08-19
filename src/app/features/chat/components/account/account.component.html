@@ -27,7 +27,7 @@
         <ion-item lines="none">
             <ion-label>Created events</ion-label>
             <ion-list>
-                <ion-item lines="none" *ngFor="let event of createdEvents">{{event.name}}</ion-item>
+                <ion-item lines="none" *ngFor="let event of createdEvents">{{event.name}} {{event|json}}</ion-item>
             </ion-list>
         </ion-item>
 
@@ -38,7 +38,7 @@
     </div>
     </div>
     <ng-template #loginTempl>
-        <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center">
+        <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center bg-transparent">
         <ion-list lines="none" >
             <ion-item>
                 <ion-button
