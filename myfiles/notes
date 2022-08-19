@@ -55,3 +55,9 @@ Pipes sur Observables
 dayjs pour l'affichage des dates
 
 offlinejs
+
+APP_INITIALIZER pour paramétrer le programme avant le lancement d'Angular 
+(notamment le multi-langue ou le chargement des API_KEYS sur un serveur sécurisé)
+
+Colorier les éléments recherchés
+https://angular.io/guide/attribute-directives

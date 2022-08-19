@@ -1,7 +1,11 @@
+charger correctement la date lors de l'édition d'un événement (peut-être par resolvers)
+éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
+ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
+Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
+    l'ancien événement à moins que le nouveau ne soit valide
 mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, 
     et construire des objets complets, avec noms (événement/utilisateur... au lieu de juste des IDs)
-ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
-éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
+
 limiter les événements chargés à ceux proches de la localisation de l'utilisateur 
     (ajouter un bouton recherche pour charger ceux dans la fenêtre en cours quand il n'y a rien)
 permettre à l'utilisateur de modifier son nom, son email, et de voir la liste des événements auxquels il a participé

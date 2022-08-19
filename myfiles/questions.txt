@@ -1,3 +1,4 @@
+pendingEvents : 87, pourquoi mon osbervable est-il vide ?
 Ne puis-je pas obtenir un observable sur un seul document ? au lieu de demander toute la collection et de la filtrer ? 
 Dois-je remplacer mes loadData par des resolvers ?
 désactiver la coloration syntaxique pour un seul fichier ? notes/TODO/questions
