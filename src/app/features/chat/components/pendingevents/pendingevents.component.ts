@@ -53,7 +53,7 @@ export class PendingeventsComponent implements AfterViewInit{
       if (!sQ) {
         return aL
       }
-
+      const pipe = new DatePipe("fr-CH");
       return aL
       .filter((elem:any) =>
       // {
@@ -63,7 +63,7 @@ export class PendingeventsComponent implements AfterViewInit{
         || elem['description'].toLowerCase().includes(sQ.toLowerCase()) 
         || this.creatorsNames.get(elem['creatorId']).toLowerCase().includes(sQ.toLowerCase())
         // Doesnt work
-        // || elem['date']|date:'H:mm dd.MM.y'.toLowerCase().includes(sQ.toLowerCase())
+        || pipe.transform(elem['date']||"",'H:mm dd.MM.y')?.toLowerCase().includes(sQ.toLowerCase())
         // || DatePipe.apply(elem['date'],'H:mm dd.MM.y')
       // }
       )
