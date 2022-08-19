@@ -19,9 +19,15 @@
             <ion-button>Save</ion-button>
         </ion-item>
         <ion-item lines="none">
-            <ion-label>Events history</ion-label>
+            <ion-label>Attended events</ion-label>
             <ion-list>
-                <ion-item lines="none">Event 1</ion-item>
+                <ion-item lines="none" *ngFor="let event of attendedEvents">{{event.name}}</ion-item>
+            </ion-list>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label>Created events</ion-label>
+            <ion-list>
+                <ion-item lines="none" *ngFor="let event of createdEvents">{{event.name}}</ion-item>
             </ion-list>
         </ion-item>
 
