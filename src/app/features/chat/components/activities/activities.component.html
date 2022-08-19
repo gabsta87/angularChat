@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content class="bg-transparent">
     <div className="custom_body">
     <ion-input class="searchbar"
         placeholder="Enter your activity"
@@ -8,7 +8,7 @@
         (keydown.esc)="handleEscKey()"
     ></ion-input>
 
-    <div class="ion-justify-content-center ion-align-items-center">
+    <div class="bg-transparent ion-justify-content-center ion-align-items-center">
     <ion-list class="ion-no-padding" *ngIf="filteredActivitiesList|async as items">
         <ion-item *ngFor="let item of items;
                             let index = index"
