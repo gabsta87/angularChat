@@ -1,6 +1,5 @@
 mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, 
     et construire des objets complets, avec noms (événement/utilisateur... au lieu de juste des IDs)
-afficher le nom du créateur, et tous les éléments recherchés, notamment le type d'activité
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
 éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
 limiter les événements chargés à ceux proches de la localisation de l'utilisateur 
@@ -15,6 +14,7 @@ TROUVER comment accéder à la référence de mapbox
 
 charger la liste des requêtes correctement pour chaque utilisateur
 
+§ afficher le nom du créateur, et tous les éléments recherchés, notamment le type d'activité
 § Permettre à l'auteur d'un événement de le modifier
 § afficher la liste des personnes participant à un événement
 
