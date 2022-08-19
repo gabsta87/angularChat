@@ -1,7 +1,7 @@
 <!-- (mapCreate)="map = $event" -->
 <div id="mapcontainer" *ngIf="isViewLoaded === true">
     <div id="mapdiv">
-        <mgl-map
+        <mgl-map #map
             (mousedown)="buttonClicked($event)"
             (mapClick)="mapClickRaised($event)"
             (onMapLoad)="mapCreated($event)"

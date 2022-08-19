@@ -15,26 +15,17 @@ export class AccountComponent implements OnInit{
   attendedEvents!:any;
   createdEvents!:any;
 
-  constructor(private readonly _auth: Auth,private readonly _dbAccess:AngularfireService) {
-  }
+  constructor(private readonly _auth: Auth,private readonly _dbAccess:AngularfireService) {}
   
   ngOnInit(): void {
     this.loadData();
   }
 
-  onViewWillEnter(){
-  }
-
   async loadData(){
-    console.log("loading data");
-    
     let userId = this._auth?.currentUser?.uid;
     if(userId){
       this.attendedEvents = await firstValueFrom(this._dbAccess.getEventsAttendedBy(userId));
-      console.log("attended events : ",this.attendedEvents);
-      
       this.createdEvents = await firstValueFrom(this._dbAccess.getEventsCreatedBy(userId));
-      console.log("created events : ",this.createdEvents);
     }
   }
 
@@ -50,14 +41,13 @@ export class AccountComponent implements OnInit{
     const provider = new GoogleAuthProvider();
     const credential = await signInWithPopup(this._auth,provider);
     this._dbAccess.createUser(credential.user);
-    console.log("credential = ",credential);
     this.loadData();
   }
 
   async loginAnonymously(){
     const credential = await signInAnonymously(this._auth);
     this._dbAccess.createUser(credential.user);
-    console.log("credential = ",credential);
+    this.loadData();
   }
 
 }

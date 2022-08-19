@@ -47,7 +47,7 @@ export class AngularfireService implements DataAccess{
   }
 
   getUpToDateEvents(){
-    const dateConstr:QueryConstraint = where("date",">",Date.now());
+    const dateConstr:QueryConstraint = where("timeStamp",">",Date.now());
     let eventsList = this.getElements("events",dateConstr);
     return eventsList;
   }
@@ -59,7 +59,7 @@ export class AngularfireService implements DataAccess{
   }
 
   getEventsAttendedBy(userId:string){
-    const dateConstr:QueryConstraint = where("attendantsID","array-contains",userId);
+    const dateConstr:QueryConstraint = where("attendantsId","array-contains",userId);
     let eventsList = this.getElements("events",dateConstr);
     return eventsList;
   }
@@ -123,7 +123,7 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  async createEvent(event : {name: string, activityId:string, description:string ,date: number, position: {latitude:number,longitude:number},creatorId?:string}){
+  async createEvent(event : {name:string, activityId:string, description:string, date: string, timeStamp:number, position:{latitude:number,longitude:number},creatorId?:string}){
     event.creatorId = this._auth.currentUser?.uid;
     if(!event.creatorId)
       return;

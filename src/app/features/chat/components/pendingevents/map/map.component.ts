@@ -67,17 +67,6 @@ export class MapComponent implements AfterViewInit{
     }
   }
 
-  validData(alertData:any,event:any){
-    let newEvent = {
-      name:alertData.name,
-      activityId:this.activityBeingCreatedId,
-      description:alertData.description,
-      date:alertData.date,
-      position:{latitude:event.lngLat.lat,longitude:event.lngLat.lng}
-    }
-    this._dataAccess.createEvent(newEvent);
-  }
-
   // private _tryGeoLoc(){
   //   if (navigator.geolocation) {
   //     navigator.geolocation.getCurrentPosition((position: any) => {

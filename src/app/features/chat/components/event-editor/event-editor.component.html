@@ -6,10 +6,12 @@
         <ion-input clearInput placeholder="Enter a title" [(ngModel)]="eventTitle" type="text"></ion-input>
         </ion-item>
 
-        <!-- {{eventDate|date:'yyyy-MM-ddTHH:mm:ss'}} -->
+        {{eventDate|date:'yyyy-MM-ddTHH:mm:ss'}}
         <ion-item>
+            <!-- <ion-datetime hourCycle="h23" [firstDayOfWeek]="1" color="primary" value="{{initDate}}"></ion-datetime> -->
             <!-- <ion-datetime hourCycle="h23" [firstDayOfWeek]="1" color="primary" value="{{eventDate|date:'YYYY-MM-ddTHH:mm:ss'}}"></ion-datetime> -->
-            <ion-datetime [firstDayOfWeek]="1" color="primary" [(ngModel)]="eventDate"></ion-datetime>
+            <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime>
+            <!-- <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" value="2022-08-25T11:42:00.000Z"></ion-datetime> -->
         </ion-item>
         <!-- <ion-item>
         <ion-label>Date</ion-label>

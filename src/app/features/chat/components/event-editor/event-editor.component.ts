@@ -23,7 +23,7 @@ export class EventEditorComponent implements OnInit {
   eventDescription!:string;
   eventDate!:string;
   eventAttendantsId!:string[];
-  initDate!:string;
+  today = new Date(Date.now()).toISOString();
 
   constructor(
     private readonly _dbAccess: AngularfireService, 
@@ -36,8 +36,6 @@ export class EventEditorComponent implements OnInit {
   }
 
   async ionViewWillEnter(){
-    // console.log("snap : ",this._route.snapshot);
-    
     this.eventLatitude = this._route.snapshot.queryParams["latitude"];
     this.eventLongitude = this._route.snapshot.queryParams["longitude"];
 
@@ -55,9 +53,6 @@ export class EventEditorComponent implements OnInit {
         this.eventAttendantsId = temp['attendantsId'];
       }
     }
-    this.eventDate = new Date(this.eventDate).toISOString();
-    console.log("init date : ",this.initDate," event date : ",this.eventDate);
-    
   }
 
   async loadData(){
@@ -65,30 +60,37 @@ export class EventEditorComponent implements OnInit {
   }
 
   cancelAction(){
+    this.initFields();
     this._router.navigate(["pendingevents"]);
+  }
+
+  private initFields(){
+    this.eventTitle = "";
+    this.eventDescription = "";
+    this.eventType = "";
+    this.eventDate = "";
   }
 
   confirmAction(){
     let tempDate = new Date(this.eventDate).getTime();
 
-    // console.log("event date : ",this.eventDate," object new Date : ",new Date(this.eventDate));
-    // console.log("temp date : ",tempDate," type of ",typeof(tempDate));
-
 // create event
     let event = {
       name:this.eventTitle,
       activityId:this.eventType,
-      attendantsID:this.eventId?this.eventAttendantsId:[],
+      attendantsId:this.eventId?this.eventAttendantsId:[],
       description:this.eventDescription,
-      date:tempDate,
+      date:this.eventDate,
+      timeStamp:tempDate,
       position: { latitude:this.eventLatitude, longitude: this.eventLongitude},
     }
+
     if(this.eventId){
       // delete old event
       this._dbAccess.deleteEvent(this.eventId);
     }
     this._dbAccess.createEvent(event)
-
+    this.initFields();
     this._router.navigate(["pendingevents"]);
   }
 
