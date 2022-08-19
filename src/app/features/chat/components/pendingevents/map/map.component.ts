@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import * as mapboxgl from 'mapbox-gl';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
@@ -34,7 +33,6 @@ export class MapComponent implements AfterViewInit{
   constructor(
     private readonly _dataAccess: AngularfireService,
     private readonly _router:Router,
-    private alertController: AlertController,
     private readonly location: LocationService
     ) { }
 
@@ -49,6 +47,12 @@ export class MapComponent implements AfterViewInit{
 
   buttonClicked(event:any){
     this.clickDate = Date.now().valueOf();
+  }
+
+  mapCreated($event:any){
+    console.log("created map event : ",$event);
+    // TODO register map reference
+    
   }
 
   async mapClickRaised($event:any){

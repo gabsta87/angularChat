@@ -1,9 +1,10 @@
 <!-- (mapCreate)="map = $event" -->
 <div id="mapcontainer" *ngIf="isViewLoaded === true">
     <div id="mapdiv">
-        <mgl-map #map
+        <mgl-map
             (mousedown)="buttonClicked($event)"
             (mapClick)="mapClickRaised($event)"
+            (onMapLoad)="mapCreated($event)"
             [style]="'mapbox://styles/mapbox/streets-v11'"
             [zoom]="[12]"
             [center]="[userPosition.lng,userPosition.lat]"
