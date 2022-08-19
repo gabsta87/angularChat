@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1660827621128,
+  "timestamp": 1660911545244,
   "index": "/angularChat/index.html",
   "assetGroups": [
     {
@@ -67,21 +67,21 @@
         "/angularChat/9536.d2e07291a035bf15.js",
         "/angularChat/9654.7d1bef56d1f3e7b0.js",
         "/angularChat/9824.c69deee7bb25b16a.js",
-        "/angularChat/9909.a8cfc49ad4793d4d.js",
+        "/angularChat/9909.f97aed2cc53ae23d.js",
         "/angularChat/9922.b23d6202b23982dd.js",
         "/angularChat/9958.377a380c0f7bc072.js",
         "/angularChat/common.0db63aef56920c5f.js",
         "/angularChat/favicon.ico",
         "/angularChat/index.html",
-        "/angularChat/main.c13ee1fa1dbba0cb.js",
+        "/angularChat/main.8f3c30001495ca68.js",
         "/angularChat/manifest.webmanifest",
         "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js",
         "/angularChat/polyfills-dom.369e5b2924f3ce09.js",
         "/angularChat/polyfills.ed5a183afb92d3a5.js",
-        "/angularChat/runtime.939a2a4c9bf9ab7a.js",
+        "/angularChat/runtime.41c5e8f8cb3d7bfe.js",
         "/angularChat/stencil-polyfills-css-shim.c4efaf631c3dc310.js",
         "/angularChat/stencil-polyfills-dom.0f196e906225aa43.js",
-        "/angularChat/styles.540acfcc3b449885.css"
+        "/angularChat/styles.d9d558e5587278ea.css"
       ],
       "patterns": []
     },
@@ -170,7 +170,7 @@
     "/angularChat/9536.d2e07291a035bf15.js": "ccfbf14f2127d58f5f9b490374298f0d9768ca6e",
     "/angularChat/9654.7d1bef56d1f3e7b0.js": "6b1d7fa97b66b83c3341b7204fa640acbff6165c",
     "/angularChat/9824.c69deee7bb25b16a.js": "44a10e5346f0c294f142fcdb89926b39e1f2fcfa",
-    "/angularChat/9909.a8cfc49ad4793d4d.js": "b54ba3b64784a54a195c3e7e94e6ff166d8d0827",
+    "/angularChat/9909.f97aed2cc53ae23d.js": "c38d13d5b9a12f2fc23829d3eaac2864fc79ef96",
     "/angularChat/9922.b23d6202b23982dd.js": "1628dd9811615fe5b503c5bdfc88d0701c22856d",
     "/angularChat/9958.377a380c0f7bc072.js": "5a6bce2bb80b7e0dc1e0bb8d897ce7952cf3abb7",
     "/angularChat/assets/data/db.json": "cde2eb4ebf6e254ec6f6f243f6b95a328f78e7a1",
@@ -189,17 +189,17 @@
     "/angularChat/background.ce0803b85eae6eeb.jpg": "93e4c7686a2328b55cbf5b1c994eb076ae50e3c2",
     "/angularChat/common.0db63aef56920c5f.js": "069b7026a61d3a2175f3ef381afbc37658e1dc38",
     "/angularChat/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/angularChat/index.html": "fb489c1e4f1cd7ba8d44298f3c1e73f02bb50e8b",
-    "/angularChat/main.c13ee1fa1dbba0cb.js": "640b276cd64d1d7a2a0e7480963d72c6a07ded22",
+    "/angularChat/index.html": "66f6edaa859d7237b23154f0bdd916c758ca702c",
+    "/angularChat/main.8f3c30001495ca68.js": "04d1ddfdb3bf6ff1f6bfb761ea261bb2d6e876ef",
     "/angularChat/manifest.webmanifest": "7dc77dbab9b8297e2d13bd98d9a281847c23270a",
     "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js": "c2db9fea03ad705b3288582b670def6ae9891197",
     "/angularChat/polyfills-dom.369e5b2924f3ce09.js": "11acca8dc15bcc7d8fa2036913e7d10a9aa92a5e",
     "/angularChat/polyfills.ed5a183afb92d3a5.js": "c20691ff6112c7e3c03788a061efc155abcdbb28",
     "/angularChat/red_marker.b1602dffc924b8d6.png": "d33708134aa3e3da0d4bc4f9784de6b98388295a",
-    "/angularChat/runtime.939a2a4c9bf9ab7a.js": "8b90e31fa81c133b30f36022a4ec3560072b1584",
+    "/angularChat/runtime.41c5e8f8cb3d7bfe.js": "dc8e91633c814e9a8167f05060aea02563a7a52f",
     "/angularChat/stencil-polyfills-css-shim.c4efaf631c3dc310.js": "05c5dbbbb69e7551af853dfd6efe2bb3c3794108",
     "/angularChat/stencil-polyfills-dom.0f196e906225aa43.js": "dd009a02ebb24aa6daedfacabd6a61a2058d2cc8",
-    "/angularChat/styles.540acfcc3b449885.css": "c60ba3083af50a3c3652438d21e747944bc5557c"
+    "/angularChat/styles.d9d558e5587278ea.css": "448cec02ca9210c8e4c46bd93dfabc1d19e38d52"
   },
   "navigationUrls": [
     {
