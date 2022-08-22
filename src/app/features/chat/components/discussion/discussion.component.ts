@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { DocumentData } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
@@ -34,6 +35,7 @@ export class DiscussionComponent{
   constructor(
     private readonly _route : ActivatedRoute,
     private readonly _fireStore:AngularfireService,
+    private readonly _auth: Auth
   ){}
 
   async getUserName(userId:string){
@@ -47,6 +49,10 @@ export class DiscussionComponent{
         this.usersMap.set(temp.id,temp.name);
     }
     return temp;
+  }
+
+  isLogged(){
+    return this._auth.currentUser?.uid;
   }
 
   sendMessage(){

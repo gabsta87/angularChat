@@ -51,12 +51,16 @@ export class EventComponent{
   }
 
   async subscribe(){
-    if(this.isUserSubscribed){
+    if(this.isUserSubscribed && this.isLogged()){
       this._dbAccess.addUserToEvent(this.eventId);
     }else{
       this._dbAccess.removeUserFromEvent(this.eventId);
     }
     this.initAttendants();
+  }
+
+  isLogged(){
+    return this._auth.currentUser?.uid;
   }
 
   async initAttendants(){
