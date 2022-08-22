@@ -3,22 +3,26 @@
     height: 80%; 
 }
 
-.myDiv ion-button{
-    height: 40px;
-}
-
 .myDiv{
     display: flex;
     margin: auto;
     height: 40px;
+    ion-button{
+        height: 40px;
+        margin:auto;
+    }
 }
 
-.loginTemplate ion-button{
-    height: 40px;
-    min-width: 150px;
+.loginTemplate{
+    display: flex;
+    ion-button{
+        height: 40px;
+        min-width: 150px;
+        margin:auto;
+    }
 }
 
-.loginElem{
+.loginField{
     background-color: white;
     border-color: lightgray;
     border-width: 1px;
@@ -28,4 +32,8 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+}
+
+.loginButtons{
+    --background: none;
 }
