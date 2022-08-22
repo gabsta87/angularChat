@@ -1,9 +1,14 @@
-pendingEvents : 87, pourquoi mon osbervable est-il vide ?
-Ne puis-je pas obtenir un observable sur un seul document ? au lieu de demander toute la collection et de la filtrer ? 
-    Dois-je remplacer mes loadData par des resolvers ?
+activities:91: subscribe : le tableau de booléens provoque une boucle infinie lors de l'inscription
+event-editor : les données censées être chargées par le Resolver ne parviennent pas dans ma classe.
+
 désactiver la coloration syntaxique pour un seul fichier ? notes/TODO/questions
 comment résoudre le problème des API keys sur github ?
-centrer l'icone du marker mapbox
+
+    OUI : TODO Ne puis-je pas obtenir un observable sur un seul document ? au lieu de demander toute la collection et de la filtrer ? 
+    Dois-je remplacer mes loadData par des resolvers ?
+
+    centrer l'icone du marker mapbox
+    pendingEvents : 87, pourquoi mon osbervable est-il vide ?
 
     comment appliquer mes règles de css pour l'image de background opacity et cover ?
     comment appliquer mon putain de pipe sur la date dans le code javascript ? cf pendingEvents:65
