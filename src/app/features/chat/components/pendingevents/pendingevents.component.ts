@@ -43,8 +43,11 @@ export class PendingeventsComponent implements AfterViewInit{
       const aL = observables[0]
       .filter(async (elem:any) =>{
         let tempUser = await this._dbAccess.getUser(elem['creatorId']);
-        if(tempUser)
-          this.creatorsNames.set(elem['creatorId'],tempUser['name']!==null?tempUser['name']:"anonymous")
+        if(tempUser){
+          this.creatorsNames.set(elem['creatorId'],tempUser['name'])
+        }else{
+          this.creatorsNames.set(elem['creatorId'],"anonymous")
+        }
         return parseInt(elem['date']) > Date.now()
       });
 
@@ -57,7 +60,9 @@ export class PendingeventsComponent implements AfterViewInit{
       return aL
       .filter((elem:any) =>
       // {
-      //   console.log("elem : ",elem);
+        // console.log("elem : ",elem);
+        // console.log("creator name : ",this.creatorsNames.get(elem['creatorId']));
+        // console.log("all names : ",this.creatorsNames);
       // return elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
         elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
         || elem['description'].toLowerCase().includes(sQ.toLowerCase()) 
@@ -78,16 +83,21 @@ export class PendingeventsComponent implements AfterViewInit{
     this.searchQ.next($event.target.value);
   }
 
-  handleEnterKey($event:any){
+  async handleEnterKey($event:any){
     console.log("enter pressed");
 
     // TODO go to detail event if there is only 1 left
-    this.filteredPendingEvents.pipe(map((e:any) => {
-      console.log("elem",e);
-      if(e.length === 1)
-        console.log("navigate to event ",e[0]);
-      return e;
-    }))
+    const valeur = await firstValueFrom(this.filteredPendingEvents);
+    if(valeur.length === 1){
+      this.navigateToEventDetail(valeur[0]['id']);
+    }
+
+    // this.filteredPendingEvents.pipe(map((e:any) => {
+    //   console.log("elem",e);
+    //   if(e.length === 1)
+    //     console.log("navigate to event ",e[0]);
+    //   return e;
+    // }))
   }
 
   handleEscKey($event:any){
