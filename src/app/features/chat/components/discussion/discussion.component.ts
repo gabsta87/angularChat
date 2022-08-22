@@ -25,7 +25,7 @@ export class DiscussionComponent{
     this.messagesList = this._fireStore.getMessages(this.discussionId);
     this.currentMessage = "";
 
-    this.messagesList = this.messagesList.pipe(tap(console.log),switchMap(async (e:any) => {
+    this.messagesList = this.messagesList.pipe(switchMap(async (e:any) => {
       e.forEach(async (elem:any)=>await this.getUserName(elem.userId))
       return e;
     }));
