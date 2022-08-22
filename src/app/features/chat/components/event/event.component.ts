@@ -3,7 +3,6 @@ import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
-import { ElementsManagerService } from 'src/app/shared/service/elements-manager.service';
 import { WeatherService } from 'src/app/shared/service/weather.service';
 
 @Component({
@@ -31,7 +30,6 @@ export class EventComponent{
     private readonly _auth: Auth,
     private readonly _router: Router,
     private readonly _weather: WeatherService,
-    private readonly _elemManager: ElementsManagerService
     ){}
 
   ionViewWillEnter(){
@@ -40,7 +38,6 @@ export class EventComponent{
   }
 
   async loadData(){
-    this._elemManager.getEvent(this.eventId);
     this.initAttendants();
     this.creatorName = await this._dbAccess.getUser(this.eventContent?.creatorId);
     this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
