@@ -39,6 +39,99 @@
     </div>
     <ng-template #loginTempl>
         <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center bg-transparent">
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col size="12" class="ion-text-center">
+                    <ion-item class="loginElem">
+                        <ion-label>email</ion-label>
+                        <ion-input></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" class="ion-text-center">
+                    <ion-item class="loginElem">
+                        <ion-label>password</ion-label>
+                        <ion-input></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" class="ion-text-center">
+                    <ion-item>
+                        <ion-button
+                        (click)="loginLocally()"
+                        >Login</ion-button>
+                        <ion-button
+                        (click)="createAccount()"
+                        >Create account</ion-button>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="12" class="ion-text-center">
+                    <ion-item>
+                        <ion-button
+                            (click)="loginWithGoogle()"
+                        >Login with Google</ion-button>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" class="ion-text-center">
+                        <ion-button
+                        (click)="loginAnonymously()"
+                        >Login anonymously</ion-button>
+                </ion-col>
+            </ion-row>
+
+        </ion-grid>
+        </div>
+    </ng-template>
+</ion-content>
+
+<!-- <ion-content>
+    <div *ngIf="isLogged(); else loginTempl">
+        <ion-item>
+            <ion-label>Pseudo</ion-label>
+            <ion-input [(ngModel)]="userName"></ion-input>
+            <ion-button (click)="updateName()">Save</ion-button>
+        </ion-item>
+        <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input></ion-input>
+            <ion-button>Save</ion-button>
+        </ion-item>
+        <ion-item>
+            <ion-label>Use auto-location</ion-label>
+            <ion-toggle [(ngModel)]="autoLocation"></ion-toggle>
+
+            <ion-label>Location</ion-label>
+            <ion-input [disabled]="autoLocation"></ion-input>
+            <ion-button>Save</ion-button>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label>Attended events</ion-label>
+            <ion-list>
+                <ion-item lines="none" *ngFor="let event of attendedEvents"><b>{{event.name }}</b>| {{event.date|date:'H:mm dd.MM.y'}}</ion-item>
+            </ion-list>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label>Created events</ion-label>
+            <ion-list>
+                <ion-item lines="none" *ngFor="let event of createdEvents"><b>{{event.name }}</b>| {{event.date|date:'H:mm dd.MM.y'}}</ion-item>
+            </ion-list>
+        </ion-item>
+
+    <div class="myDiv ion-justify-content-center">
+        <ion-button
+        (click)="logout()"
+        >Logout</ion-button>
+    </div>
+    </div>
+    <ng-template #loginTempl>
+        <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center bg-transparent">
         <ion-list lines="none" class="ion-justify-content-center ion-align-items-center">
 
             <ion-item class="loginElem">
@@ -73,4 +166,4 @@
         </ion-list>
         </div>
     </ng-template>
-</ion-content>
+</ion-content> -->
