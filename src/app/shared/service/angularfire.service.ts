@@ -114,8 +114,15 @@ export class AngularfireService implements DataAccess{
     return addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
   }
 
-  createPendingRequest(name: string, userId: string) {
-    return addDoc(collection(this._dbaccess,"requests"),{name:name,users:[userId]});
+  getPendingRequest(requestId: string) {
+    let temp = this.getPendingRequests();
+    return temp.pipe(map(datas => datas.find(e => e['id'] === requestId)));
+  }
+
+  createPendingRequest(name: string) {
+    if(!this._auth.currentUser?.uid)
+      return
+    return addDoc(collection(this._dbaccess,"requests"),{name:name,attendantsId:[this._auth.currentUser.uid]});
   }
 
   deletePendingRequest(requestId: string) {

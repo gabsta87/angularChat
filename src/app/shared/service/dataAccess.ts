@@ -5,7 +5,9 @@ export interface DataAccess{
     // requests
     getPendingRequests():any;
 
-    createPendingRequest(name:string, userId:string):any;
+    getPendingRequest(id:string):any;
+
+    createPendingRequest(name:string):any;
 
     deletePendingRequest(requestId:string):any;
 
