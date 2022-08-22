@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { NgForm } from '@angular/forms';
+import { Event } from '../../resolvers/event-edition.resolver';
+import { DataAccess } from 'src/app/shared/service/dataAccess';
 
 @Component({
   selector: 'app-event-editor',
@@ -12,56 +14,59 @@ import { NgForm } from '@angular/forms';
 export class EventEditorComponent implements OnInit {
 
   parentPage!:string;
-  eventId!:string;
 
+  eventData!:Event;
   activities!:any;
-  eventLatitude!:number;
-  eventLongitude!:number;
 
-  eventTitle!:string;
-  eventType!:string;
-  eventDescription!:string;
-  eventDate!:string;
-  eventAttendantsId!:string[];
+  eventTitle = this.eventData?.name;
+  eventDate = this.eventData?.date;
+  eventDescription = this.eventData?.description;
+  eventType = this.eventData?.activityName;
   today = new Date(Date.now()).toISOString();
+
+  // Event{
+  //   name:string;
+  //   id:string;
+  //   activityId:string;
+  //   activityName:string;
+  //   creatorId:string;
+  //   creatorName:string;
+  //   date:string;
+  //   description:string;
+  //   timeStamp:number;
+  //   position:{latitude:number,longitude:number};
+  //   attendants:Map<string,string>;
+  // }
+
+  afterViewInit(){
+    console.log("after view init");
+    console.log("event data : ",this.eventData);
+    console.log("activities : ",this.activities);
+  }
+
+  async ionViewWillEnter(){
+    console.log("Ion will enter");
+    this.activities = await firstValueFrom(this._dbAccess.getActivities());
+    console.log("event data : ",this.eventData);
+    console.log("activities : ",this.activities);
+  }
+
+  ngOnInit(): void {
+    console.log("on init");
+    console.log("event data : ",this.eventData);
+    console.log("activities : ",this.activities);
+  }
 
   constructor(
     private readonly _dbAccess: AngularfireService, 
     private readonly _router: Router,
-    private readonly _route:ActivatedRoute
-    ){ }
-
-  async ngOnInit(){
-    await this.loadData();
-  }
-
-  async ionViewWillEnter(){
-    let temp = this._route.snapshot.data['eventData'];
-    console.log("data loaded : ",temp);
-    
-
-    this.eventLatitude = this._route.snapshot.queryParams["latitude"];
-    this.eventLongitude = this._route.snapshot.queryParams["longitude"];
-
-    this.eventId = this._route.snapshot.queryParams["eventId"];
-
-    if(this.eventId){
-      let temp = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
-      if(temp){
-        this.eventDescription = temp['description'];
-        this.eventDate = new Date(temp['date']).toISOString();
-        this.eventTitle = temp['name'];
-        this.eventType = temp['activityId'];
-        this.eventLatitude = temp['position'].latitude;
-        this.eventLongitude = temp['position'].longitude;
-        this.eventAttendantsId = temp['attendantsId'];
-      }
+    // private readonly _route:ActivatedRoute,
+    // @Inject("MyDataService") private readonly myNewDataService: DataAccess
+    ){
+      console.log("constructor");
+      console.log("event data : ",this.eventData);
+      console.log("activities : ",this.activities);
     }
-  }
-
-  async loadData(){
-    this.activities = await firstValueFrom(this._dbAccess.getActivities());
-  }
 
   cancelAction(){
     this.initFields();
@@ -70,28 +75,32 @@ export class EventEditorComponent implements OnInit {
 
   private initFields(){
     this.eventTitle = "";
+    this.eventDate = "";
     this.eventDescription = "";
     this.eventType = "";
-    this.eventDate = "";
+    // this.eventData.name = "";
+    // this.eventData.description = "";
+    // this.eventData.activityId = "";
+    // this.eventData.date = "";
   }
 
   confirmAction(){
-    let tempDate = new Date(this.eventDate).getTime();
+    let tempDate = new Date(this.eventData.date).getTime();
 
 // create event
     let event = {
-      name:this.eventTitle,
-      activityId:this.eventType,
-      attendantsId:this.eventId?this.eventAttendantsId:[],
-      description:this.eventDescription,
-      date:this.eventDate,
+      name:this.eventData.name,
+      activityId:this.eventData.activityId,
+      attendantsId:this.eventData.attendants.keys(),
+      description:this.eventData.description,
+      date:this.eventData.date,
       timeStamp:tempDate,
-      position: { latitude:this.eventLatitude, longitude: this.eventLongitude},
+      position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
 
-    if(this.eventId){
+    if(this.eventData.id){
       // delete old event
-      this._dbAccess.deleteEvent(this.eventId);
+      this._dbAccess.deleteEvent(this.eventData.id);
     }
     this._dbAccess.createEvent(event)
     this.initFields();

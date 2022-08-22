@@ -6,6 +6,8 @@
         <ion-input clearInput placeholder="Enter a title" [(ngModel)]="eventTitle" type="text"></ion-input>
         </ion-item>
 
+        <pre>{{eventData|json}}</pre>
+
         {{eventDate|date:'yyyy-MM-ddTHH:mm:ss'}}
         <ion-item>
             <!-- <ion-datetime hourCycle="h23" [firstDayOfWeek]="1" color="primary" value="{{initDate}}"></ion-datetime> -->
