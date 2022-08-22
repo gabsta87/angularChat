@@ -2,8 +2,8 @@
     <div *ngIf="isLogged(); else loginTempl">
         <ion-item>
             <ion-label>Pseudo</ion-label>
-            <ion-input></ion-input>
-            <ion-button>Save</ion-button>
+            <ion-input [(ngModel)]="userName"></ion-input>
+            <ion-button (click)="updateName()">Save</ion-button>
         </ion-item>
         <ion-item>
             <ion-label>Email</ion-label>

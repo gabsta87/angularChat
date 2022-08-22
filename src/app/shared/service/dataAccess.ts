@@ -51,7 +51,9 @@ export interface DataAccess{
 
     getUser(userId:string):any;
 
-    createUser(newUser:User):any;
+    createUser(newUser:User,userName?:string):any;
+
+    setUser(newName:string):any;
 
     // messages
     getMessages(discussionId:string,count?:number):any;

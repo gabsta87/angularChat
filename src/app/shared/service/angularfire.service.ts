@@ -85,11 +85,16 @@ export class AngularfireService implements DataAccess{
     return temp.find(e => e['id'] === userId);
   }
 
+  setUser(newName:string) {
+    const docRef = doc(this._dbaccess,'users/'+this._auth.currentUser?.uid);
+    return setDoc(docRef,{name:newName});
+  }
+
   createActivity(name:string){
     return addDoc(collection(this._dbaccess,"activities"),{name:name});
   }
 
-  async createUser(newUser:User){
+  async createUser(newUser:User,userName?:string){
     let userId = newUser.uid;
     let userStored = await this.getUser(userId);
 
@@ -98,7 +103,7 @@ export class AngularfireService implements DataAccess{
     }
 
     const docRef = doc(this._dbaccess,'users/'+userId);
-    return setDoc(docRef,{name:newUser.displayName});
+    return setDoc(docRef,{name: userName ? userName : newUser.displayName});
   }
 
   getMessages(discussionId:string,count?:number){
