@@ -1,4 +1,4 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -15,6 +15,10 @@ import { AccountComponent } from './components/account/account.component';
 import { FormsModule } from '@angular/forms';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { EventEditorComponent } from './components/event-editor/event-editor.component';
+import { EventCreateGuard } from './guards/event-create.guard';
+import { EventEditionResolver } from './resolvers/event-edition.resolver';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 
 @NgModule({
@@ -29,6 +33,7 @@ import { environment } from 'src/environments/environment';
     FooterComponent,
     MapComponent,
     AccountComponent,
+    EventEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -57,12 +62,23 @@ import { environment } from 'src/environments/environment';
           },{
             path:'account',
             component:AccountComponent
+          },{
+            path:'eventedition',
+            component:EventEditorComponent,
+            canActivate:[EventCreateGuard],
+            resolve:{
+              eventData:EventEditionResolver
+            }
           },
         ]
       },]
     ),
   ],
   providers:[
+    {
+      provide:"MyDatabaseService",
+      useClass:AngularfireService
+    }
   ],
   schemas:[
     // NO_ERRORS_SCHEMA,

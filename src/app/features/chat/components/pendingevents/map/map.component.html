@@ -1,24 +1,18 @@
-
-        <!-- (mapCreate)="map = $event" -->
-        <!-- <div class="map" id="map" class="match-parent"></div> -->
+<!-- (mapCreate)="map = $event" -->
 <div id="mapcontainer" *ngIf="isViewLoaded === true">
     <div id="mapdiv">
         <mgl-map #map
             (mousedown)="buttonClicked($event)"
             (mapClick)="mapClickRaised($event)"
+            (onMapLoad)="mapCreated($event)"
             [style]="'mapbox://styles/mapbox/streets-v11'"
             [zoom]="[12]"
-            [center]="[genevaLocation.lng,genevaLocation.lat]"
+            [center]="[userPosition.lng,userPosition.lat]"
         >
-
-        <!-- <mgl-marker [lngLat]="[lng, lat]"> -->
-        <div *ngIf="pendingEvents|async as evts">
-            <!-- <mgl-marker [lngLat]="[lng, lat]" *ngFor="let item of evts"> -->
+        <div *ngIf="pendingEvents as evts">
             <mgl-marker [lngLat]="[item['position'].longitude, item['position'].latitude]" *ngFor="let item of evts">
-                <!-- <div (click)="navigateToEventDetail(item['id'])"> -->
-                    <div class="marker" (click)="navigateToEventDetail(item['id'])"></div>
-                    <ion-label class="markerLabel">{{item['name']}}</ion-label>
-                <!-- </div> -->
+                <div class="marker" (click)="navigateToEventDetail(item['id'])"></div>
+                <ion-label class="markerLabel">{{item['name']}}</ion-label>
             </mgl-marker>
         </div>
         </mgl-map>

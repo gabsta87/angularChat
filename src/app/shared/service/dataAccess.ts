@@ -5,7 +5,9 @@ export interface DataAccess{
     // requests
     getPendingRequests():any;
 
-    createPendingRequest(name:string, userId:string):any;
+    getPendingRequest(id:string):any;
+
+    createPendingRequest(name:string):any;
 
     deletePendingRequest(requestId:string):any;
 
@@ -23,11 +25,17 @@ export interface DataAccess{
     // events
     getEvent(eventId:string):any;
 
+    getUpToDateEvents():any;
+
+    getEventsCreatedBy(userId:string):any;
+
+    getEventsAttendedBy(userId:string):any;
+
     getEvents():any;
 
     // createEvent2(name:string, activityId:string, description:string ,date:string, position:{latitude:number,longitude:number}):any;
 
-    createEvent(event:{name:string, activityId:string, description:string, date:string, position:{latitude:number,longitude:number}}):any;
+    createEvent(event:{name:string, activityId:string, description:string, date:string, timeStamp:number, position:{latitude:number,longitude:number}}):any;
 
     deleteEvent(eventId:string):any;
 
@@ -43,7 +51,9 @@ export interface DataAccess{
 
     getUser(userId:string):any;
 
-    createUser(newUser:User):any;
+    createUser(newUser:User,userName?:string):any;
+
+    setUser(newName:string):any;
 
     // messages
     getMessages(discussionId:string,count?:number):any;

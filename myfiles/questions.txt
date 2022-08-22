@@ -1,5 +1,27 @@
-comment déplacer ma userMap de discussion dans le service angularFireService sans déclencher une méthode à chaque changement?
-comment appliquer mes règles de css pour l'image de background opacity et cover ?
+activities:91: subscribe : le tableau de booléens provoque une boucle infinie lors de l'inscription
+    la boucle se termine quand j'efface les filtres
+event-editor : les données censées être chargées par le Resolver ne parviennent pas dans ma classe.
+
+désactiver la coloration syntaxique pour un seul fichier ? notes/TODO/questions
+comment résoudre le problème des API keys sur github ?
+
+    OUI : TODO Ne puis-je pas obtenir un observable sur un seul document ? au lieu de demander toute la collection et de la filtrer ? 
+    Dois-je remplacer mes loadData par des resolvers ?
+
+    centrer l'icone du marker mapbox
+    pendingEvents : 87, pourquoi mon osbervable est-il vide ?
+
+    comment appliquer mes règles de css pour l'image de background opacity et cover ?
+    comment appliquer mon putain de pipe sur la date dans le code javascript ? cf pendingEvents:65
+    au lieu de mettre un setTimeout ? je ne peux pas utiliser un Resolver ? pour charger tel élément avant l'autre ?
+    comment quitter ma boucle foreach quand je trouve la réponse ? dans openweather service
+
+    chatmodule:66 pas possible d'ajouter le guard : il manque push, pop ...
+    deploy sur git impossible à cause de l'authentication : mdp désactivé depuis aout 2021
+    ng deploy --base-href=/angularChat/ --no-silent
+
+    puis-je appliquer un filtre après l'autre sur les observables ? ou bien il vaut mieux faire tout en une fois ? cf pendingEvents
+    comment déplacer ma userMap de discussion dans le service angularFireService sans déclencher une méthode à chaque changement?
 
     ajout de l'interface fait planter les imports
     Comment résoudre le problème des variables booléennes censées gérer l'apparition/disparition de mon bloc "create new request"

@@ -10,7 +10,7 @@ import { DataAccess } from './dataAccess';
 })
 export class AngularfireService implements DataAccess{
   constructor(
-    private readonly _dbaccess:Firestore, 
+    private readonly _dbaccess:Firestore,
     private readonly _auth:Auth) { }
 
   private getElements(name:string,...constraint:QueryConstraint[]){
@@ -20,15 +20,6 @@ export class AngularfireService implements DataAccess{
 
     const observableStream = collectionData(data, {idField: 'id'})
     return observableStream;
-
-    // observableStream.pipe(
-    //   map(datas => {
-    //     // ici je peux manipuler les datas ...
-
-    //     // je n'oublie pas de retourner les data manipulées
-    //     return datas;
-    //   })
-    // )
   }
 
   getPendingRequests(){
@@ -42,6 +33,10 @@ export class AngularfireService implements DataAccess{
   }
 
   getActivity(activityId:string){
+    // TODO accéder au document et récupérer l'observable
+    // const docRef = doc(this._dbaccess, "activities", activityId);
+    // const dateConstr:QueryConstraint = where("id","==",activityId);
+    // return this.getElements("activities",dateConstr);
     let temp = this.getActivities();
     return temp.pipe(map(datas => datas.find(e => e['id'] === activityId)));
   }
@@ -51,7 +46,31 @@ export class AngularfireService implements DataAccess{
     return eventsList;
   }
 
+  getUpToDateEvents(){
+    const dateConstr:QueryConstraint = where("timeStamp",">",Date.now());
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
+  getEventsCreatedBy(userId:string){
+    const dateConstr:QueryConstraint = where("creatorId","==",userId);
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
+  getEventsAttendedBy(userId:string){
+    const dateConstr:QueryConstraint = where("attendantsId","array-contains",userId);
+    let eventsList = this.getElements("events",dateConstr);
+    return eventsList;
+  }
+
   getEvent(eventId:string){
+    // TODO accéder au document et récupérer l'observable
+    // console.log("searching event ",eventId);
+    // const dateConstr:QueryConstraint = where("id","==",eventId);
+    // let temp = this.getElements("events",dateConstr);
+    // console.log("event found : ",temp);
+    // return temp;
     let temp = this.getEvents();
     return temp.pipe(map(datas => datas.find(e => e['id'] === eventId)));
   }
@@ -66,11 +85,16 @@ export class AngularfireService implements DataAccess{
     return temp.find(e => e['id'] === userId);
   }
 
+  setUser(newName:string) {
+    const docRef = doc(this._dbaccess,'users/'+this._auth.currentUser?.uid);
+    return setDoc(docRef,{name:newName});
+  }
+
   createActivity(name:string){
     return addDoc(collection(this._dbaccess,"activities"),{name:name});
   }
 
-  async createUser(newUser:User){
+  async createUser(newUser:User,userName?:string){
     let userId = newUser.uid;
     let userStored = await this.getUser(userId);
 
@@ -79,7 +103,7 @@ export class AngularfireService implements DataAccess{
     }
 
     const docRef = doc(this._dbaccess,'users/'+userId);
-    return setDoc(docRef,{name:newUser.displayName});
+    return setDoc(docRef,{name: userName ? userName : newUser.displayName});
   }
 
   getMessages(discussionId:string,count?:number){
@@ -90,11 +114,20 @@ export class AngularfireService implements DataAccess{
   }
 
   writeMessage(discussionId:string,message:string){
-    addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
+    if(!this._auth.currentUser?.uid)
+      return;
+    return addDoc(collection(this._dbaccess,"messages"),{content:message,date:Date.now(),discussionId:discussionId,userId:this._auth.currentUser?.uid});
   }
 
-  createPendingRequest(name: string, userId: string) {
-    return addDoc(collection(this._dbaccess,"requests"),{name:name,users:[userId]});
+  getPendingRequest(requestId: string) {
+    let temp = this.getPendingRequests();
+    return temp.pipe(map(datas => datas.find(e => e['id'] === requestId)));
+  }
+
+  createPendingRequest(name: string) {
+    if(!this._auth.currentUser?.uid)
+      return
+    return addDoc(collection(this._dbaccess,"requests"),{name:name,attendantsId:[this._auth.currentUser.uid]});
   }
 
   deletePendingRequest(requestId: string) {
@@ -102,29 +135,20 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  async createEvent(event : {name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number},creatorId?:string}){
+  async createEvent(event : {name:string, activityId:string, description:string, date: string, timeStamp:number, position:{latitude:number,longitude:number},creatorId?:string}){
     event.creatorId = this._auth.currentUser?.uid;
+    if(!event.creatorId)
+      return;
     event.position = new GeoPoint(event.position.latitude,event.position.longitude);
     return addDoc(collection(this._dbaccess,"events"),event);
   }
 
-  // async createEvent2(name: string, activityId:string, description:string ,date: string, position: {latitude:number,longitude:number}) {
-  //   console.log("activityId : ",activityId);
+  async deleteEvent(eventId: string) {
+    let currentEvent = await firstValueFrom(this.getEvent(eventId));
 
-  //   let newEvent = {
-  //     name:name,
-  //     creationDate:Date.now(),
-  //     creatorId:this._auth.currentUser?.uid,
-  //     activityId:activityId,
-  //     date:date,
-  //     description:description,
-  //     position:new GeoPoint(position.latitude,position.longitude)
-  //   };
-  //   console.log("adding with method 1 : ",newEvent);
-  //   return addDoc(collection(this._dbaccess,"events"),newEvent);
-  // }
+    if(!this._auth.currentUser?.uid || !currentEvent || this._auth.currentUser.uid != currentEvent['creatorId'])
+      return;
 
-  deleteEvent(eventId: string) {
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return deleteDoc(docRef);
   }
@@ -158,6 +182,7 @@ export class AngularfireService implements DataAccess{
     // For example, if there are no more attendants before the event,
     // If the creator deletes the event
   }
+}
 
   // addOrder(newValue:number){
   //   const id = Date.now();
@@ -174,4 +199,3 @@ export class AngularfireService implements DataAccess{
   //   const docRef = doc(this._dbaccess,`${this._dbName}/${id}`);
   //   deleteDoc(docRef);
   // }
-}

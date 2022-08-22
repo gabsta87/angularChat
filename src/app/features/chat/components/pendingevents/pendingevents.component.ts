@@ -3,6 +3,8 @@ import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import localeFr from '@angular/common/locales/fr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pendingevents',
@@ -11,12 +13,12 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 })
 export class PendingeventsComponent implements AfterViewInit{
 
-  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+  // pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
+  pendingEvents:Observable<DocumentData[]> = this._dbAccess.getUpToDateEvents();
   searchQ = new BehaviorSubject(null as any);
   activities!:any;
-  // userNames = new Map();
-
   activitiesNames = new Map();
+  creatorsNames = new Map();
 
   constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
 
@@ -38,12 +40,38 @@ export class PendingeventsComponent implements AfterViewInit{
     this.searchQ.asObservable()
   ]).pipe(
     map(observables => {
-      const aL = observables[0];
+      const aL = observables[0]
+      .filter(async (elem:any) =>{
+        let tempUser = await this._dbAccess.getUser(elem['creatorId']);
+        if(tempUser){
+          this.creatorsNames.set(elem['creatorId'],tempUser['name'])
+        }else{
+          this.creatorsNames.set(elem['creatorId'],"anonymous")
+        }
+        return parseInt(elem['date']) > Date.now()
+      });
+
       const sQ: any = observables[1];
+
       if (!sQ) {
-        return aL;
+        return aL
       }
-      return aL.filter((elem:any) => elem['name'].toLowerCase().includes(sQ.toLowerCase()));
+      const pipe = new DatePipe("fr-CH");
+      return aL
+      .filter((elem:any) =>
+      // {
+        // console.log("elem : ",elem);
+        // console.log("creator name : ",this.creatorsNames.get(elem['creatorId']));
+        // console.log("all names : ",this.creatorsNames);
+      // return elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
+        elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
+        || elem['description'].toLowerCase().includes(sQ.toLowerCase()) 
+        || this.creatorsNames.get(elem['creatorId']).toLowerCase().includes(sQ.toLowerCase())
+        // Doesnt work
+        || pipe.transform(elem['date']||"",'H:mm dd.MM.y')?.toLowerCase().includes(sQ.toLowerCase())
+        // || DatePipe.apply(elem['date'],'H:mm dd.MM.y')
+      // }
+      )
     })
   );
 
@@ -55,17 +83,21 @@ export class PendingeventsComponent implements AfterViewInit{
     this.searchQ.next($event.target.value);
   }
 
-  handleEnterKey($event:any){
+  async handleEnterKey($event:any){
     console.log("enter pressed");
-    
+
     // TODO go to detail event if there is only 1 left
-    this.filteredPendingEvents.pipe(map((e:any) => {
-      console.log("elem",e);
-      if(e.length === 1)
-        console.log("navigate to event ",e[0]);
-        
-      return e;
-    }))
+    const choosenItem = await firstValueFrom(this.filteredPendingEvents);
+    if(choosenItem.length === 1){
+      this.navigateToEventDetail(choosenItem[0]['id']);
+    }
+
+    // this.filteredPendingEvents.pipe(map((e:any) => {
+    //   console.log("elem",e);
+    //   if(e.length === 1)
+    //     console.log("navigate to event ",e[0]);
+    //   return e;
+    // }))
   }
 
   handleEscKey($event:any){

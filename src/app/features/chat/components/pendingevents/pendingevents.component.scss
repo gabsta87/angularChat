@@ -15,6 +15,23 @@ ion-card:hover{
     cursor: pointer;
 }
 
+ion-card{
+    pointer-events: auto;
+}
+
+ion-list{
+    background:transparent;
+    pointer-events: none;
+}
+
+ion-item{
+    --background:transparent;
+}
+
+ion-card-header{
+    padding:8px;
+}
+
 // .marker:hover{
 //     cursor: pointer;
 // }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import localeCh from '@angular/common/locales/fr-CH';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeCh);
 
 @NgModule({
   declarations: [
@@ -38,7 +41,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [{provide:LOCALE_ID,useValue:"fr-CH"}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

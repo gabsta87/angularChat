@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content class="bg-transparent">
     <div className="custom_body">
     <ion-input class="searchbar"
         placeholder="Enter your activity"
@@ -8,11 +8,11 @@
         (keydown.esc)="handleEscKey()"
     ></ion-input>
 
-    <div class="ion-justify-content-center ion-align-items-center">
+    <div class="bg-transparent ion-justify-content-center ion-align-items-center">
     <ion-list class="ion-no-padding" *ngIf="filteredActivitiesList|async as items">
         <ion-item *ngFor="let item of items;
                             let index = index"
-                (click)="navigateToDiscussion(item)"
+                (click)="navigateToDiscussion(item['id'],item['name'])"
                 lines="none">
             <div class="activityButtonContainer">
                 <ion-button class="activityButton ion-no-margin" expand="block">{{item['name']}}</ion-button>
@@ -20,14 +20,14 @@
         </ion-item>
     </ion-list>
     </div>
-
-    <div *ngIf="isEmptyActivities$|async">
-        <ion-button (click)="createActivity()" [disabled]="!(isEmptyRequests$|async)">Create new request</ion-button>
+    <div *ngIf="isEmptyActivities$|async" class="ion-justify-content-center ion-align-items-center createCommands">
+        <ion-button (click)="createPendingRequest()" [disabled]="!(isEmptyRequests$|async) || !isLogged()">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center" *ngIf="filteredPendingRequestsList|async as requests">
-                <ion-item *ngFor="let request of requests" lines="none">
-                    <ion-toggle (ionChange)="action($event)"></ion-toggle>
-                    <ion-label disabled="false">{{request['name']}}</ion-label>
+                <ion-item *ngFor="let request of requests; let i = index" lines="none">
+                    <ion-label>{{request['name']}}</ion-label>
+                    <!-- <ion-toggle (ionChange)="subscribe($event,request['id'])" [disabled]="!isLogged()"></ion-toggle> -->
+                    <ion-toggle (ionChange)="subscribe($event,request['id'])" [(ngModel)]="subscribtions[i]" [disabled]="!isLogged()"></ion-toggle>
                     <!-- <ion-badge color="warning">{{requestsMap.get(request['name'])}}</ion-badge> -->
                 </ion-item>
             </div>

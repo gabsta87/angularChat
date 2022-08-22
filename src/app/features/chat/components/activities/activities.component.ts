@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, combineLatest, firstValueFrom, map } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class ActivitiesComponent{
   activitiesList = this._dbAccess.getActivities();
   pendingRequestsList = this._dbAccess.getPendingRequests();
   searchValue!:string;
+  // subscribtions:Map<string,boolean> = new Map();
+  subscribtions:boolean[] = [];
 
   filteredActivitiesList = combineLatest([
     this.activitiesList,
@@ -39,7 +42,14 @@ export class ActivitiesComponent{
       if(!searchQuery){
         return requestsList;
       }
-      return requestsList.filter((elem:any) => elem['name'].toLowerCase().includes(searchQuery.toLowerCase()))
+      // return requestsList.filter((elem:any) => elem['name'].toLowerCase().includes(searchQuery.toLowerCase()))
+      this.subscribtions = [];
+      return requestsList.filter((elem:any) => {
+        if(this._auth.currentUser?.uid){
+          this.subscribtions.push(elem.attendantsId.includes(this._auth.currentUser.uid))
+        }
+        return elem['name'].toLowerCase().includes(searchQuery.toLowerCase());
+      })
     })
   );
 
@@ -65,26 +75,44 @@ export class ActivitiesComponent{
 
   constructor(
     private readonly _route : Router,
-    private readonly _dbAccess : AngularfireService) {
+    private readonly _dbAccess : AngularfireService,
+    readonly _auth : Auth
+    ) {
   }
 
-  navigateToDiscussion(item:any){
-    this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
+  navigateToDiscussion(id:string,name:string){
+    this._route.navigate(["discussion"],{queryParams:{discussionId:id,discussionName:name}})
   }
 
   filterActivities(){
     this.searchQ.next(this.searchValue);
   }
 
-  action(event:any){
-    console.log("subscribe to pending request = ",event.detail.checked);
+  subscribe(event:any,eventId:string){
+    if(!this._auth.currentUser?.uid)
+      return;
+
+    if(event.detail.checked){
+      console.log("subscribing user");
+      this._dbAccess.addUserToRequest(eventId)
+    }else{
+      console.log("removing user");
+      this._dbAccess.removeUserFromRequest(eventId)
+    }
+  }
+
+  isLogged(){
+    return this._auth.currentUser?.uid;
+  }
+
+  createPendingRequest(){
+    this._dbAccess.createPendingRequest(this.searchValue)
   }
 
   createActivity(){
     console.log("creating ",this.searchValue);
     this._dbAccess.createActivity(this.searchValue);
-    // TODO
-    // this._dbAccess.removePendingRequest(this.searchValue);
+    this._dbAccess.deletePendingRequest(this.searchValue);
     this.searchValue = "";
   }
 
@@ -92,10 +120,18 @@ export class ActivitiesComponent{
     this.searchValue = "";
   }
 
-  handleEnterKey(){
-    console.log("TODO : enter pressed");
-    // Enter chat 
-    // OR 
-    // Create request if possible
+  async handleEnterKey(){
+    const choosenActivity = await firstValueFrom(this.filteredActivitiesList);
+    const choosenRequest = await firstValueFrom(this.filteredPendingRequestsList);
+    if(choosenActivity.length === 1){
+      this.navigateToDiscussion(choosenActivity[0]['id'],choosenActivity[0]['name']);
+    }else if(choosenRequest.length === 1){
+      console.log("Should subscribe to ");
+      
+      // TODO subscribe to activity
+    }else if(choosenActivity.length === 0 && choosenRequest.length === 0){
+      console.log("creating pending request");
+      this.createPendingRequest();
+    }
   }
 }

@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { GeoPoint } from '@angular/fire/firestore';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import * as mapboxgl from 'mapbox-gl';
+import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { LocationService } from 'src/app/shared/service/location.service';
 
 @Component({
   selector: 'app-map',
@@ -12,7 +12,10 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 })
 export class MapComponent implements AfterViewInit{
 
-  pendingEvents = this._dataAccess.getEvents();
+  // pendingEvents = this._dataAccess.getEvents();
+  @Input() pendingEvents:any;
+
+  activitiesAvailable!:any;
 
   delay = 400;
   clickDate!:number;
@@ -21,112 +24,64 @@ export class MapComponent implements AfterViewInit{
   @ViewChild('map') map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   genevaLocation = {lat:46.2044,lng:6.1432};
-  userPosition = {lat:46.2044,lng:6.1432};
+  userPosition!:{lat:number,lng:number};
   isViewLoaded:boolean = false;
   positionClicked!:any;
+
+  activityBeingCreatedId!:string;
 
   constructor(
     private readonly _dataAccess: AngularfireService,
     private readonly _router:Router,
-    private alertController: AlertController) { }
+    private readonly location: LocationService
+    ) { }
 
   async ngAfterViewInit(){
-    this._tryGeoLoc();
+    // this._tryGeoLoc();
+    this.userPosition = await this.location.getCurrentPosition();
     await new Promise ((res)=>{setTimeout(()=> res(true),1000)});
     this.isViewLoaded = true;
-    navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
+    // navigator.geolocation.getCurrentPosition((e:any)=>console.log("current location = ",e));
+    
   }
 
   buttonClicked(event:any){
     this.clickDate = Date.now().valueOf();
   }
 
+  mapCreated($event:any){
+    console.log("created map event : ",$event);
+    // TODO register map reference
+    
+  }
+
   async mapClickRaised($event:any){
     this.mapBoxClickDate = Date.now().valueOf();
-    this.positionClicked = $event.position;
 
     if(this.mapBoxClickDate-this.clickDate > this.delay && this.map){
 
-      const alert = await this.alertController.create({
-        header: 'Please enter details',
-        buttons: [{
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-        },
-        {
-            text: 'Confirm',
-            handler: (alertData) => { //takes the data
-              this.validData(alertData,$event)
-            }
-        }],
-        inputs: [
-          {
-            name: 'name',
-            type: 'text',
-            placeholder: 'Name',
-          },
-          {
-            name: 'date',
-            type: 'date',
-            placeholder: 'Event date',
-          },
-          {
-            name: 'activityId',
-            type: 'text',
-            placeholder: 'Type of activity',
-          },
-          {
-            name: 'description',
-            type: 'text',
-            placeholder: 'Enter a description',
-          },
-        ],
-      });
+      this._router.navigate(["eventedition"],{queryParams:{latitude:$event.lngLat.lat,longitude:$event.lngLat.lng}});
 
-      // alert.onkeydown
-      alert.addEventListener("keydown",keyEvent => {
-        if(keyEvent.key === "Enter"){
-          // TODO Find a way to validate AlertInfo with Enter key
-          // console.log(alert);
-          // this.validData(alertData,$event);
+      this.activitiesAvailable = await firstValueFrom(this._dataAccess.getActivities());
 
-          // No solution here to access the data being written inside
-          // https://forum.ionicframework.com/t/handle-alert-action-when-keyboard-enter-key-is-hit/186794/5
-          
-        }
-      })
-
-      await alert.present();
     }
   }
 
-  validData(alertData:any,event:any){
-    let newEvent = {
-      name:alertData.name,
-      activityId:alertData.activityId,
-      description:alertData.description,
-      date:alertData.date,
-      position:{latitude:event.lngLat.lat,longitude:event.lngLat.lng}
-    }
-    this._dataAccess.createEvent(newEvent);
-  }
-
-  private _tryGeoLoc(){
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: any) => {
-        if (position) {
-          console.log("My position : Latitude: " + position.coords.latitude +
-            "Longitude: " + position.coords.longitude);
-          this.userPosition.lat = position.coords.latitude;
-          this.userPosition.lng = position.coords.longitude;
-        }
-      },
-        (error: any) => console.log(error));
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
+  // private _tryGeoLoc(){
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position: any) => {
+  //       if (position) {
+  //         console.log("My position : Latitude: " + position.coords.latitude +
+  //           "Longitude: " + position.coords.longitude);
+  //         this.userPosition.lat = position.coords.latitude;
+  //         this.userPosition.lng = position.coords.longitude;
+  //       }
+  //     },
+  //       (error: any) => console.log(error));
+  //   } else {
+  //     alert("Geolocation is not supported by this browser.");
+  //   }
+  // }
 
   // éventuellement pour du hover
   showPopup(event:any){

@@ -1,10 +1,33 @@
+charger correctement la date lors de l'édition d'un événement (peut-être par resolvers)
+ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
+Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
+    l'ancien événement à moins que le nouveau ne soit valide
+mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, 
+    et construire des objets complets, avec noms (événement/utilisateur... au lieu de juste des IDs)
+
+limiter les événements chargés à ceux proches de la localisation de l'utilisateur 
+    (ajouter un bouton recherche pour charger ceux dans la fenêtre en cours quand il n'y a rien)
+permettre à l'utilisateur de modifier son nom, son email, et de voir la liste des événements auxquels il a participé
 faire l'inscription des utilisateurs dans les événements/charger correctement les valeurs des boutons pour chaque utilisateur
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
+corriger l'erreur qui fait que les timestamp de OpenWeatherMap et ceux de Date.now() ne sont pas compatibles.
+afficher une bulle sur l'événement:hover avec la description et le type d'activité, ainsi que les participants
+afficher des boutons pour filtrer les événements automatiquement
+    
+TROUVER comment accéder à la référence de mapbox 
 
-affichage des événements sur la carte
-création d'événements
 charger la liste des requêtes correctement pour chaque utilisateur
-afficher sur la carte tous les événements dont la date n'est pas encore passée
+
+§ éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
+§ Check requests management
+
+§ afficher le nom du créateur, et tous les éléments recherchés, notamment le type d'activité
+§ Permettre à l'auteur d'un événement de le modifier
+§ afficher la liste des personnes participant à un événement
+
+§ affichage des événements sur la carte
+§ création d'événements
+§ afficher sur la carte tous les événements dont la date n'est pas encore passée
 
 REFACTORING
 supprimer toutes les méthodes appelées depuis le HTML (sinon elles sont rechargées à chaque mouvement de souris)
@@ -26,3 +49,6 @@ Outil de recherche
     Selon les événements auquel l'utilisateur a participé, définir les clusters
     géographiques selon le type d'activité, puis proposer des activités par type
     dans le même rayon de chaque cluster.
+
+    Ajouter automatiquement les événements dans le calendrier google de l'utilisateur
+    ou un calendrier propre à l'application
