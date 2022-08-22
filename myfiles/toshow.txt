@@ -1,4 +1,7 @@
-infinitescroll with reverse starting position
+filtering events/chats
+enter event with keyboard
+
+
 map with adding/removing events
     event propagation stop
 
@@ -8,3 +11,6 @@ pointer-events none/auto
 
 TODO
 clusters of events
+infinitescroll with reverse starting position
+Add specific chats for each event
+limit database access by caching data

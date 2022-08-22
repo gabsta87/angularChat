@@ -1,6 +1,6 @@
+éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
 Check requests management
 charger correctement la date lors de l'édition d'un événement (peut-être par resolvers)
-éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
 Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
     l'ancien événement à moins que le nouveau ne soit valide
