@@ -17,6 +17,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { EventEditorComponent } from './components/event-editor/event-editor.component';
 import { EventCreateGuard } from './guards/event-create.guard';
+import { EventEditionResolver } from './resolvers/event-edition.resolver';
 
 
 @NgModule({
@@ -63,7 +64,10 @@ import { EventCreateGuard } from './guards/event-create.guard';
           },{
             path:'eventedition',
             component:EventEditorComponent,
-            canActivate:[EventCreateGuard]
+            canActivate:[EventCreateGuard],
+            resolve:{
+              eventData:EventEditionResolver
+            }
           },
         ]
       },]

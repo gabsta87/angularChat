@@ -36,6 +36,10 @@ export class EventEditorComponent implements OnInit {
   }
 
   async ionViewWillEnter(){
+    let temp = this._route.snapshot.data['eventData'];
+    console.log("data loaded : ",temp);
+    
+
     this.eventLatitude = this._route.snapshot.queryParams["latitude"];
     this.eventLongitude = this._route.snapshot.queryParams["longitude"];
 
