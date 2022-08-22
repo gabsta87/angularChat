@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { EventEditorComponent } from './components/event-editor/event-editor.component';
 import { EventCreateGuard } from './guards/event-create.guard';
 import { EventEditionResolver } from './resolvers/event-edition.resolver';
+import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 
 @NgModule({
@@ -74,6 +75,10 @@ import { EventEditionResolver } from './resolvers/event-edition.resolver';
     ),
   ],
   providers:[
+    {
+      provide:"MyDatabaseService",
+      useClass:AngularfireService
+    }
   ],
   schemas:[
     // NO_ERRORS_SCHEMA,
