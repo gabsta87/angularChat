@@ -5,7 +5,7 @@
             <ion-input [(ngModel)]="userName"></ion-input>
             <ion-button (click)="updateName()">Save</ion-button>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
             <ion-label>Email</ion-label>
             <ion-input></ion-input>
             <ion-button>Save</ion-button>
@@ -17,17 +17,17 @@
             <ion-label>Location</ion-label>
             <ion-input [disabled]="autoLocation"></ion-input>
             <ion-button>Save</ion-button>
-        </ion-item>
+        </ion-item> -->
         <ion-item lines="none">
             <ion-label>Attended events</ion-label>
             <ion-list>
-                <ion-item lines="none" *ngFor="let event of attendedEvents">{{event.name}}</ion-item>
+                <ion-item lines="none" *ngFor="let event of attendedEvents"><b>{{event.name }}</b>| {{event.date|date:'H:mm dd.MM.y'}}</ion-item>
             </ion-list>
         </ion-item>
         <ion-item lines="none">
             <ion-label>Created events</ion-label>
             <ion-list>
-                <ion-item lines="none" *ngFor="let event of createdEvents">{{event.name}} {{event|json}}</ion-item>
+                <ion-item lines="none" *ngFor="let event of createdEvents"><b>{{event.name }}</b>| {{event.date|date:'H:mm dd.MM.y'}}</ion-item>
             </ion-list>
         </ion-item>
 
@@ -52,13 +52,5 @@
             </ion-item>
         </ion-list>
         </div>
-        <!-- <div style="display:flex; height: 10%;" class="myDiv ion-justify-content-center ion-align-items-center">
-            <ion-button
-                (click)="loginWithGoogle()"
-            >Login with Google</ion-button>
-            <ion-button
-                (click)="loginAnonymously()"
-            >Login anonymously</ion-button>
-        </div> -->
     </ng-template>
 </ion-content>
