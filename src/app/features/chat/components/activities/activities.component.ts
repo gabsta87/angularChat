@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, firstValueFrom, map } from 'rxjs';
@@ -80,8 +80,8 @@ export class ActivitiesComponent{
     ) {
   }
 
-  navigateToDiscussion(item:any){
-    this._route.navigate(["discussion"],{queryParams:{discussionId:item.id,discussionName:item.name}})
+  navigateToDiscussion(id:string,name:string){
+    this._route.navigate(["discussion"],{queryParams:{discussionId:id,discussionName:name}})
   }
 
   filterActivities(){
@@ -120,10 +120,18 @@ export class ActivitiesComponent{
     this.searchValue = "";
   }
 
-  handleEnterKey(){
-    console.log("TODO : enter pressed");
-    // Enter chat 
-    // OR 
-    // Create request if possible
+  async handleEnterKey(){
+    const choosenActivity = await firstValueFrom(this.filteredActivitiesList);
+    const choosenRequest = await firstValueFrom(this.filteredPendingRequestsList);
+    if(choosenActivity.length === 1){
+      this.navigateToDiscussion(choosenActivity[0]['id'],choosenActivity[0]['name']);
+    }else if(choosenRequest.length === 1){
+      console.log("Should subscribe to ");
+      
+      // TODO subscribe to activity
+    }else if(choosenActivity.length === 0 && choosenRequest.length === 0){
+      console.log("creating pending request");
+      this.createPendingRequest();
+    }
   }
 }

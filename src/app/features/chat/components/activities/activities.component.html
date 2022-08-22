@@ -12,7 +12,7 @@
     <ion-list class="ion-no-padding" *ngIf="filteredActivitiesList|async as items">
         <ion-item *ngFor="let item of items;
                             let index = index"
-                (click)="navigateToDiscussion(item)"
+                (click)="navigateToDiscussion(item['id'],item['name'])"
                 lines="none">
             <div class="activityButtonContainer">
                 <ion-button class="activityButton ion-no-margin" expand="block">{{item['name']}}</ion-button>

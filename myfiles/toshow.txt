@@ -1,5 +1,5 @@
 filtering events/chats
-enter event with keyboard
+enter/echap event with keyboard
 
 
 map with adding/removing events

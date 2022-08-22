@@ -87,9 +87,9 @@ export class PendingeventsComponent implements AfterViewInit{
     console.log("enter pressed");
 
     // TODO go to detail event if there is only 1 left
-    const valeur = await firstValueFrom(this.filteredPendingEvents);
-    if(valeur.length === 1){
-      this.navigateToEventDetail(valeur[0]['id']);
+    const choosenItem = await firstValueFrom(this.filteredPendingEvents);
+    if(choosenItem.length === 1){
+      this.navigateToEventDetail(choosenItem[0]['id']);
     }
 
     // this.filteredPendingEvents.pipe(map((e:any) => {

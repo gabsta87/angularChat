@@ -5,12 +5,12 @@
             <ion-input [(ngModel)]="userName"></ion-input>
             <ion-button (click)="updateName()">Save</ion-button>
         </ion-item>
-        <!-- <ion-item>
+        <ion-item>
             <ion-label>Email</ion-label>
             <ion-input></ion-input>
             <ion-button>Save</ion-button>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
             <ion-label>Use auto-location</ion-label>
             <ion-toggle [(ngModel)]="autoLocation"></ion-toggle>
 
@@ -39,7 +39,27 @@
     </div>
     <ng-template #loginTempl>
         <div style="display: flex;" class="loginTemplate ion-justify-content-center ion-align-items-center bg-transparent">
-        <ion-list lines="none" >
+        <ion-list lines="none" class="ion-justify-content-center ion-align-items-center">
+
+            <ion-item class="loginElem">
+                <ion-label>email</ion-label>
+                <ion-input></ion-input>
+            </ion-item>
+
+            <ion-item class="loginElem">
+                <ion-label>password</ion-label>
+                <ion-input></ion-input>
+            </ion-item>
+
+            <ion-item>
+            <ion-button
+                (click)="loginLocally()"
+            >Login</ion-button>
+            <ion-button
+                (click)="createAccount()"
+            >Create account</ion-button>
+            </ion-item>
+
             <ion-item>
                 <ion-button
                     (click)="loginWithGoogle()"

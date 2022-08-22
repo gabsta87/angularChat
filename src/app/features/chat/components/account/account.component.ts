@@ -64,4 +64,11 @@ export class AccountComponent{
     this.loadData();
   }
 
+  loginLocally(){
+
+  }
+
+  createAccount(){
+    
+  }
 }
