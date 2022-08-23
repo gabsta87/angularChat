@@ -1,3 +1,7 @@
+mettre en couleur les événements auquel l'utilisateur participe
+récupérer les données lors de la création d'un événement pour tester la création par le nouvel utilisateur
+
+
 charger correctement la date lors de l'édition d'un événement (peut-être par resolvers)
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
 Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
