@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInAnonymously, signOut, user } from '@angular/fire/auth';
+import { Component } from '@angular/core';
+import { Auth, createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, linkWithCredential, signInAnonymously, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
 import { signInWithPopup } from '@firebase/auth';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
@@ -12,13 +12,15 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 export class AccountComponent{
 
   userName!:string;
+  emailAddress!:string;
+  password!:string;
 
   autoLocation!:boolean;
   attendedEvents!:any;
   createdEvents!:any;
 
   constructor(private readonly _auth: Auth,private readonly _dbAccess:AngularfireService) {}
-  
+
   onViewWillEnter(): void {
     this.loadData();
   }
@@ -26,11 +28,13 @@ export class AccountComponent{
   async loadData(){
     let userId = this._auth?.currentUser?.uid;
     if(userId){
-      let temp = await this._dbAccess.getUser(userId);
-      if(!temp || temp['name'] === undefined){
+      let loadedUser = await this._dbAccess.getUser(userId);
+      console.log("user loaded : ",loadedUser);
+
+      if(!loadedUser || loadedUser['name'] === undefined){
         this.userName = "Anonymous"
       }else{
-        this.userName = temp['name'];
+        this.userName = loadedUser['name'];
       }
 
       this.attendedEvents = await firstValueFrom(this._dbAccess.getEventsAttendedBy(userId));
@@ -45,6 +49,9 @@ export class AccountComponent{
 
   async logout(){
     await signOut(this._auth);
+    this.userName = "";
+    this.emailAddress = "";
+    this.password = "";
   }
 
   isLogged(){
@@ -62,13 +69,48 @@ export class AccountComponent{
     const credential = await signInAnonymously(this._auth);
     this._dbAccess.createUser(credential.user,"Anonymous");
     this.loadData();
+    return credential;
   }
 
-  loginLocally(){
-
+  async loginLocally(){
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, this.emailAddress, this.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log("user : ",user);
+        console.log("missing username : ",this.userName);
+        this._dbAccess.createUser(user);
+        this.loadData();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("error : ",error);
+        alert(error.message)
+      });
   }
 
-  createAccount(){
-    
+  async createAccount(){
+    if(!this.emailAddress || !this.password || !this.userName){
+      console.log("Missing user name and/or email and/or password");
+      return;
+    }
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, this.emailAddress, this.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("user : ",user);
+        console.log("missing username : ",this.userName);
+        this._dbAccess.createUser(user);
+        this.loadData();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("error : ",error);
+        alert(error.message)
+      });
   }
 }

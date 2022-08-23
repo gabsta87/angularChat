@@ -7,7 +7,7 @@
         </ion-item>
         <ion-item>
             <ion-label>Email</ion-label>
-            <ion-input></ion-input>
+            <ion-input [(ngModel)]="emailAddress"></ion-input>
             <ion-button>Save</ion-button>
         </ion-item>
         <!-- <ion-item>
@@ -43,8 +43,16 @@
             <ion-row class="ion-align-items-center">
                 <ion-col size="12" class="ion-text-center">
                     <ion-item class="loginField">
+                        <ion-label>Pseudo</ion-label>
+                        <ion-input [(ngModel)]="userName"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center">
+                <ion-col size="12" class="ion-text-center">
+                    <ion-item class="loginField">
                         <ion-label>email</ion-label>
-                        <ion-input></ion-input>
+                        <ion-input [(ngModel)]="emailAddress"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
@@ -52,7 +60,7 @@
                 <ion-col size="12" class="ion-text-center">
                     <ion-item class="loginField">
                         <ion-label>password</ion-label>
-                        <ion-input></ion-input>
+                        <ion-input [(ngModel)]="password"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
