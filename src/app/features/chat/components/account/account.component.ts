@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInAnonymously, signOut, user } from '@angular/fire/auth';
 import { signInWithPopup } from '@firebase/auth';
 import { firstValueFrom } from 'rxjs';
@@ -65,10 +65,11 @@ export class AccountComponent{
   }
 
   loginLocally(){
-
+    console.log("trying to login");
+    
   }
 
   createAccount(){
-    
+    console.log("trying to create account");
   }
 }
