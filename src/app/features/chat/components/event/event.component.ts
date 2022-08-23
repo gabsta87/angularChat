@@ -72,11 +72,11 @@ export class EventComponent{
   }
 
   deletePendingEvent(event:any){
-    this._dbAccess.deleteEvent(this.eventContent.eventId);
+    this._dbAccess.deleteEvent(this.eventContent.id);
     this._router.navigate(["pendingevents"]);
   }
 
   editPendingEvent(event:any){
-    this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventContent.eventId}});
+    this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventContent.id}});
   }
 }

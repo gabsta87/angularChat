@@ -36,11 +36,13 @@ export class EventEditionResolver implements Resolve<Event> {
     let eventId = route.queryParams["eventId"];
 
     let result:Event = {} as Event;
-    let attendantsIds!:string[];
+    let attendantsIds!:any[];
 
     if(eventId){
       let temp:any = await firstValueFrom(this._dbAccess.getEvent(eventId));
 
+      console.log();
+      
       if(temp){
         result.id = temp['id'];
         result.description = temp['description'];
@@ -68,8 +70,8 @@ export class EventEditionResolver implements Resolve<Event> {
     }else{
       result.position = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
     }
-    console.log("result = ",result);
-
+    console.log("result from event edition resolver", result);
+    
     return result;
   }
 }

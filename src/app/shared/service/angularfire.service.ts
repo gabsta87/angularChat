@@ -137,9 +137,12 @@ export class AngularfireService implements DataAccess{
       activityId:string, 
       description:string, 
       date: string, 
+      attendantsId:any[],
       timeStamp:number, 
       position:{latitude:number,longitude:number},
       creatorId?:string}){
+    console.log("angular fire service : ",event);
+    
     event.creatorId = this._auth.currentUser?.uid;
     if(!event.creatorId)
       return;
