@@ -31,7 +31,6 @@ export class EventComponent{
 
   ionViewWillEnter(){
     this.eventData = this._route.snapshot.data['eventData'];
-    console.log("event data : ",this.eventData);
 
     this.creatorName = this.eventData.creatorName;
     this.activity = this.eventData.activity;

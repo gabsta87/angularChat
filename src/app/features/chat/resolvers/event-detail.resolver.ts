@@ -30,7 +30,7 @@ interface EventDetail{
 })
 export class EventDetailResolver implements Resolve<EventDetail> {
 
-  constructor(private readonly _auth:Auth, 
+  constructor(private readonly _auth:Auth,
     private readonly _dbAccess: AngularfireService,
     private readonly _weather: WeatherService){}
 
@@ -65,7 +65,7 @@ export class EventDetailResolver implements Resolve<EventDetail> {
       result.weatherResult = await this._weather.getWeather(
         eventContent['position'].latitude,
         eventContent['position'].longitude,
-        eventContent['date']);
+        eventContent['timeStamp']);
     }
     result.weatherIconAddress =  `http://openweathermap.org/img/wn/${result.weatherResult?.icon}@2x.png`;
     return result;
