@@ -12,7 +12,8 @@
             *ngFor="let event of list; let index = index"
             lines="none"
         >
-            <ion-card (click)="navigateToEventDetail(event['id'])"  [ngClass]="{'attendingEvent': isUserAttending(event['attendantsId'])}">
+            <ion-card (click)="navigateToEventDetail(event['id'])"  [ngClass]="
+            {'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}">
             <!-- <ion-card (click)="navigateToEventDetail(event['id'])" class="attendingEvent"> -->
                 <ion-card-header>
                     <!-- <ion-thumbnail>{{index}}</ion-thumbnail> -->

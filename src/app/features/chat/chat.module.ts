@@ -20,6 +20,7 @@ import { EventCreateGuard } from './guards/event-create.guard';
 import { EventEditionResolver } from './resolvers/event-edition.resolver';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { AccountResolver } from './resolvers/account.resolver';
+import { EventDetailResolver } from './resolvers/event-detail.resolver';
 
 
 @NgModule({
@@ -56,7 +57,10 @@ import { AccountResolver } from './resolvers/account.resolver';
             component:PendingeventsComponent
           },{
             path:'event',
-            component:EventComponent
+            component:EventComponent,
+            resolve:{
+              eventData:EventDetailResolver
+            }
           },{
             path:'discussion',
             component:DiscussionComponent

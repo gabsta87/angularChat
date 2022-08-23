@@ -84,6 +84,12 @@ export class PendingeventsComponent implements AfterViewInit{
     return attendantsId.includes(this._auth.currentUser.uid);
   }
 
+  isUserCreator(creatorId:string):boolean{
+    if(!this._auth.currentUser)
+      return false;
+    return this._auth.currentUser.uid === creatorId;
+  }
+
   navigateToEventDetail(param:string){
     this._router.navigate(["event"],{queryParams:{eventId:param}});
   }

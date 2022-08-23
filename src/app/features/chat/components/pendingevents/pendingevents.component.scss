@@ -33,11 +33,15 @@ ion-card-header{
 }
 
 .attendingEvent{
-    background-color: var(--ion-color-primary-tint);
+    background-color: lightblue;
     // ion-text::part{
     //     color:var(--ion-color-primary-contrast);
     //     --contrast:var(--ion-color-primary-contrast);
     // }
+}
+
+.createdEvent{
+    background-color: var(--ion-color-primary-tint);
 }
 
 // .marker:hover{
