@@ -5,6 +5,7 @@ import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable } from 
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import localeFr from '@angular/common/locales/fr';
 import { DatePipe } from '@angular/common';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-pendingevents',
@@ -20,7 +21,9 @@ export class PendingeventsComponent implements AfterViewInit{
   activitiesNames = new Map();
   creatorsNames = new Map();
 
-  constructor(private readonly _dbAccess: AngularfireService, private readonly _router: Router){ }
+  constructor(private readonly _dbAccess: AngularfireService, 
+    private readonly _router: Router,
+    private readonly _auth: Auth){ }
 
   ngAfterViewInit(): void {
     this.loadData();
@@ -74,6 +77,12 @@ export class PendingeventsComponent implements AfterViewInit{
       )
     })
   );
+
+  isUserAttending(attendantsId:string[]):boolean{
+    if(!this._auth.currentUser)
+      return false;
+    return attendantsId.includes(this._auth.currentUser.uid);
+  }
 
   navigateToEventDetail(param:string){
     this._router.navigate(["event"],{queryParams:{eventId:param}});

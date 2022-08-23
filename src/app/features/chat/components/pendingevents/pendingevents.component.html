@@ -12,8 +12,8 @@
             *ngFor="let event of list; let index = index"
             lines="none"
         >
-            <ion-card (click)="navigateToEventDetail(event['id'])">
-            <!-- <ion-card (click)="navigateToEventDetail(event['id'])" style="background-color: green;"> -->
+            <ion-card (click)="navigateToEventDetail(event['id'])"  [ngClass]="{'attendingEvent': isUserAttending(event['attendantsId'])}">
+            <!-- <ion-card (click)="navigateToEventDetail(event['id'])" class="attendingEvent"> -->
                 <ion-card-header>
                     <!-- <ion-thumbnail>{{index}}</ion-thumbnail> -->
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
@@ -24,6 +24,7 @@
                 </ion-card-header>
                 <!-- Show location and activity type -->
                 <!-- <ion-card-content>{{event['description']}}</ion-card-content> -->
+                <!-- <ion-card-content><pre>{{event|json}}</pre></ion-card-content> -->
             </ion-card>
             <ion-label></ion-label>
         </ion-item>
