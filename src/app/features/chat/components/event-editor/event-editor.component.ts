@@ -85,16 +85,19 @@ export class EventEditorComponent implements OnInit {
   }
 
   confirmAction(){
-    let tempDate = new Date(this.eventData.date).getTime();
+    console.log("creating event ...");
+
+    console.log("event data : ",this.eventData);
+    console.log("eventName : ",this.eventTitle);
 
 // create event
     let event = {
-      name:this.eventData.name,
-      activityId:this.eventData.activityId,
+      name:this.eventTitle,
+      activityId:this.eventType,
       attendantsId:this.eventData.attendants.keys(),
-      description:this.eventData.description,
-      date:this.eventData.date,
-      timeStamp:tempDate,
+      description:this.eventDescription,
+      date:this.eventDate,
+      timeStamp:new Date(this.eventDate).getTime(),
       position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
 

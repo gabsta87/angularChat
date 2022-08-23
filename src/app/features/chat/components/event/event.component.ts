@@ -27,7 +27,7 @@ export class EventComponent{
   constructor(
     private readonly _route: ActivatedRoute,
     private readonly _dbAccess : AngularfireService,
-    private readonly _auth: Auth,
+    readonly _auth: Auth,
     private readonly _router: Router,
     private readonly _weather: WeatherService,
     ){}

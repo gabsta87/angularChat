@@ -16,10 +16,9 @@
             <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name}}, </span></ion-label>
             <!-- <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name !== null ? person.name : "anonymous"}}, </span></ion-label> -->
         </ion-item>
-
         <ion-item *ngIf="!isCreator;else subscriberTemplate">
             <ion-label>I will attend</ion-label>
-            <ion-toggle (ionChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{isLogged()}}"></ion-toggle>
+            <ion-toggle (ionChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{!isLogged()}}"></ion-toggle>
         </ion-item>
 
         <ng-template #subscriberTemplate>
