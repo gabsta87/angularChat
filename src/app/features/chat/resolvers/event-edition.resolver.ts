@@ -42,6 +42,7 @@ export class EventEditionResolver implements Resolve<Event> {
       let temp:any = await firstValueFrom(this._dbAccess.getEvent(eventId));
 
       if(temp){
+        result.id = temp['id'];
         result.description = temp['description'];
         result.date = new Date(temp['date']).toISOString();
         result.name = temp['name'];
@@ -65,13 +66,7 @@ export class EventEditionResolver implements Resolve<Event> {
       result.attendants = [];
       attendantsIds.forEach((id:string) => result.attendants.push({id:id,name:attendants.find((attend:any) => attend.id === id)}))
     }else{
-      let tempLat = route.paramMap.get("latitude");
-      if(tempLat)
-        result.position.latitude = parseFloat(tempLat)
-
-      let tempLong = route.paramMap.get("longitude");
-      if(tempLong)
-        result.position.longitude = parseFloat(tempLong)
+      result.position = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
     }
     console.log("result = ",result);
 

@@ -19,6 +19,7 @@ import { EventEditorComponent } from './components/event-editor/event-editor.com
 import { EventCreateGuard } from './guards/event-create.guard';
 import { EventEditionResolver } from './resolvers/event-edition.resolver';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { AccountResolver } from './resolvers/account.resolver';
 
 
 @NgModule({
@@ -61,7 +62,10 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
             component:DiscussionComponent
           },{
             path:'account',
-            component:AccountComponent
+            component:AccountComponent,
+            resolve:{
+              accountData:AccountResolver
+            }
           },{
             path:'eventedition',
             component:EventEditorComponent,

@@ -1,6 +1,5 @@
-mettre en couleur les événements auquel l'utilisateur participe
-récupérer les données lors de la création d'un événement pour tester la création par le nouvel utilisateur
-
+attendantsId mal recopié lors de la modification d'événement
+§ récupérer les données lors de la création d'un événement pour tester la création par le nouvel utilisateur
 
 charger correctement la date lors de l'édition d'un événement (peut-être par resolvers)
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
@@ -22,6 +21,7 @@ TROUVER comment accéder à la référence de mapbox
 
 charger la liste des requêtes correctement pour chaque utilisateur
 
+§ mettre en couleur les événements auquel l'utilisateur participe
 § éliminer visuellement les éléments inaccessibles pour les utilisateurs non enregistrés
 § Check requests management
 

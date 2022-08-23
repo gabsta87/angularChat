@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, linkWithCredential, signInAnonymously, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
+import { ActivatedRoute } from '@angular/router';
 import { signInWithPopup } from '@firebase/auth';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
@@ -15,21 +16,32 @@ export class AccountComponent{
   emailAddress!:string;
   password!:string;
 
-  autoLocation!:boolean;
+  // autoLocation!:boolean;
   attendedEvents!:any;
   createdEvents!:any;
 
-  constructor(private readonly _auth: Auth,private readonly _dbAccess:AngularfireService) {}
+  accountData!:any;
 
-  onViewWillEnter(): void {
-    this.loadData();
+  constructor(
+    private readonly _auth: Auth,
+    private readonly _dbAccess:AngularfireService,
+    private readonly _route: ActivatedRoute
+    ) {
+  }
+
+  ionViewWillEnter(): void {
+    this.accountData = this._route.snapshot.data['accountData'];
+
+    this.userName = this.accountData.userPseudo;
+    this.emailAddress = this.accountData.userEmail;
+    this.attendedEvents = this.accountData.attendingEvents;
+    this.createdEvents = this.accountData.createdEvents;
   }
 
   async loadData(){
     let userId = this._auth?.currentUser?.uid;
     if(userId){
       let loadedUser = await this._dbAccess.getUser(userId);
-      console.log("user loaded : ",loadedUser);
 
       if(!loadedUser || loadedUser['name'] === undefined){
         this.userName = "Anonymous"
@@ -37,14 +49,17 @@ export class AccountComponent{
         this.userName = loadedUser['name'];
       }
 
+      if(this._auth.currentUser?.email)
+        this.emailAddress = this._auth.currentUser.email
+
       this.attendedEvents = await firstValueFrom(this._dbAccess.getEventsAttendedBy(userId));
       this.createdEvents = await firstValueFrom(this._dbAccess.getEventsCreatedBy(userId));
     }
   }
 
   updateName(){
-    console.log("updating name");
     this._dbAccess.setUser(this.userName);
+    alert("name updated");
   }
 
   async logout(){
@@ -63,6 +78,7 @@ export class AccountComponent{
     const credential = await signInWithPopup(this._auth,provider);
     this._dbAccess.createUser(credential.user);
     this.loadData();
+    return credential;
   }
 
   async loginAnonymously(){
@@ -76,7 +92,7 @@ export class AccountComponent{
     const auth = getAuth();
     signInWithEmailAndPassword(auth, this.emailAddress, this.password)
       .then((userCredential) => {
-        // Signed in 
+        // Signed in
         const user = userCredential.user;
         console.log("user : ",user);
         console.log("missing username : ",this.userName);
@@ -92,8 +108,8 @@ export class AccountComponent{
   }
 
   async createAccount(){
-    if(!this.emailAddress || !this.password || !this.userName){
-      console.log("Missing user name and/or email and/or password");
+    if(!this.emailAddress || !this.password){
+      console.log("Missing email and/or password");
       return;
     }
     const auth = getAuth();

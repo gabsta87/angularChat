@@ -1,5 +1,6 @@
 filtering events/chats
 enter/echap event with keyboard
+événements filtrés par date (requête firebase avec constraint)
 
 
 map with adding/removing events

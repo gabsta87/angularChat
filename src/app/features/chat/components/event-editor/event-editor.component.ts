@@ -11,18 +11,18 @@ import { DataAccess } from 'src/app/shared/service/dataAccess';
   templateUrl: './event-editor.component.html',
   styleUrls: ['./event-editor.component.scss']
 })
-export class EventEditorComponent implements OnInit {
+export class EventEditorComponent{
 
   parentPage!:string;
 
-  eventData!:Event;
+  eventData!:any;
   activities!:any;
 
-  eventTitle = this.eventData?.name;
-  eventDate = this.eventData?.date;
-  eventDescription = this.eventData?.description;
-  eventType = this.eventData?.activityName;
-  today = new Date(Date.now()).toISOString();
+  eventTitle!:string;
+  eventDate!:string;
+  eventDescription!:string;
+  eventType!:string;
+  today!:string;
 
   // Event{
   //   name:string;
@@ -38,35 +38,23 @@ export class EventEditorComponent implements OnInit {
   //   attendants:Map<string,string>;
   // }
 
-  afterViewInit(){
-    console.log("after view init");
-    console.log("event data : ",this.eventData);
-    console.log("activities : ",this.activities);
-  }
-
   async ionViewWillEnter(){
-    console.log("Ion will enter");
+    this.eventData = this._route.snapshot.data['eventData'];
     this.activities = await firstValueFrom(this._dbAccess.getActivities());
     console.log("event data : ",this.eventData);
-    console.log("activities : ",this.activities);
-  }
-
-  ngOnInit(): void {
-    console.log("on init");
-    console.log("event data : ",this.eventData);
-    console.log("activities : ",this.activities);
+    this.eventTitle = this.eventData.name;
+    this.eventDate = this.eventData.date;
+    this.eventDescription = this.eventData.description;
+    this.eventType = this.eventData.activityId;
+    this.today = new Date(Date.now()).toISOString();
   }
 
   constructor(
-    private readonly _dbAccess: AngularfireService, 
+    private readonly _dbAccess: AngularfireService,
     private readonly _router: Router,
-    // private readonly _route:ActivatedRoute,
+    private readonly _route:ActivatedRoute,
     // @Inject("MyDataService") private readonly myNewDataService: DataAccess
-    ){
-      console.log("constructor");
-      console.log("event data : ",this.eventData);
-      console.log("activities : ",this.activities);
-    }
+    ){}
 
   cancelAction(){
     this.initFields();
@@ -78,10 +66,6 @@ export class EventEditorComponent implements OnInit {
     this.eventDate = "";
     this.eventDescription = "";
     this.eventType = "";
-    // this.eventData.name = "";
-    // this.eventData.description = "";
-    // this.eventData.activityId = "";
-    // this.eventData.date = "";
   }
 
   confirmAction(){
@@ -94,12 +78,14 @@ export class EventEditorComponent implements OnInit {
     let event = {
       name:this.eventTitle,
       activityId:this.eventType,
-      attendantsId:this.eventData.attendants.keys(),
+      attendantsId:this.eventData.attendants||[],
       description:this.eventDescription,
       date:this.eventDate,
       timeStamp:new Date(this.eventDate).getTime(),
       position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
+    console.log("creating event ",event);
+    
 
     if(this.eventData.id){
       // delete old event
