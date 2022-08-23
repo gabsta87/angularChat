@@ -13,10 +13,12 @@ app-map{
 
 ion-card:hover{
     cursor: pointer;
+    opacity: 1;
 }
 
 ion-card{
     pointer-events: auto;
+    opacity: 0.7;
 }
 
 ion-list{
@@ -30,6 +32,18 @@ ion-item{
 
 ion-card-header{
     padding:8px;
+}
+
+.attendingEvent{
+    background-color: lightblue;
+    // ion-text::part{
+    //     color:var(--ion-color-primary-contrast);
+    //     --contrast:var(--ion-color-primary-contrast);
+    // }
+}
+
+.createdEvent{
+    background-color: var(--ion-color-primary-tint);
 }
 
 // .marker:hover{

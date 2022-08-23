@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
-import { WeatherService } from 'src/app/shared/service/weather.service';
 
 @Component({
   selector: 'app-event',
@@ -11,15 +9,15 @@ import { WeatherService } from 'src/app/shared/service/weather.service';
   styleUrls: ['./event.component.scss']
 })
 export class EventComponent{
+  eventData:any;
 
-  eventId!:string;
-  eventContent!:any;
-  creatorName!:any;
+  eventContent = {} as any;
+  creatorName!:string;
   activity!:any;
   attendants:any[] = [];
 
-  isCreator!:boolean|null;
-  isUserSubscribed!:boolean|null;
+  isCreator!:boolean;
+  isUserSubscribed!:boolean;
 
   weatherResult!:any;
   weatherIconAddress!:string;
@@ -27,62 +25,58 @@ export class EventComponent{
   constructor(
     private readonly _route: ActivatedRoute,
     private readonly _dbAccess : AngularfireService,
-    private readonly _auth: Auth,
+    readonly _auth: Auth,
     private readonly _router: Router,
-    private readonly _weather: WeatherService,
     ){}
 
   ionViewWillEnter(){
-    this.eventId = this._route.snapshot.queryParams["eventId"];
-    this.loadData();
-  }
+    this.eventData = this._route.snapshot.data['eventData'];
 
-  async loadData(){
-    this.initAttendants();
-    this.creatorName = await this._dbAccess.getUser(this.eventContent?.creatorId);
-    this.activity = await firstValueFrom(this._dbAccess.getActivity(this.eventContent?.activityId));
-    this.isCreator = this._auth.currentUser?.uid === this.eventContent?.creatorId;
-    this.isUserSubscribed = this.eventContent.attendantsId?.includes(this._auth.currentUser?.uid);
-    this.weatherResult = await this._weather.getWeather(
-      this.eventContent.position.latitude,
-      this.eventContent.position.longitude,
-      this.eventContent.date);
-    this.weatherIconAddress =  `http://openweathermap.org/img/wn/${this.weatherResult?.icon}@2x.png`;
+    this.creatorName = this.eventData.creatorName;
+    this.activity = this.eventData.activity;
+    this.isCreator = this.eventData.isCreator;
+    this.isUserSubscribed = this.eventData.isUserSubscribed;
+    this.weatherResult = this.eventData.weatherResult;
+    this.weatherIconAddress =  this.eventData.weatherIconAddress;
+
+    this.eventContent.id = this.eventData.eventId;
+    this.eventContent.date =  this.eventData.date;
+    this.eventContent.description =  this.eventData.description;
+    this.eventContent.name =  this.eventData.name;
+    this.eventContent.timeStamp =  this.eventData.timeStamp;
+    this.eventContent.attendants =  this.eventData.attendants;
+    // activity: {name: 'Volley', id: 'LA0mTp2rJkANPU7dMP9V'}
+    // attendants: [{…}]
+    // creatorName: "Gabriel Maret"
+    // date: "2022-08-25T13:44:00+02:00"
+    // description: "asdf"
+    // eventId: "26DGai9iA3Q8DfpDBs2i"
+    // isCreator: true
+    // isUserSubscribed: false
+    // name: "Nouvelle génération 2"
+    // timeStamp: 1661427840000
+    // weatherIconAddress: "http://openweathermap.org/img/wn/undefined@2x.png"
+    // weatherResult: undefined
   }
 
   async subscribe(){
-    if(this.isUserSubscribed && this.isLogged()){
-      this._dbAccess.addUserToEvent(this.eventId);
+    if(!this.isUserSubscribed){
+      this._dbAccess.addUserToEvent(this.eventContent.id);
     }else{
-      this._dbAccess.removeUserFromEvent(this.eventId);
+      this._dbAccess.removeUserFromEvent(this.eventContent.id);
     }
-    this.initAttendants();
   }
 
   isLogged(){
     return this._auth.currentUser?.uid;
   }
 
-  async initAttendants(){
-    this.attendants = [];
-    this.eventContent = await firstValueFrom(this._dbAccess.getEvent(this.eventId));
-    this.eventContent.attendantsId?.forEach(async (element:any) => {
-      let attendantName = await this._dbAccess.getUser(element);
-
-      if(attendantName){
-        if(attendantName['name'] === null)
-          attendantName['name'] = "anonymous"
-        this.attendants.push(attendantName)
-      }
-    });
-  }
-
   deletePendingEvent(event:any){
-    this._dbAccess.deleteEvent(this.eventId);
+    this._dbAccess.deleteEvent(this.eventContent.id);
     this._router.navigate(["pendingevents"]);
   }
 
   editPendingEvent(event:any){
-    this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventId}});
+    this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventContent.id}});
   }
 }

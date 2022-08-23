@@ -47,20 +47,17 @@ export class AngularfireService implements DataAccess{
   }
 
   getUpToDateEvents(){
-    const dateConstr:QueryConstraint = where("timeStamp",">",Date.now());
-    let eventsList = this.getElements("events",dateConstr);
+    let eventsList = this.getElements("events",where("timeStamp",">",Date.now()));
     return eventsList;
   }
 
   getEventsCreatedBy(userId:string){
-    const dateConstr:QueryConstraint = where("creatorId","==",userId);
-    let eventsList = this.getElements("events",dateConstr);
+    let eventsList = this.getElements("events",where("creatorId","==",userId));
     return eventsList;
   }
 
   getEventsAttendedBy(userId:string){
-    const dateConstr:QueryConstraint = where("attendantsId","array-contains",userId);
-    let eventsList = this.getElements("events",dateConstr);
+    let eventsList = this.getElements("events",where("attendantsId","array-contains",userId));
     return eventsList;
   }
 
@@ -135,7 +132,17 @@ export class AngularfireService implements DataAccess{
     return deleteDoc(docRef);
   }
 
-  async createEvent(event : {name:string, activityId:string, description:string, date: string, timeStamp:number, position:{latitude:number,longitude:number},creatorId?:string}){
+  async createEvent(event : 
+    {name:string, 
+      activityId:string, 
+      description:string, 
+      date: string, 
+      attendantsId:any[],
+      timeStamp:number, 
+      position:{latitude:number,longitude:number},
+      creatorId?:string}){
+    console.log("angular fire service : ",event);
+    
     event.creatorId = this._auth.currentUser?.uid;
     if(!event.creatorId)
       return;

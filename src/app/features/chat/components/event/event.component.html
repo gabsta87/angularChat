@@ -9,17 +9,15 @@
         </ion-card-header>
 
         <ion-item>
-            <ion-label>Created by {{creatorName?.name}}</ion-label>
+            <ion-label>Created by {{creatorName}}</ion-label>
         </ion-item>
-
-        <ion-item *ngIf="attendants.length > 0">
-            <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name}}, </span></ion-label>
+        <ion-item *ngIf="eventContent.attendants && eventContent.attendants.length > 0">
+            <ion-label>Attendants : <span *ngFor="let person of eventContent.attendants">{{person.name}}, </span></ion-label>
             <!-- <ion-label>Attendants : <span *ngFor="let person of attendants">{{person.name !== null ? person.name : "anonymous"}}, </span></ion-label> -->
         </ion-item>
-
         <ion-item *ngIf="!isCreator;else subscriberTemplate">
             <ion-label>I will attend</ion-label>
-            <ion-toggle (ionChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{isLogged()}}"></ion-toggle>
+            <ion-toggle (ngModelChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{!isLogged()}}"></ion-toggle>
         </ion-item>
 
         <ng-template #subscriberTemplate>
@@ -30,9 +28,9 @@
         </ng-template>
 
         <ion-card-content>
-            {{eventContent?.description}} <br>
-            {{eventContent|json}} <br>
-            {{weatherResult|json}}<br>
+             {{eventContent?.description}} <br>
+            <!--{{eventContent|json}} <br>
+            {{weatherResult|json}}<br> -->
             <img *ngIf="weatherResult" [src]=weatherIconAddress/>
         </ion-card-content>
     </ion-card>

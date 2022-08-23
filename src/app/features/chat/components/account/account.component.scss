@@ -11,6 +11,13 @@
         height: 40px;
         margin:auto;
     }
+    ion-item{
+        --background:transparent;
+    }
+}
+
+.bg-transparent{
+    background: transparent;
 }
 
 .loginTemplate{
