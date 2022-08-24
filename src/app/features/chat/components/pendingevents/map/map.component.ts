@@ -49,9 +49,15 @@ export class MapComponent implements AfterViewInit{
     this.clickDate = Date.now().valueOf();
   }
 
-  mapCreated($event:any){
+  mapCreated($event:mapboxgl.Map){
     console.log("created map event : ",$event);
+    // $event.on("","")
     // TODO register map reference
+    
+  }
+  
+  myEvent($event:any){
+    console.log("new creation event",$event);
     
   }
 
