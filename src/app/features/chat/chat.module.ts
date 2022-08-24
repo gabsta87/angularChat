@@ -21,6 +21,7 @@ import { EventEditionResolver } from './resolvers/event-edition.resolver';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { AccountResolver } from './resolvers/account.resolver';
 import { EventDetailResolver } from './resolvers/event-detail.resolver';
+import { EventEditionGuard } from './guards/event-edition.guard';
 
 
 @NgModule({
@@ -74,13 +75,18 @@ import { EventDetailResolver } from './resolvers/event-detail.resolver';
             path:'eventedition',
             component:EventEditorComponent,
             canActivate:[EventCreateGuard],
+            // canActivate:[EventCreateGuard,EventEditionGuard],
             resolve:{
               eventData:EventEditionResolver
             }
-          },
+          },{
+            redirectTo:"/activities",
+            path:"",
+            pathMatch:"full",
+          }
         ]
-      },]
-    ),
+      }
+    ]),
   ],
   providers:[
     {
