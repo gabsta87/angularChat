@@ -19,7 +19,6 @@ export class EventEditorComponent{
 
   eventTitle!:string;
   eventDate!:string;
-  // eventDate = "2022-08-25T11:42:00.000Z";
   eventDescription!:string;
   attendants!:any[];
   eventType!:string;
@@ -41,7 +40,6 @@ export class EventEditorComponent{
       this.eventDescription = this.eventData.description;
       this.eventType = this.eventData.activity.id;
     }
-
     this.today = new Date(Date.now()).toISOString();
   }
 
@@ -68,7 +66,6 @@ export class EventEditorComponent{
   }
 
   confirmAction(){
-    
     // create event
     let event = {
       name:this.eventTitle,
@@ -79,8 +76,6 @@ export class EventEditorComponent{
       position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
 
-    console.log("event : ",event);
-
     if(!event.date){
       alert("invalid date")
       return;
@@ -88,12 +83,8 @@ export class EventEditorComponent{
     event.timeStamp = new Date(event.date).getTime();
 
     if(this.eventData.eventId){
-      console.log("updating event",this.eventData);
-      // If the event already exists, we update it
       this._dbAccess.updateEvent(this.eventData.eventId,event);
     }else{
-      // console.log("creating event");
-      // If the event doesn't exists, we create it
       this._dbAccess.createEvent(event)
     }
     this.initFields();

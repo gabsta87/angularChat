@@ -39,10 +39,7 @@ export class EventDetailResolver implements Resolve<EventDetail> {
     let result = {} as EventDetail;
     result.eventId = route.queryParams["eventId"];
     result.attendants = [];
-
     let eventContent = await firstValueFrom(this._dbAccess.getEvent(result.eventId));
-    console.log("event content : ",eventContent);
-    
 
     if(eventContent){
       eventContent['attendantsId']?.forEach(async (element:any) => {
@@ -72,8 +69,6 @@ export class EventDetailResolver implements Resolve<EventDetail> {
         eventContent['timeStamp']);
     }
     result.weatherIconAddress =  `http://openweathermap.org/img/wn/${result.weatherResult?.icon}@2x.png`;
-    console.log("event detail resolver ",result);
-    
     return result;
   }
 }

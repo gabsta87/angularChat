@@ -56,7 +56,6 @@ export class EventComponent{
 
   async subscribe(){
     if(!this.isUserSubscribed){
-      console.log("subscribing");
       this._dbAccess.addUserToEvent(this.eventContent.id);
     }else{
       this._dbAccess.removeUserFromEvent(this.eventContent.id);

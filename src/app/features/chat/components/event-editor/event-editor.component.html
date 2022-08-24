@@ -6,8 +6,11 @@
         </ion-item>
 
         <ion-item>
-            <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime>
-            <!-- <ion-datetime *ngIf="eventDate?.length || 0 > 0" [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime> -->
+            <!-- <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime> -->
+            <ion-datetime *ngIf="eventDate?.length || 0 > 0; else noDate" [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime>
+            <ng-template #noDate>
+                <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [(ngModel)]="eventDate"></ion-datetime>
+            </ng-template>
             <!-- <ion-datetime [firstDayOfWeek]="1" max="2099-10-31" [min]="today" color="primary" [value]="newDate|async"></ion-datetime> -->
         </ion-item>
 
