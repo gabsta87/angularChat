@@ -18,6 +18,7 @@ export class EventEditorComponent{
 
   eventTitle!:string;
   eventDate!:string;
+  // eventDate = "2022-08-25T11:42:00.000Z";
   eventDescription!:string;
   attendants!:any[];
   eventType!:string;
@@ -25,19 +26,21 @@ export class EventEditorComponent{
 
   async ionViewWillEnter(){
     this.eventData = this._route.snapshot.data['eventData'];
+    this.eventDate = "";
     this.activities = await firstValueFrom(this._dbAccess.getActivities());
 
-    this.eventTitle = this.eventData.name;
-    if(this.eventData.date)
-      this.eventDate = new Date(this.eventData.date).toISOString();
-    this.eventDescription = this.eventData.description;
-    if(this.eventData.attendants === undefined){
-      this.attendants = this.eventData.attendants;
-    }else{
-      this.attendants = []
+    console.log("event data : ",this.eventData);
+
+    if(this.eventData.eventId){
+      this.eventTitle = this.eventData.name;
+      if(this.eventData.date)
+        this.eventDate = new Date(this.eventData.date).toISOString();
+      this.eventDescription = this.eventData.description;
+      this.eventType = this.eventData.activity.id;
     }
-    this.eventType = this.eventData.activityId;
+
     this.today = new Date(Date.now()).toISOString();
+
 
     console.log("date : ",this.eventDate);
     console.log("data : ",this.eventData);
@@ -63,34 +66,32 @@ export class EventEditorComponent{
   }
 
   confirmAction(){
-    console.log("creating event : ",this.eventData);
 
     // create event
     let event = {
       name:this.eventTitle,
       activityId:this.eventType,
-      attendantsId:this.attendants.flatMap((e:{id:string})=> e.id),
       description:this.eventDescription,
       date:this.eventDate,
       timeStamp:0,
       position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
-    if(!event.attendantsId)
-      event.attendantsId=[];
 
     if(!event.date){
       alert("invalid date")
       return;
     }
-    event.timeStamp = new Date(event.date).getTime(),
+    event.timeStamp = new Date(event.date).getTime();
 
-    console.log("creating event ",event);
-
-    if(this.eventData.id){
-      // delete old event
-      this._dbAccess.deleteEvent(this.eventData.id);
+    if(this.eventData.eventId){
+      console.log("updating event",this.eventData);
+      // If the event already exists, we update it
+      this._dbAccess.updateEvent(this.eventData.eventId,event);
+    }else{
+      // console.log("creating event");
+      // If the event doesn't exists, we create it
+      this._dbAccess.createEvent(event)
     }
-    this._dbAccess.createEvent(event)
     this.initFields();
     this._router.navigate(["pendingevents"]);
   }
