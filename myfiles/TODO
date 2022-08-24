@@ -1,4 +1,5 @@
 attendantsId mal recopié lors de la modification d'événement
+trasmettre les données depuis event-detail vers event-edition sans recharger depuis la base de données.
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
 remplacer tous mes loadData par des resolvers
 
