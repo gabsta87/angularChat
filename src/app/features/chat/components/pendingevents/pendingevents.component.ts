@@ -70,6 +70,7 @@ export class PendingeventsComponent implements AfterViewInit{
         elem['name'].toLowerCase().includes(sQ.toLowerCase()) 
         || elem['description'].toLowerCase().includes(sQ.toLowerCase()) 
         || this.creatorsNames.get(elem['creatorId']).toLowerCase().includes(sQ.toLowerCase())
+        || this.activitiesNames.get(elem['activityId']).toLowerCase().includes(sQ.toLowerCase())
         // Doesnt work
         || pipe.transform(elem['date']||"",'H:mm dd.MM.y')?.toLowerCase().includes(sQ.toLowerCase())
         // || DatePipe.apply(elem['date'],'H:mm dd.MM.y')
