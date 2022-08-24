@@ -39,6 +39,8 @@ export interface DataAccess{
 
     deleteEvent(eventId:string):any;
 
+    updateEvent(eventId:string,eventUpdates:{name:string, activityId:string, description:string,date:string, timeStamp:number}):any;
+
     addUserToEvent(requestId:string):any;
 
     removeUserFromEvent(requestId:string):any;

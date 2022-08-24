@@ -137,17 +137,25 @@ export class AngularfireService implements DataAccess{
       activityId:string, 
       description:string, 
       date: string, 
-      attendantsId:any[],
+      attendantsId?:any[],
       timeStamp:number, 
       position:{latitude:number,longitude:number},
       creatorId?:string}){
     console.log("angular fire service : ",event);
     
     event.creatorId = this._auth.currentUser?.uid;
+    event.attendantsId = [];
     if(!event.creatorId)
       return;
     event.position = new GeoPoint(event.position.latitude,event.position.longitude);
     return addDoc(collection(this._dbaccess,"events"),event);
+  }
+
+  updateEvent(eventId:string,eventUpdates:{name:string, activityId:string, description:string,date:string, timeStamp:number}){
+    console.log("updating ",`events/${eventId}`);
+    
+    const docRef = doc(this._dbaccess,`events/${eventId}`);
+    return setDoc(docRef,eventUpdates,{ merge: true });
   }
 
   async deleteEvent(eventId: string) {
