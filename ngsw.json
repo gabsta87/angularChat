@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1661352907723,
+  "timestamp": 1661354784863,
   "index": "/angularChat/index.html",
   "assetGroups": [
     {
@@ -73,7 +73,7 @@
         "/angularChat/common.0db63aef56920c5f.js",
         "/angularChat/favicon.ico",
         "/angularChat/index.html",
-        "/angularChat/main.dcbd455417b5a3a9.js",
+        "/angularChat/main.e03b68961f718e2d.js",
         "/angularChat/manifest.webmanifest",
         "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js",
         "/angularChat/polyfills-dom.369e5b2924f3ce09.js",
@@ -189,8 +189,8 @@
     "/angularChat/background.ce0803b85eae6eeb.jpg": "93e4c7686a2328b55cbf5b1c994eb076ae50e3c2",
     "/angularChat/common.0db63aef56920c5f.js": "069b7026a61d3a2175f3ef381afbc37658e1dc38",
     "/angularChat/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/angularChat/index.html": "ad186643479a07c6e165d95348de3245d4cf4b31",
-    "/angularChat/main.dcbd455417b5a3a9.js": "f9b6536b339befacfa35edb2c44d9d37b91464e5",
+    "/angularChat/index.html": "7a3e1f58c1a37b8e0a3bfba4547f42d79c744d4f",
+    "/angularChat/main.e03b68961f718e2d.js": "c2ad889ed549e6dd319a37af1c315f30d70a1722",
     "/angularChat/manifest.webmanifest": "7dc77dbab9b8297e2d13bd98d9a281847c23270a",
     "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js": "c2db9fea03ad705b3288582b670def6ae9891197",
     "/angularChat/polyfills-dom.369e5b2924f3ce09.js": "11acca8dc15bcc7d8fa2036913e7d10a9aa92a5e",
