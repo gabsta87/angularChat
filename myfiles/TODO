@@ -1,11 +1,6 @@
-§ résoudre les problèmes de route par défaut
-§ transmettre les données depuis event-detail vers event-edition sans recharger depuis la base de données.
-supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
 remplacer tous mes loadData par des resolvers
 
 ajouter le chat pour chaque événement (refactoriser le chat dans une classe à part)
-Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
-    l'ancien événement à moins que le nouveau ne soit valide
 mettre en place le chargement dans la mémoire des éléments chargés depuis Firestore, 
     et construire des objets complets, avec noms (événement/utilisateur... au lieu de juste des IDs)
 
@@ -15,11 +10,13 @@ corriger l'erreur qui fait que les timestamp de OpenWeatherMap et ceux de Date.n
 afficher une bulle sur l'événement:hover avec la description et le type d'activité, ainsi que les participants
 afficher des boutons pour filtrer les événements automatiquement
 
-TROUVER comment accéder à la référence de mapbox 
-
-charger la liste des requêtes correctement pour chaque utilisateur
-
-
+§ Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
+    l'ancien événement à moins que le nouveau ne soit valide
+§ charger la liste des requêtes correctement pour chaque utilisateur
+§ comment accéder à la référence de mapbox 
+§ résoudre les problèmes de route par défaut
+§ transmettre les données depuis event-detail vers event-edition sans recharger depuis la base de données.
+§ supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
 § attendantsId mal recopié lors de la modification d'événement
 
 § corriger les inscriptions aux événements

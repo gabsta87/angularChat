@@ -12,7 +12,7 @@
             *ngFor="let event of list; let index = index"
             lines="none"
         >
-            <ion-card (click)="navigateToEventDetail(event['id'])"  [ngClass]="
+            <ion-card (click)="navigateToEventDetail(event['id'])" class="sideItem" [ngClass]="
             {'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}">
             <!-- <ion-card (click)="navigateToEventDetail(event['id'])" class="attendingEvent"> -->
                 <ion-card-header>
