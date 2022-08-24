@@ -1,3 +1,7 @@
+Pourquoi la version mobile ne fonctionne pas ?
+Comment mettre le timeout sur le panneau d'installation de la version mobile ?
+
+
 § activities:91: subscribe : le tableau de booléens provoque une boucle infinie lors de l'inscription
     § la boucle se termine quand j'efface les filtres
 § event-editor : les données censées être chargées par le Resolver ne parviennent pas dans ma classe.

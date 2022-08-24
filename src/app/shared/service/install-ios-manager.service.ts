@@ -18,9 +18,11 @@ export class InstallIosManagerService {
     const isInStandaloneMode = () => ('standalone' in (window as any).navigator) && ((window as any).navigator.standalone)
     if(isIos() && !isInStandaloneMode()){
       const toast = await this._toastCtrl.create({
-        message:"MoveOn is not installed. If you want to install it, click on the button below"
+        message:"MoveOn is not installed. If you want to install it, click on the button below",
       });
       await toast.present();
+
+      setTimeout(()=>toast.dismiss(),3000);
     }
   }
 }
