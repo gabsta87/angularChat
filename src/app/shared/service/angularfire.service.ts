@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, User } from '@angular/fire/auth';
-import { collection, QueryConstraint, Firestore, where, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
+import { collection, QueryConstraint, Firestore, where, addDoc, collectionData, orderBy, setDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from '@angular/fire/firestore';
 import { query, GeoPoint } from '@firebase/firestore';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, min } from 'rxjs';
 import { DataAccess } from './dataAccess';
 
 @Injectable({
@@ -177,8 +177,21 @@ export class AngularfireService implements DataAccess{
     return this.addUser("events",eventId);
   }
 
-  addUserToRequest(requestId:string){
-    return this.addUser("requests",requestId);
+  async addUserToRequest(requestId:string){
+    this.addUser("requests",requestId);
+    const docRef = doc(this._dbaccess, `meta/infos`);
+    let minSize = await getDoc(docRef).then((e:any) => e.data()['requestSize']);
+
+    const docRequestRef = doc(this._dbaccess, `requests/${requestId}`);
+    let request = await getDoc(docRequestRef).then((e:any) => e.data());
+    let currentNumber = request['attendantsId'].length;
+    
+    if(currentNumber > minSize){
+      console.log("adding activity");
+      this.createActivity(request.name);
+      console.log("deleting request");
+      this.deletePendingRequest(requestId);
+    }
   }
 
   private async removeUser(tableName:string,itemId:string){
