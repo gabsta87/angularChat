@@ -1,5 +1,5 @@
-attendantsId mal recopié lors de la modification d'événement
-trasmettre les données depuis event-detail vers event-edition sans recharger depuis la base de données.
+§ résoudre les problèmes de route par défaut
+§ transmettre les données depuis event-detail vers event-edition sans recharger depuis la base de données.
 supprimer la requête de la liste des requêtes en attente lors de la création d'une nouvelle activité
 remplacer tous mes loadData par des resolvers
 
@@ -18,6 +18,9 @@ afficher des boutons pour filtrer les événements automatiquement
 TROUVER comment accéder à la référence de mapbox 
 
 charger la liste des requêtes correctement pour chaque utilisateur
+
+
+§ attendantsId mal recopié lors de la modification d'événement
 
 § corriger les inscriptions aux événements
 § colorier différemment pour les événements auxquels on participe, et pour ceux qu'on a créés
