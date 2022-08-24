@@ -5,9 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
-import { AnonymousComponent } from './features/login/components/anonymous/anonymous.component';
-import { GmailComponent } from './features/login/components/gmail/gmail.component';
-import { FacebookComponent } from './features/login/components/facebook/facebook.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
@@ -21,9 +18,6 @@ registerLocaleData(localeCh);
 @NgModule({
   declarations: [
     AppComponent,
-    AnonymousComponent,
-    GmailComponent,
-    FacebookComponent,
   ],
   imports: [
     BrowserModule,
