@@ -1,3 +1,4 @@
+import { InvokeFunctionExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import {
   Resolve,
@@ -6,6 +7,7 @@ import {
 } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { EventDataService } from '../services/event-data.service';
 
 export interface Event{
   name:string;
@@ -26,52 +28,64 @@ export interface Event{
 })
 export class EventEditionResolver implements Resolve<Event> {
 
-  constructor(private readonly _dbAccess:AngularfireService){}
+  constructor(private readonly _dataService:EventDataService){}
 
   async resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
     ): Promise<Event> {
-
-    let eventId = route.queryParams["eventId"];
-
-    let result:Event = {} as Event;
-    let attendantsIds!:any[];
-
-    if(eventId){
-      let temp:any = await firstValueFrom(this._dbAccess.getEvent(eventId));
-
-      console.log();
-      
-      if(temp){
-        result.id = temp['id'];
-        result.description = temp['description'];
-        result.date = new Date(temp['date']).toISOString();
-        result.name = temp['name'];
-        result.activityId = temp['activityId'];
-        result.creatorId = temp['creatorId'];
-        result.position = {latitude:temp['position'].latitude,longitude:temp['position'].longitude}
-        attendantsIds = temp['attendantsId'];
-      }
-      // let activities:{id:string,name:string}[] = firstValueFrom(await this._dbAccess.getActivities());
-      let activity:any = await firstValueFrom(this._dbAccess.getActivity(result.activityId));
-      result.activityName = activity.name;
-
-      let creator:any =await this._dbAccess.getUser(result.creatorId);
-      result.creatorName = creator.name;
-
-      let attendants:any = await this._dbAccess.getUsers();
-
-      // result.attendants = new Map();
-      // attendantsIds.forEach((id:string) => result.attendants.set(id,attendants.find((attend:any) => attend.id === id)))
-
-      result.attendants = [];
-      attendantsIds.forEach((id:string) => result.attendants.push({id:id,name:attendants.find((attend:any) => attend.id === id)}))
-    }else{
-      result.position = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
-    }
-    console.log("result from event edition resolver", result);
-    
+      let result = this._dataService.getEventData();
+      let newPosition = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
+      if(result === undefined)
+        result = {} as Event;
+      if(newPosition.latitude && newPosition.longitude)
+        result.position = newPosition;
     return result;
   }
+  // async resolve(
+  //   route: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot,
+  //   ): Promise<Event> {
+
+  //   let eventId = route.queryParams["eventId"];
+
+  //   let result:Event = {} as Event;
+  //   let attendantsIds!:any[];
+
+  //   if(eventId){
+  //     let temp:any = await firstValueFrom(this._dbAccess.getEvent(eventId));
+
+  //     console.log();
+      
+  //     if(temp){
+  //       result.id = temp['id'];
+  //       result.description = temp['description'];
+  //       result.date = new Date(temp['date']).toISOString();
+  //       result.name = temp['name'];
+  //       result.activityId = temp['activityId'];
+  //       result.creatorId = temp['creatorId'];
+  //       result.position = {latitude:temp['position'].latitude,longitude:temp['position'].longitude}
+  //       attendantsIds = temp['attendantsId'];
+  //     }
+  //     // let activities:{id:string,name:string}[] = firstValueFrom(await this._dbAccess.getActivities());
+  //     let activity:any = await firstValueFrom(this._dbAccess.getActivity(result.activityId));
+  //     result.activityName = activity.name;
+
+  //     let creator:any =await this._dbAccess.getUser(result.creatorId);
+  //     result.creatorName = creator.name;
+
+  //     let attendants:any = await this._dbAccess.getUsers();
+
+  //     // result.attendants = new Map();
+  //     // attendantsIds.forEach((id:string) => result.attendants.set(id,attendants.find((attend:any) => attend.id === id)))
+
+  //     result.attendants = [];
+  //     attendantsIds.forEach((id:string) => result.attendants.push({id:id,name:attendants.find((attend:any) => attend.id === id)}))
+  //   }else{
+  //     result.position = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
+  //   }
+  //   console.log("result from event edition resolver", result);
+    
+  //   return result;
+  // }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
+import { EventDataService } from '../../services/event-data.service';
 
 @Component({
   selector: 'app-event',
@@ -27,10 +28,13 @@ export class EventComponent{
     private readonly _dbAccess : AngularfireService,
     readonly _auth: Auth,
     private readonly _router: Router,
+    private readonly _dataService:EventDataService
     ){}
 
   ionViewWillEnter(){
     this.eventData = this._route.snapshot.data['eventData'];
+
+    this._dataService.setEventData(this.eventData);
 
     this.creatorName = this.eventData.creatorName;
     this.activity = this.eventData.activity;
@@ -45,18 +49,6 @@ export class EventComponent{
     this.eventContent.name =  this.eventData.name;
     this.eventContent.timeStamp =  this.eventData.timeStamp;
     this.eventContent.attendants =  this.eventData.attendants;
-    // activity: {name: 'Volley', id: 'LA0mTp2rJkANPU7dMP9V'}
-    // attendants: [{…}]
-    // creatorName: "Gabriel Maret"
-    // date: "2022-08-25T13:44:00+02:00"
-    // description: "asdf"
-    // eventId: "26DGai9iA3Q8DfpDBs2i"
-    // isCreator: true
-    // isUserSubscribed: false
-    // name: "Nouvelle génération 2"
-    // timeStamp: 1661427840000
-    // weatherIconAddress: "http://openweathermap.org/img/wn/undefined@2x.png"
-    // weatherResult: undefined
   }
 
   async subscribe(){
