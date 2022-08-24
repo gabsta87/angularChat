@@ -144,6 +144,8 @@ export class AngularfireService implements DataAccess{
     console.log("angular fire service : ",event);
     
     event.creatorId = this._auth.currentUser?.uid;
+    console.log("event creator : ",event.creatorId);
+    
     event.attendantsId = [];
     if(!event.creatorId)
       return;
@@ -152,8 +154,8 @@ export class AngularfireService implements DataAccess{
   }
 
   updateEvent(eventId:string,eventUpdates:{name:string, activityId:string, description:string,date:string, timeStamp:number}){
-    console.log("updating ",`events/${eventId}`);
-    
+    console.log("updating ",`events/${eventId}`, " updates: ",eventUpdates);
+
     const docRef = doc(this._dbaccess,`events/${eventId}`);
     return setDoc(docRef,eventUpdates,{ merge: true });
   }

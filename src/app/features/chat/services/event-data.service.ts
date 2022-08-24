@@ -16,4 +16,8 @@ export class EventDataService {
   getEventData(){
     return this.eventData;
   }
+
+  clearEventData(){
+    this.eventData = undefined;
+  }
 }

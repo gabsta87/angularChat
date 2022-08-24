@@ -35,7 +35,11 @@ export class EventEditionResolver implements Resolve<Event> {
     state: RouterStateSnapshot,
     ): Promise<Event> {
       let result = this._dataService.getEventData();
+      console.log("result ", result);
+      
       let newPosition = {latitude:route.queryParams["latitude"],longitude:route.queryParams["longitude"]}
+      console.log("new position : ",newPosition);
+      
       if(result === undefined)
         result = {} as Event;
       if(newPosition.latitude && newPosition.longitude)

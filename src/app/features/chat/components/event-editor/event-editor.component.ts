@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { NgForm } from '@angular/forms';
+import { EventDataService } from '../../services/event-data.service';
 
 @Component({
   selector: 'app-event-editor',
@@ -24,12 +25,14 @@ export class EventEditorComponent{
   eventType!:string;
   today!:string;
 
+  ionViewDidLeave(){
+    this.initFields();
+  }
+
   async ionViewWillEnter(){
     this.eventData = this._route.snapshot.data['eventData'];
     this.eventDate = "";
     this.activities = await firstValueFrom(this._dbAccess.getActivities());
-
-    console.log("event data : ",this.eventData);
 
     if(this.eventData.eventId){
       this.eventTitle = this.eventData.name;
@@ -40,16 +43,13 @@ export class EventEditorComponent{
     }
 
     this.today = new Date(Date.now()).toISOString();
-
-
-    console.log("date : ",this.eventDate);
-    console.log("data : ",this.eventData);
   }
 
   constructor(
     private readonly _dbAccess: AngularfireService,
     private readonly _router: Router,
     private readonly _route:ActivatedRoute,
+    private readonly _dataService:EventDataService
     // @Inject("MyDataService") private readonly myNewDataService: DataAccess
     ){}
 
@@ -59,14 +59,16 @@ export class EventEditorComponent{
   }
 
   private initFields(){
+    this._dataService.clearEventData();
     this.eventTitle = "";
     this.eventDate = "";
     this.eventDescription = "";
     this.eventType = "";
+    this.eventData = undefined;
   }
 
   confirmAction(){
-
+    
     // create event
     let event = {
       name:this.eventTitle,
@@ -76,6 +78,8 @@ export class EventEditorComponent{
       timeStamp:0,
       position: { latitude:this.eventData.position.latitude, longitude: this.eventData.position.longitude},
     }
+
+    console.log("event : ",event);
 
     if(!event.date){
       alert("invalid date")

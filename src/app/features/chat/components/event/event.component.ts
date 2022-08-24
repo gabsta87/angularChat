@@ -23,6 +23,8 @@ export class EventComponent{
   weatherResult!:any;
   weatherIconAddress!:string;
 
+  editing = false;
+
   constructor(
     private readonly _route: ActivatedRoute,
     private readonly _dbAccess : AngularfireService,
@@ -49,10 +51,12 @@ export class EventComponent{
     this.eventContent.name =  this.eventData.name;
     this.eventContent.timeStamp =  this.eventData.timeStamp;
     this.eventContent.attendants =  this.eventData.attendants;
+    this.editing = false;
   }
 
   async subscribe(){
     if(!this.isUserSubscribed){
+      console.log("subscribing");
       this._dbAccess.addUserToEvent(this.eventContent.id);
     }else{
       this._dbAccess.removeUserFromEvent(this.eventContent.id);
@@ -69,6 +73,33 @@ export class EventComponent{
   }
 
   editPendingEvent(event:any){
+    this.editing = true;
     this._router.navigate(["eventedition"],{queryParams:{eventId:this.eventContent.id}});
+  }
+
+  ionViewDidLeave(){
+    if(!this.editing)
+      this.clearFields();
+  }
+
+  clearFields(){
+    this.eventData = undefined;
+
+    this._dataService.clearEventData();
+
+    this.creatorName = "";
+    this.activity = "";
+    this.isCreator = true;
+    this.isUserSubscribed = false;
+    this.weatherResult = "";
+    this.weatherIconAddress = "";
+
+    this.eventContent.id = "";
+    this.eventContent.date = "";
+    this.eventContent.description = "";
+    this.eventContent.name = "";
+    this.eventContent.timeStamp = "";
+    this.eventContent.attendants = "";
+    this.editing = false;
   }
 }

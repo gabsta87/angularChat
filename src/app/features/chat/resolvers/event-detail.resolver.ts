@@ -41,6 +41,8 @@ export class EventDetailResolver implements Resolve<EventDetail> {
     result.attendants = [];
 
     let eventContent = await firstValueFrom(this._dbAccess.getEvent(result.eventId));
+    console.log("event content : ",eventContent);
+    
 
     if(eventContent){
       eventContent['attendantsId']?.forEach(async (element:any) => {
@@ -60,7 +62,7 @@ export class EventDetailResolver implements Resolve<EventDetail> {
       }
       result.date = eventContent['date'];
       result.name = eventContent['name'];
-      result.position = {latitude:eventContent['position']._lat,longitude:eventContent['position']._long};
+      result.position = {latitude:eventContent['position'].latitude,longitude:eventContent['position'].longitude};
       result.timeStamp = eventContent['timeStamp'];
       result.description = eventContent['description'];
       result.activity = await firstValueFrom(this._dbAccess.getActivity(eventContent['activityId']));
@@ -70,7 +72,8 @@ export class EventDetailResolver implements Resolve<EventDetail> {
         eventContent['timeStamp']);
     }
     result.weatherIconAddress =  `http://openweathermap.org/img/wn/${result.weatherResult?.icon}@2x.png`;
-    console.log("event detail : ",result);
+    console.log("event detail resolver ",result);
+    
     return result;
   }
 }
