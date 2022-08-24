@@ -45,10 +45,11 @@ export class ActivitiesComponent{
       // return requestsList.filter((elem:any) => elem['name'].toLowerCase().includes(searchQuery.toLowerCase()))
       this.subscribtions = [];
       return requestsList.filter((elem:any) => {
-        if(this._auth.currentUser?.uid){
+        let value = elem['name'].toLowerCase().includes(searchQuery.toLowerCase());
+        if(this._auth.currentUser?.uid && value){
           this.subscribtions.push(elem.attendantsId.includes(this._auth.currentUser.uid))
         }
-        return elem['name'].toLowerCase().includes(searchQuery.toLowerCase());
+        return value;
       })
     })
   );
@@ -88,11 +89,11 @@ export class ActivitiesComponent{
     this.searchQ.next(this.searchValue);
   }
 
-  subscribe(index:number,eventId:string){
+  subscribe(isSubscribed:boolean,eventId:string){
     if(!this._auth.currentUser?.uid)
       return;
 
-    if(!this.subscribtions[index]){
+    if(!isSubscribed){
       this._dbAccess.addUserToRequest(eventId)
     }else{
       this._dbAccess.removeUserFromRequest(eventId)
