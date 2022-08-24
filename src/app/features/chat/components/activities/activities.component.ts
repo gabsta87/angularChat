@@ -88,15 +88,13 @@ export class ActivitiesComponent{
     this.searchQ.next(this.searchValue);
   }
 
-  subscribe(event:any,eventId:string){
+  subscribe(index:number,eventId:string){
     if(!this._auth.currentUser?.uid)
       return;
 
-    if(event.detail.checked){
-      console.log("subscribing user");
+    if(!this.subscribtions[index]){
       this._dbAccess.addUserToRequest(eventId)
     }else{
-      console.log("removing user");
       this._dbAccess.removeUserFromRequest(eventId)
     }
   }
