@@ -80,6 +80,7 @@ export class PendingeventsComponent implements AfterViewInit{
   );
 
   isUserAttending(attendantsId:string[]):boolean{
+    // TODO remove method and replace by array of boolean filtered
     if(!this._auth.currentUser)
       return false;
     return attendantsId.includes(this._auth.currentUser.uid);

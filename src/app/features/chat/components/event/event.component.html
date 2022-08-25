@@ -17,7 +17,7 @@
         </ion-item>
         <ion-item *ngIf="!isCreator;else subscriberTemplate">
             <ion-label>I will attend</ion-label>
-            <ion-toggle (ngModelChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{!isLogged()}}"></ion-toggle>
+            <ion-toggle (ngModelChange)="subscribe()" [(ngModel)]="isUserSubscribed" disabled="{{!isLoggedConst}}"></ion-toggle>
         </ion-item>
 
         <ng-template #subscriberTemplate>

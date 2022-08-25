@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, linkWithCredential, signInAnonymously, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
 import { ActivatedRoute } from '@angular/router';
 import { signInWithPopup } from '@firebase/auth';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 
 @Component({
@@ -21,6 +21,8 @@ export class AccountComponent{
   createdEvents!:any;
 
   accountData!:any;
+
+  isLoggedConst = new BehaviorSubject(this._auth.currentUser)
 
   constructor(
     private readonly _auth: Auth,
@@ -55,6 +57,7 @@ export class AccountComponent{
       this.attendedEvents = await firstValueFrom(this._dbAccess.getEventsAttendedBy(userId));
       this.createdEvents = await firstValueFrom(this._dbAccess.getEventsCreatedBy(userId));
     }
+    this.isLoggedConst.next(this._auth.currentUser);
   }
 
   updateName(){
@@ -67,10 +70,7 @@ export class AccountComponent{
     this.userName = "";
     this.emailAddress = "";
     this.password = "";
-  }
-
-  isLogged(){
-    return this._auth.currentUser;
+    this.isLoggedConst.next(this._auth.currentUser);
   }
 
   async loginWithGoogle(){

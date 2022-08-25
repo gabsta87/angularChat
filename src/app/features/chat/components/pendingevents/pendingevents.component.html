@@ -8,13 +8,9 @@
         (keydown.esc)="handleEscKey($event)"
         ></ion-input>
     <ion-list *ngIf="filteredPendingEvents|async as list" >
-        <ion-item
-            *ngFor="let event of list; let index = index"
-            lines="none"
-        >
-            <ion-card (click)="navigateToEventDetail(event['id'])" class="sideItem" [ngClass]="
-            {'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}">
-            <!-- <ion-card (click)="navigateToEventDetail(event['id'])" class="attendingEvent"> -->
+        <ion-item *ngFor="let event of list; let index = index" lines="none">
+            <ion-card (click)="navigateToEventDetail(event['id'])" class="sideItem" [ngClass]=
+            "{'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}">
                 <ion-card-header>
                     <!-- <ion-thumbnail>{{index}}</ion-thumbnail> -->
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->
@@ -23,9 +19,6 @@
                     <ion-card-subtitle>Created by {{creatorsNames.get(event['creatorId'])}}</ion-card-subtitle>
                     <ion-card-subtitle>{{activitiesNames.get(event['activityId'])}}</ion-card-subtitle>
                 </ion-card-header>
-                <!-- Show location and activity type -->
-                <!-- <ion-card-content>{{event['description']}}</ion-card-content> -->
-                <!-- <ion-card-content><pre>{{event|json}}</pre></ion-card-content> -->
             </ion-card>
             <ion-label></ion-label>
         </ion-item>

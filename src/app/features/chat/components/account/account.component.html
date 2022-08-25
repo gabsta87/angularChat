@@ -1,7 +1,7 @@
 <ion-content>
     <!-- When the user is connected -->
-    <div *ngIf="isLogged(); else loginTempl">
-    <!-- <div *ngIf="accountData; else loginTempl"> -->
+    <!-- <div *ngIf="isLogged(); else loginTempl"> -->
+    <div *ngIf="isLoggedConst|async; else loginTempl">
         <ion-item>
             <ion-label>Pseudo</ion-label>
             <ion-input [(ngModel)]="userName"></ion-input>

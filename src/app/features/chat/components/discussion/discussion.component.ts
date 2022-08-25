@@ -13,6 +13,7 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 })
 export class DiscussionComponent{
   currentMessage!:any;
+  isLoggedConst!:any;
   discussionId!:string;
   discussionName!:string;
   messagesList!:Observable<DocumentData[]>;
@@ -24,6 +25,7 @@ export class DiscussionComponent{
     this.discussionName = this._route.snapshot.queryParams["discussionName"];
     this.messagesList = this._fireStore.getMessages(this.discussionId);
     this.currentMessage = "";
+    this.isLoggedConst = this._auth.currentUser;
 
     this.messagesList = this.messagesList.pipe(switchMap(async (e:any) => {
       e.forEach(async (elem:any)=>await this.getUserName(elem.userId))
@@ -51,11 +53,9 @@ export class DiscussionComponent{
     return temp;
   }
 
-  isLogged(){
-    return this._auth.currentUser?.uid;
-  }
-
   sendMessage(){
+    if(this.currentMessage.length === 0)
+      return;
     this._fireStore.writeMessage(this.discussionId,this.currentMessage);
     this.currentMessage = "";
   }

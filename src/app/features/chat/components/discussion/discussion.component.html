@@ -11,7 +11,7 @@
             </ion-card>
         </ion-row>
 
-        <ion-row class="sendRow" *ngIf="isLogged()">
+        <ion-row class="sendRow" *ngIf="isLoggedConst">
             <ion-item lines="none" class="sendGroup">
                 <ion-input placeholder="type here" 
                     [(ngModel)]="currentMessage" 

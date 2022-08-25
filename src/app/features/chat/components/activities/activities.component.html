@@ -21,14 +21,14 @@
     </ion-list>
     </div>
     <div *ngIf="isEmptyActivities$|async" class="ion-justify-content-center ion-align-items-center createCommands">
-        <ion-button (click)="createPendingRequest()" [disabled]="!(isEmptyRequests$|async) || !isLogged()">Create new request</ion-button>
+        <ion-button (click)="createPendingRequest()" [disabled]="!(isEmptyRequests$|async) || !isLoggedConst">Create new request</ion-button>
         <ion-list>
             <div style="display: flex;" class="ion-justify-content-center" *ngIf="filteredPendingRequestsList|async as requests">
                 <ion-item *ngFor="let request of requests; let i = index" lines="none">
                     <ion-label>{{request['name']}}</ion-label>
                     <!-- <ion-toggle (ionChange)="subscribe($event,request['id'])" [disabled]="!isLogged()"></ion-toggle> -->
                     <!-- <ion-toggle (click)="subscribe(subscribtions[i],request['id'])" [(ngModel)]="subscribtions[i]" [disabled]="!isLogged()"></ion-toggle> -->
-                    <ion-toggle (click)="subscribe(subscribtions[i],request['id'])" [(ngModel)]="subscribtions[i]" [disabled]="!isLogged()"></ion-toggle>
+                    <ion-toggle (click)="subscribe(subscribtions[i],request['id'])" [(ngModel)]="subscribtions[i]" [disabled]="!isLoggedConst"></ion-toggle>
                     <!-- <ion-badge color="warning">{{requestsMap.get(request['name'])}}</ion-badge> -->
                 </ion-item>
             </div>

@@ -12,6 +12,7 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 export class ActivitiesComponent{
 
   searchQ = new BehaviorSubject(null as any);
+  isLoggedConst!:any;
   activitiesList = this._dbAccess.getActivities();
   pendingRequestsList = this._dbAccess.getPendingRequests();
   searchValue!:string;
@@ -81,6 +82,10 @@ export class ActivitiesComponent{
     ) {
   }
 
+  ionViewWillEnter(){
+    this.isLoggedConst = this._auth.currentUser;
+  }
+
   navigateToDiscussion(id:string,name:string){
     this._route.navigate(["discussion"],{queryParams:{discussionId:id,discussionName:name}})
   }
@@ -98,10 +103,6 @@ export class ActivitiesComponent{
     }else{
       this._dbAccess.removeUserFromRequest(eventId)
     }
-  }
-
-  isLogged(){
-    return this._auth.currentUser?.uid;
   }
 
   createPendingRequest(){

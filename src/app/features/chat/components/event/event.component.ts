@@ -23,6 +23,8 @@ export class EventComponent{
   weatherResult!:any;
   weatherIconAddress!:string;
 
+  isLoggedConst!:any;
+
   editing = false;
 
   constructor(
@@ -35,9 +37,9 @@ export class EventComponent{
 
   ionViewWillEnter(){
     this.eventData = this._route.snapshot.data['eventData'];
-
     this._dataService.setEventData(this.eventData);
 
+    this.isLoggedConst = this._auth.currentUser;
     this.creatorName = this.eventData.creatorName;
     this.activity = this.eventData.activity;
     this.isCreator = this.eventData.isCreator;
