@@ -9,6 +9,7 @@ limiter les événements chargés à ceux proches de la localisation de l'utilis
 corriger l'erreur qui fait que les timestamp de OpenWeatherMap et ceux de Date.now() ne sont pas compatibles.
 afficher une bulle sur l'événement:hover avec la description et le type d'activité, ainsi que les participants
 afficher des boutons pour filtrer les événements automatiquement
+EventCreators get stars/likes so that new users can see serious organizers
 
 § Ajouter un formulaire pour s'assurer que les entrées données dans un événement sont correctes. On ne veut pas supprimer 
     l'ancien événement à moins que le nouveau ne soit valide

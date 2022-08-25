@@ -16,7 +16,6 @@ import { IsAttendingPipe } from '../../pipes/is-attending.pipe';
 })
 export class PendingeventsComponent implements AfterViewInit{
 
-  // pendingEvents:Observable<DocumentData[]> = this._dbAccess.getEvents();
   pendingEvents:Observable<DocumentData[]> = this._dbAccess.getUpToDateEvents();
   searchQ = new BehaviorSubject(null as any);
   activities!:any;
