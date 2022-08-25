@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1661420699533,
+  "timestamp": 1661433294502,
   "index": "/angularChat/index.html",
   "assetGroups": [
     {
@@ -78,7 +78,7 @@
         "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js",
         "/angularChat/polyfills-dom.369e5b2924f3ce09.js",
         "/angularChat/polyfills.ed5a183afb92d3a5.js",
-        "/angularChat/runtime.021c4462a805be7e.js",
+        "/angularChat/runtime.27bf667b35a98ff4.js",
         "/angularChat/stencil-polyfills-css-shim.c4efaf631c3dc310.js",
         "/angularChat/stencil-polyfills-dom.0f196e906225aa43.js",
         "/angularChat/styles.d9d558e5587278ea.css"
@@ -189,14 +189,14 @@
     "/angularChat/background.ce0803b85eae6eeb.jpg": "93e4c7686a2328b55cbf5b1c994eb076ae50e3c2",
     "/angularChat/common.0db63aef56920c5f.js": "069b7026a61d3a2175f3ef381afbc37658e1dc38",
     "/angularChat/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/angularChat/index.html": "55ba41fedfae174b600067f03d321c06d1f3947e",
+    "/angularChat/index.html": "526077559dcc1a78113eccc5fc334a5783a05f25",
     "/angularChat/main.cf07aa36cf1b747e.js": "5e85a8df2962b3a9c744705b82897b721e45014c",
     "/angularChat/manifest.webmanifest": "a3651522a33e43b14440512f183bc9dbb64e0416",
     "/angularChat/polyfills-core-js.7b65a59fc51a79d3.js": "c2db9fea03ad705b3288582b670def6ae9891197",
     "/angularChat/polyfills-dom.369e5b2924f3ce09.js": "11acca8dc15bcc7d8fa2036913e7d10a9aa92a5e",
     "/angularChat/polyfills.ed5a183afb92d3a5.js": "c20691ff6112c7e3c03788a061efc155abcdbb28",
     "/angularChat/red_marker.b1602dffc924b8d6.png": "d33708134aa3e3da0d4bc4f9784de6b98388295a",
-    "/angularChat/runtime.021c4462a805be7e.js": "6b5e391022c0473e0a0ead8b571d87a964ea67ee",
+    "/angularChat/runtime.27bf667b35a98ff4.js": "09c64ce6378f0c3389d1ce356224f8dde3826ab0",
     "/angularChat/stencil-polyfills-css-shim.c4efaf631c3dc310.js": "05c5dbbbb69e7551af853dfd6efe2bb3c3794108",
     "/angularChat/stencil-polyfills-dom.0f196e906225aa43.js": "dd009a02ebb24aa6daedfacabd6a61a2058d2cc8",
     "/angularChat/styles.d9d558e5587278ea.css": "448cec02ca9210c8e4c46bd93dfabc1d19e38d52"
