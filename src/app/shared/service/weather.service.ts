@@ -19,19 +19,14 @@ export class WeatherService {
     const url = this.getURL(lat,long);
 
     const request = this._http.get(url);
-    let response:any = await firstValueFrom(request);
+    let firstResult:any = await firstValueFrom(request);
 
-    // console.log("response = ",response);
-    // console.log("response list = ",response.list);
-    let index = this.findIndex(response.list,date);
+    let index = this.findIndex(firstResult.list,date);
 
     if(index===undefined)
       return undefined;
-    
-    response = response.list[index];
 
-    // console.log("index found : ",index," , weather : ",response);
-    // return response;
+    let response = firstResult.list[index];
 
     return {
       icon: response.weather[0].icon,
@@ -43,40 +38,12 @@ export class WeatherService {
     }
   }
 
-  // findIndex(dataList:{dt:number}[],dateToFind:number):number|undefined{
-  //   dateToFind = dateToFind / 1000;
-  //   let tempIndex:number|undefined = undefined;
-  //   dataList.forEach((e:{dt:number},i) =>{
-  //     tempIndex = i
-  //     if(dateToFind < e.dt){
-  //       return tempIndex
-  //     }
-  //     // else{
-  //     //   return tempIndex;
-  //     // }
-  //   });
-  //   return tempIndex;
-  // }
-
-  findIndex(dataList:{dt:number}[],dateToFind:number):number|undefined{
-    let tempdate = dateToFind / 1000;
-    // console.log("required date = ",tempdate);
-
+  findIndex(dataList:{dt_txt:string}[],dateToFind:number):number|undefined{
     let tempIndex:number|undefined = undefined;
-    dataList.forEach((e:{dt:number},i) =>{
-      // console.log("i : ",i," e : ",e);
-      
-      if(tempdate >= e.dt){
-        tempIndex = i
-        
-      //   console.log(tempdate," bigger than ", e.dt," by ",tempdate-e.dt," saving ",i);
-      // }else{
-      //   console.log(tempdate," smaller than ", e.dt," by ",tempdate-e.dt);
 
-      }
-      // else{
-      //   return tempIndex;
-      // }
+    dataList.forEach((e,i) =>{
+      if(dateToFind >= new Date(e.dt_txt).getTime())
+        tempIndex = i
     });
     return tempIndex;
   }

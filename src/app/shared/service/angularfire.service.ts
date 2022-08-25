@@ -187,11 +187,9 @@ export class AngularfireService implements DataAccess{
     const docRequestRef = doc(this._dbaccess, `requests/${requestId}`);
     let request = await getDoc(docRequestRef).then((e:any) => e.data());
     let currentNumber = request['attendantsId'].length;
-    
+
     if(currentNumber > minSize){
-      console.log("adding activity");
       this.createActivity(request.name);
-      console.log("deleting request");
       this.deletePendingRequest(requestId);
     }
   }
