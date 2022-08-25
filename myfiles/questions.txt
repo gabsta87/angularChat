@@ -1,7 +1,7 @@
-Pourquoi la version mobile ne fonctionne pas ?
-
 désactiver la coloration syntaxique pour un seul fichier ? notes/TODO/questions
 comment résoudre le problème des API keys sur github ?
+
+    Pourquoi la version mobile ne fonctionne pas ?
 
     activities:91: subscribe : le tableau de booléens provoque une boucle infinie lors de l'inscription
         la boucle se termine quand j'efface les filtres
