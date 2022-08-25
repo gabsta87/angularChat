@@ -1,5 +1,5 @@
 export const environment = {
-  version:'0.0.2',
+  version:'0.0.3',
   firebase: {
     projectId: 'angularchat-eaffb',
     appId: '1:10970880489:web:882d0eda3c956e463dd378',
