@@ -10,7 +10,8 @@
     <ion-list *ngIf="filteredPendingEvents|async as list" >
         <ion-item *ngFor="let event of list; let index = index" lines="none">
             <ion-card (click)="navigateToEventDetail(event['id'])" class="sideItem" [ngClass]=
-            "{'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}">
+            "{'attendingEvent': event['attendantsId']|isAttending:_auth.currentUser, 'createdEvent': _auth.currentUser|isCreator:event['creatorId']}">
+            <!-- "{'attendingEvent': isUserAttending(event['attendantsId']), 'createdEvent': isUserCreator(event['creatorId'])}"> -->
                 <ion-card-header>
                     <!-- <ion-thumbnail>{{index}}</ion-thumbnail> -->
                     <!-- <ion-icon name="pin" slot="start"></ion-icon> -->

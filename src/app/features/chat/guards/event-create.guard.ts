@@ -17,5 +17,4 @@ export class EventCreateGuard implements CanActivate {
       this._router.navigate(["pendingevents"])
     return this._auth.currentUser?.uid !== undefined;
   }
-  
 }

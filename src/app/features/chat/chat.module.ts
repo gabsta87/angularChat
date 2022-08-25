@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { ActivitiesComponent } from './components/activities/activities.component';
 import { MainComponent } from './main/main.component';
 import { DiscussionComponent } from './components/discussion/discussion.component';
-import { PendingrequestsComponent } from './components/pendingrequests/pendingrequests.component';
 import { EventComponent } from './components/event/event.component';
 import { PendingeventsComponent } from './components/pendingevents/pendingevents.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -22,6 +21,8 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import { AccountResolver } from './resolvers/account.resolver';
 import { EventDetailResolver } from './resolvers/event-detail.resolver';
 import { EventEditionGuard } from './guards/event-edition.guard';
+import { IsAttendingPipe } from './pipes/is-attending.pipe';
+import { IsCreatorPipe } from './pipes/is-creator.pipe';
 
 
 @NgModule({
@@ -31,12 +32,13 @@ import { EventEditionGuard } from './guards/event-edition.guard';
     DiscussionComponent,
     EventComponent,
     PendingeventsComponent,
-    PendingrequestsComponent,
     HeaderComponent,
     FooterComponent,
     MapComponent,
     AccountComponent,
     EventEditorComponent,
+    IsAttendingPipe,
+    IsCreatorPipe,
   ],
   imports: [
     CommonModule,

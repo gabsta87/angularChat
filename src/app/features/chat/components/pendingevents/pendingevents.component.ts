@@ -6,6 +6,8 @@ import { AngularfireService } from 'src/app/shared/service/angularfire.service';
 import localeFr from '@angular/common/locales/fr';
 import { DatePipe } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
+import { IsCreatorPipe } from '../../pipes/is-creator.pipe';
+import { IsAttendingPipe } from '../../pipes/is-attending.pipe';
 
 @Component({
   selector: 'app-pendingevents',
@@ -23,7 +25,7 @@ export class PendingeventsComponent implements AfterViewInit{
 
   constructor(private readonly _dbAccess: AngularfireService, 
     private readonly _router: Router,
-    private readonly _auth: Auth){ }
+    readonly _auth: Auth){ }
 
   ngAfterViewInit(): void {
     this.loadData();
@@ -79,19 +81,6 @@ export class PendingeventsComponent implements AfterViewInit{
     })
   );
 
-  isUserAttending(attendantsId:string[]):boolean{
-    // TODO remove method and replace by array of boolean filtered
-    if(!this._auth.currentUser)
-      return false;
-    return attendantsId.includes(this._auth.currentUser.uid);
-  }
-
-  isUserCreator(creatorId:string):boolean{
-    if(!this._auth.currentUser)
-      return false;
-    return this._auth.currentUser.uid === creatorId;
-  }
-
   navigateToEventDetail(param:string){
     this._router.navigate(["event"],{queryParams:{eventId:param}});
   }
@@ -101,20 +90,10 @@ export class PendingeventsComponent implements AfterViewInit{
   }
 
   async handleEnterKey($event:any){
-    console.log("enter pressed");
-
-    // TODO go to detail event if there is only 1 left
     const choosenItem = await firstValueFrom(this.filteredPendingEvents);
     if(choosenItem.length === 1){
       this.navigateToEventDetail(choosenItem[0]['id']);
     }
-
-    // this.filteredPendingEvents.pipe(map((e:any) => {
-    //   console.log("elem",e);
-    //   if(e.length === 1)
-    //     console.log("navigate to event ",e[0]);
-    //   return e;
-    // }))
   }
 
   handleEscKey($event:any){
@@ -122,23 +101,3 @@ export class PendingeventsComponent implements AfterViewInit{
     this.updateSearchValue($event);
   }
 }
-
-// this.pendingEvents.forEach((e:any)=> {
-//   this._dbAccess.getUser(e.creator).then((creatorName:any)=>
-//     // this.usersMap.set(e.creator,creatorName.firstname)
-//     e.creator = creatorName.firstname
-//   );
-
-//   e.users.forEach((userId:any,index:number) => {
-//     this._dbAccess.getUser(userId).then((userName:any)=>{
-//       if(userName !== undefined)
-//         e.users[index] = userName.firstname;
-//         // this.usersMap.set(userId,userName.firstname)
-//     });
-//   });
-
-//   this._dbAccess.getActivity(e.activity).then((activityName:any) =>
-//   // this.activityMap.set(e.activity,activityName.name)
-//     e.activity = activityName.name
-//   )
-// });
